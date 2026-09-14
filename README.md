@@ -14,6 +14,20 @@ India is an official issuing authority under the **OIML-CS (OIML Certificate Sys
 
 ---
 
+## 🏛️ National Metrological Context: India as the 13th OIML-CS Issuing Authority
+![India 13th OIML-CS Issuing Authority](docs/screenshots/14_india_13th_oiml_cs_issuing_authority.png)
+
+* **Name**: `India as the 13th OIML-CS Issuing Authority in the World`
+* **Work**: Commemorates and visualizes India's accession to the elite circle of **13 nations** globally recognized by the International Organization of Legal Metrology (OIML) to issue international OIML Pattern Approval Certificates.
+* **How It Works**: Under the OIML Certificate System (OIML-CS), 13 countries (*Australia, Switzerland, China, Czech Republic, Germany, Denmark, France, United Kingdom, Japan, Netherlands, Sweden, Slovakia, and India*) possess peer-reviewed legal metrology infrastructure to test, verify, and issue certificates of conformity that are accepted internationally by member nations without repetitive re-testing.
+* **Why It Is Needed**: 
+  - Historically, Indian manufacturers were forced to spend large amounts of foreign currency and endure 6–12 months of shipping delays to get weighing scales tested in European labs like PTB (Germany) or NMi (Netherlands).
+  - While India achieved this historic 13th issuing authority status, domestic Regional Reference Standards Laboratories (RRSLs) still relied on manual excel spreadsheets and unverified printouts.
+  - **PrecisionX** was directly engineered for **Smart India Hackathon Problem Statement SIH26035** to bridge this gap: replacing manual sheets with an automated, tamper-proof, ISO/IEC 17025 compliant digital workbench to uphold India's global issuing credibility.
+* **Where It Is Used**: National policy presentations, Ministry of Consumer Affairs defenses, RRSL lab accreditations, and international OIML peer audits.
+
+---
+
 ## 📸 Comprehensive Visual Walkthrough & System Architecture
 
 Below is a detailed engineering and regulatory breakdown of each interface module, detailing its **Name**, **Work (Function)**, **How It Works (Technical Mechanics)**, **Why It Is Needed (Standards Compliance)**, and **Where It Is Used (Operational Context)**.
