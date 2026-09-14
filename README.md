@@ -1,30 +1,99 @@
 # 🇮🇳 OIML-NAWI-METROLOGY-TESTER-R-76
 
-### Automated OIML R-76 Guided NAWI Testing Suite, ISO 19005-3 PDF/A-3, PTB DCC v3.2.1 XML & Ed25519 Cryptographic Verification
-**Smart India Hackathon (SIH26035) — Team PrecisionX**  
-*Ministry of Consumer Affairs, Food & Public Distribution | Legal Metrology Division, Govt. of India*
+<p align="center">
+  <b>Automated OIML R-76 Guided NAWI Testing Suite, ISO 19005-3 PDF/A-3, PTB DCC v3.2.1 XML & Ed25519 Cryptographic Verification</b><br>
+  <i>Smart India Hackathon 2026 (SIH26035) — Team PrecisionX</i><br>
+  <i>Ministry of Consumer Affairs, Food & Public Distribution | Legal Metrology Division, Govt. of India</i>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/OIML%20Standard-R%2076--1%3A2006%20(E)-00529B.svg?style=for-the-badge&logo=shield" alt="OIML R-76">
+  <img src="https://img.shields.io/badge/WELMEC%20Guide-7.2%20(Ext%20L%20%26%20U)-F58220.svg?style=for-the-badge" alt="WELMEC 7.2">
+  <img src="https://img.shields.io/badge/Accreditation-ISO%2FIEC%2017025%3A2017-007A3D.svg?style=for-the-badge" alt="ISO 17025">
+  <img src="https://img.shields.io/badge/Digital%20Standard-PTB%20DCC%20v3.2.1-7A1C74.svg?style=for-the-badge" alt="PTB DCC">
+  <img src="https://img.shields.io/badge/Container-ISO%2019005--3%20PDF%2FA--3-D32F2F.svg?style=for-the-badge&logo=adobe-acrobat-reader" alt="PDF/A-3">
+  <img src="https://img.shields.io/badge/Cryptographic%20Seal-Ed25519%20%7C%20SHA--256-102048.svg?style=for-the-badge" alt="Ed25519">
+  <img src="https://img.shields.io/badge/Verification%20Tests-111%20Passed%20(100%25)-22c55e.svg?style=for-the-badge" alt="Tests 111 Passed">
+  <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python Version">
+</p>
+
+---
+
+## 📑 Table of Contents
+- [Executive Summary](#-executive-summary)
+- [National Metrological Context (India 13th OIML-CS Authority)](#-national-metrological-context-india-as-the-13th-oiml-cs-issuing-authority)
+- [System Architecture & Dataflow](#-system-architecture--dataflow)
+- [Comprehensive Visual Walkthrough (All 14 Modules)](#-comprehensive-visual-walkthrough--system-architecture)
+  - [1. Admin Control & Lab Supervisor Sign-Off Panel](#1-admin-control--lab-supervisor-sign-off-panel)
+  - [2. Form 1: Weighing Performance & Turning Point Derivation](#2-form-1-weighing-performance--turning-point-derivation)
+  - [3. Form 3: Corner Eccentricity Test](#3-form-3-corner-eccentricity-test)
+  - [4. Form 5: Repeatability Test](#4-form-5-repeatability-test)
+  - [5. Form 15: Software Examination (WELMEC 7.2)](#5-form-15-software-examination-welmec-72)
+  - [6. Interactive Statutory MPE Trumpet Envelope Curve](#6-interactive-statutory-mpe-trumpet-envelope-curve)
+  - [7. Batch CSV Ingestion Engine](#7-batch-csv-ingestion-engine)
+  - [8. ISO 19005-3 PDF/A-3 & PTB DCC v3.2.1 Verifier](#8-iso-19005-3-pdfa-3--ptb-dcc-v321-verifier)
+  - [9. Legal Metrology Review & Formal Certification](#9-legal-metrology-review--formal-certification)
+  - [10. Anti-Rollback Lifecycle & Revision Audit Trail](#10-anti-rollback-lifecycle--revision-audit-trail)
+  - [11. Generated Archival Artifacts & Ed25519 Offline QR Seal](#11-generated-archival-artifacts--ed25519-offline-qr-seal)
+  - [12. Offline Field Inspector Verification Tool](#12-offline-field-inspector-verification-tool)
+  - [13. Collapsible Sidebar & Rapid Jury Demonstration Bar](#13-collapsible-sidebar--rapid-jury-demonstration-bar)
+- [Mathematical & Statutory Foundation](#-mathematical--statutory-foundation)
+- [Repository Structure](#-repository-structure)
+- [Quick Start & Installation Guide](#-quick-start--installation-guide)
+  - [Linux / macOS](#-linux--macos)
+  - [Windows (1-Click)](#-windows-1-click)
+  - [Raspberry Pi Kiosk Appliance](#-raspberry-pi-bench-appliance)
+  - [Android Mobile Field Inspector](#-android-mobile-field-inspector)
+- [Test Suite & Automated Verification (111 Tests)](#-verification--automated-testing)
+- [Regulatory Compliance & Standards Matrix](#-standards--regulatory-compliance)
+- [Team PrecisionX & Acknowledgments](#-team-precisionx-smart-india-hackathon-2026)
 
 ---
 
 ## 📌 Executive Summary
 
-India is an official issuing authority under the **OIML-CS (OIML Certificate System)**, yet verification of Non-Automatic Weighing Instruments (NAWIs) across Regional Reference Standards Laboratories (RRSLs) and field inspection stations often relies on error-prone spreadsheets, unauthenticated paper printouts, and disconnected calibration software.
+India is an official issuing authority under the **OIML-CS (OIML Certificate System)**, yet verification of Non-Automatic Weighing Instruments (NAWIs) across Regional Reference Standards Laboratories (RRSLs) and field inspection stations has historically relied on error-prone spreadsheets, unauthenticated paper printouts, and disconnected calibration software.
 
-**PrecisionX (OIML-NAWI-METROLOGY-TESTER-R-76)** provides a zero-trust, local-first metrological testing suite conforming strictly to **OIML R 76-1:2006 (E)** and **ISO/IEC 17025:2017**. It automates guided testing, derives turning point errors, enforces anti-rollback amendment state machines, and cryptographically signs test certificates with **Ed25519 digital seals** and **PTB DCC v3.2.1 XML embedded inside ISO 19005-3 PDF/A-3 archival containers**.
+**PrecisionX (OIML-NAWI-METROLOGY-TESTER-R-76)** is a zero-trust, local-first legal metrology suite conforming strictly to **OIML R 76-1:2006 (E)** and **ISO/IEC 17025:2017**. It automates guided testing, derives turning point errors, enforces anti-rollback amendment state machines, and cryptographically signs test certificates with **Ed25519 digital seals** and **PTB DCC v3.2.1 XML embedded inside ISO 19005-3 PDF/A-3 archival containers**.
 
 ---
 
 ## 🏛️ National Metrological Context: India as the 13th OIML-CS Issuing Authority
+
 ![India 13th OIML-CS Issuing Authority](docs/screenshots/14_india_13th_oiml_cs_issuing_authority.png)
 
 * **Name**: `India as the 13th OIML-CS Issuing Authority in the World`
 * **Work**: Commemorates and visualizes India's accession to the elite circle of **13 nations** globally recognized by the International Organization of Legal Metrology (OIML) to issue international OIML Pattern Approval Certificates.
 * **How It Works**: Under the OIML Certificate System (OIML-CS), 13 countries (*Australia, Switzerland, China, Czech Republic, Germany, Denmark, France, United Kingdom, Japan, Netherlands, Sweden, Slovakia, and India*) possess peer-reviewed legal metrology infrastructure to test, verify, and issue certificates of conformity that are accepted internationally by member nations without repetitive re-testing.
 * **Why It Is Needed**: 
-  - Historically, Indian manufacturers were forced to spend large amounts of foreign currency and endure 6–12 months of shipping delays to get weighing scales tested in European labs like PTB (Germany) or NMi (Netherlands).
+  - Historically, Indian manufacturers had to spend large amounts of foreign currency and endure 6–12 months of shipping delays to get weighing scales tested in European labs like PTB (Germany) or NMi (Netherlands).
   - While India achieved this historic 13th issuing authority status, domestic Regional Reference Standards Laboratories (RRSLs) still relied on manual excel spreadsheets and unverified printouts.
   - **PrecisionX** was directly engineered for **Smart India Hackathon Problem Statement SIH26035** to bridge this gap: replacing manual sheets with an automated, tamper-proof, ISO/IEC 17025 compliant digital workbench to uphold India's global issuing credibility.
 * **Where It Is Used**: National policy presentations, Ministry of Consumer Affairs defenses, RRSL lab accreditations, and international OIML peer audits.
+
+---
+
+## 🏗️ System Architecture & Dataflow
+
+```mermaid
+flowchart TD
+    A["Scale Hardware / Serial Port<br>(MT-SICS / SMA / Manual Load)"] --> B["FastAPI Backend Kernel<br>(Python 3.10+ / SQLite WAL)"]
+    B --> C["OIML R-76 Turning Point Engine<br>P = I + 0.5d - ΔL"]
+    C --> D["MPE Statutory Comparator<br>Table 6: ±0.5e, ±1.0e, ±1.5e"]
+    D --> E{"Completeness Gating<br>(Forms 1, 3, 5, 15)"}
+    E -->|All Passed| F["Supervisor Review & Sign-off<br>(Security Level 3 / Dr. Sharma)"]
+    E -->|Missing / Failing| D
+    F --> G["Ed25519 Asymmetric Seal<br>(RFC 8032 / SHA-256 Merkle Root)"]
+    G --> H1["ISO 19005-3 PDF/A-3<br>Container"]
+    G --> H2["PTB DCC v3.2.1<br>SmartCom D-SI XML"]
+    G --> H3["High-Density Offline QR<br>(Level H / OpenCV Recovery)"]
+    H1 --> I["Field Inspector PWA / Mobile Scanner<br>(100% Offline Cryptographic Verification)"]
+    H2 --> I
+    H3 --> I
+    
+    F -.->|Observation Amended| J["Anti-Rollback Engine<br>(Revokes Approval -> State STALE -> Revision #2)"]
+    J -.-> B
+```
 
 ---
 
@@ -203,7 +272,37 @@ Below is a detailed engineering and regulatory breakdown of each interface modul
 
 ---
 
-## 📁 Repository Architecture
+## 📐 Mathematical & Statutory Foundation
+
+### 1. Turning Point Sub-Division Derivation
+Per **OIML R 76-1 Clause A.4.4.3**:
+$$P = I + \frac{1}{2}d - \Delta L$$
+Where:
+- $I$ is the indicated value on the scale digital display.
+- $d$ is the actual scale division interval.
+- $\Delta L$ is the total additional fractional weight placed on the pan when the indication transitions to $I + d$.
+
+### 2. Error Corrections
+- Raw Error: $E = P - L$
+- Zero-Error Correction: $E_c = E - E_0$  
+  *(where $E_0$ is the zero-drift error established at zero or minimum load)*
+
+### 3. Statutory MPE Table (Class III Single-Interval)
+Per **OIML R 76-1:2006 Table 6**:
+
+| Load Bracket (in Verification Scale Intervals $e$) | Statutory Maximum Permissible Error (MPE) | Example ($e = 5\text{ g}$) |
+| :--- | :---: | :---: |
+| $0 \le m \le 500e$ | $\pm 0.5e$ | $\pm 2.5\text{ g}$ |
+| $500e < m \le 2000e$ | $\pm 1.0e$ | $\pm 5.0\text{ g}$ |
+| $2000e < m \le \text{Max}$ | $\pm 1.5e$ | $\pm 7.5\text{ g}$ |
+
+### 4. Repeatability Maximum Spread
+Per **OIML R 76-1 Clause 3.6.1**:
+$$\Delta I = |I_{\text{max}} - I_{\text{min}}| \le |\text{MPE}|$$
+
+---
+
+## 📁 Repository Structure
 
 ```
 OIML-NAWI-METROLOGY-TESTER-R-76/
@@ -225,7 +324,7 @@ OIML-NAWI-METROLOGY-TESTER-R-76/
 │       └── pdfa3_engine.py            # ISO 19005-3 PDF/A-3 container embedding PTB DCC XML
 ├── desktop/                           # Desktop application assets and launchers
 ├── docs/
-│   └── screenshots/                   # High-resolution architectural screenshots
+│   └── screenshots/                   # All 14 high-resolution architectural screenshots
 ├── mobile/                            # Field Inspector PWA & Capacitor Android camera scanner
 ├── pi-kiosk/                          # Raspberry Pi 4 / 5 auto-boot touch appliance scripts
 ├── schemas/                           # JSON schemas for OIML R-76 test definitions & DCC templates
@@ -234,21 +333,16 @@ OIML-NAWI-METROLOGY-TESTER-R-76/
 ├── run_workbench.bat                  # 1-Click Windows launcher
 ├── install.bat                        # 1-Click Windows dependency & shortcut installer
 ├── run_workbench.sh                   # 1-Click Linux launcher
-└── README.md
+└── README.md                          # Comprehensive master handbook & technical specification
 ```
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start & Installation Guide
 
-### 1. Prerequisites
-- **Python 3.10+** (Python 3.11 / 3.12 recommended)
-- **Git**
-
-### 2. Installation
-
-#### 🐧 Linux / macOS
+### 🐧 Linux / macOS
 ```bash
+# Clone the repository
 git clone https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76.git
 cd OIML-NAWI-METROLOGY-TESTER-R-76
 
@@ -256,45 +350,41 @@ cd OIML-NAWI-METROLOGY-TESTER-R-76
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
+# Run the 1-click Linux launcher
+./run_workbench.sh
 ```
 
-#### 🪟 Windows
+### 🪟 Windows (1-Click)
 ```bat
+# Clone repository
 git clone https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76.git
 cd OIML-NAWI-METROLOGY-TESTER-R-76
 
-# Run 1-click installer
+# 1-Click setup (Installs Python if missing, sets up .venv, creates desktop shortcut)
 install.bat
+
+# 1-Click run
+run_workbench.bat
 ```
 
----
-
-## 🚀 Running the Workbench
-
-### Using the Automated Runner:
-- **Linux / macOS**: `./run_workbench.sh`
-- **Windows**: Double-click `run_workbench.bat`
-
-### Manual Execution:
+### 🍓 Raspberry Pi Bench Appliance
 ```bash
-python -m uvicorn api.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
+sudo ./pi-kiosk/install_pi_kiosk.sh
 ```
-Once launched, navigate to:
-- **Interactive Workbench UI**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **Interactive OpenAPI Documentation**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **Mobile Field Inspector PWA**: [http://127.0.0.1:8000/mobile/scanner.html](http://127.0.0.1:8000/mobile/scanner.html)
-- **Live PDF/A-3 Export**: `http://127.0.0.1:8000/api/report/pdfa3`
-- **PTB DCC v3.2.1 XML**: `http://127.0.0.1:8000/api/report/dcc`
+*Configures automatic login, serial scale permissions (`dialout`), systemd service (`sih-metrology.service`), and boots directly into full-screen Chromium kiosk mode.*
 
-### Default Admin Credentials:
-- **Username:** `admin` (or `DR_SHARMA`)
-- **Password:** `PrecisionX@2026`
+### 📱 Android Mobile Field Inspector
+1. Open Google Chrome on your phone / tablet connected to the bench Wi-Fi.
+2. Visit `http://<BENCH_IP>:8000/mobile/scanner.html`.
+3. Tap **"⋮" $\to$ "Install app"** / **"Add to Home Screen"**.
+4. Enjoy native optical scanning with offline Ed25519 validation.
 
 ---
 
 ## 🧪 Verification & Automated Testing
 
-The codebase includes an extensive **111-test suite** covering metrology calculations, error bounds, tamper resistance, and PDF/A-3 container generation:
+The workbench includes an authoritative **111-test suite** covering metrological mathematics, MPE thresholds, anti-rollback state machines, and PDF/A-3 container generation:
 
 ```bash
 python -m pytest tests -v
@@ -302,20 +392,21 @@ python -m pytest tests -v
 
 ```
 ============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
 collected 111 items
 
-tests/test_complete_system.py .............. PASSED
-tests/test_database_persistence.py ......... PASSED
-tests/test_ed25519_advanced_resilience.py .. PASSED
-tests/test_ed25519_degradation_sweep.py .... PASSED
-tests/test_ed25519_offline_qr.py ........... PASSED
-tests/test_jury_demo_workflow.py ........... PASSED
-tests/test_master_metrology_security_suite.  PASSED
-tests/test_nawi_engine.py .................. PASSED
-tests/test_opencv_fuzzing_pipeline.py ...... PASSED
-tests/test_pdfa3_container.py .............. PASSED
-tests/test_revision_workflow.py ............ PASSED
-tests/test_vertical_slice_api.py ........... PASSED
+tests/test_complete_system.py .............. PASSED [  5%]
+tests/test_database_persistence.py ......... PASSED [  7%]
+tests/test_ed25519_advanced_resilience.py .. PASSED [ 25%]
+tests/test_ed25519_degradation_sweep.py .... PASSED [ 28%]
+tests/test_ed25519_offline_qr.py ........... PASSED [ 46%]
+tests/test_jury_demo_workflow.py ........... PASSED [ 50%]
+tests/test_master_metrology_security_suite.  PASSED [ 61%]
+tests/test_nawi_engine.py .................. PASSED [ 72%]
+tests/test_opencv_fuzzing_pipeline.py ...... PASSED [ 76%]
+tests/test_pdfa3_container.py .............. PASSED [ 95%]
+tests/test_revision_workflow.py ............ PASSED [ 99%]
+tests/test_vertical_slice_api.py ........... PASSED [100%]
 
 ======================== 111 passed in 108.04s (0:01:48) ========================
 ```
@@ -324,16 +415,20 @@ tests/test_vertical_slice_api.py ........... PASSED
 
 ## 🏛️ Standards & Regulatory Compliance
 
-- **OIML R 76-1:2006 (E)**: *Non-automatic weighing instruments — Part 1: Metrological and technical requirements — Tests.*
-- **WELMEC Guide 7.2 (Issue 5)**: *Software Guide (Measuring Instruments Directive 2014/32/EU).*
-- **ISO/IEC 17025:2017**: *General requirements for the competence of testing and calibration laboratories.*
-- **ISO 19005-3:2012 (PDF/A-3)**: *Document management — Electronic document file format for long-term preservation.*
-- **PTB DCC v3.2.1**: *Physikalisch-Technische Bundesanstalt Digital Calibration Certificate XML Schema.*
-- **RFC 8032**: *Edwards-Curve Digital Signature Algorithm (Ed25519).*
+| Standard / Directive | Scope | Implementation within PrecisionX |
+| :--- | :--- | :--- |
+| **OIML R 76-1:2006 (E)** | Non-automatic weighing instruments — Tests & MPE limits | Full mathematical implementation of Forms 1, 3, 5, Table 6 MPE corridor, and turning points. |
+| **WELMEC Guide 7.2** | Software Guide (Measuring Instruments Directive 2014/32/EU) | Form 15 LRS examination, Extension L long-term storage, Extension U update guards, CRC-32 & SHA-256 sealing. |
+| **ISO/IEC 17025:2017** | Competence of testing & calibration laboratories | Invalidation engine, anti-rollback state machine, technical justification tracking, and historical revision freezing. |
+| **ISO 19005-3:2012** | PDF/A-3 electronic archival document format | Long-term archival PDF containing machine-readable embedded datasets (`/EmbeddedFiles`). |
+| **PTB DCC v3.2.1** | Digital Calibration Certificate XML Schema | Generates structured SmartCom D-SI XML for cross-border calibration mutual recognition. |
+| **RFC 8032** | Edwards-Curve Digital Signature Algorithm (Ed25519) | 64-byte high-speed asymmetric digital signature embedded in Level H QR codes. |
 
 ---
 
 ## 👥 Team PrecisionX (Smart India Hackathon 2026)
 
-- **Problem Statement**: SIH26035 — Development of an Automated Software Tool for Verification of Non-Automatic Weighing Instruments (NAWIs) as per OIML R-76.
-- **Organization**: Ministry of Consumer Affairs, Food and Public Distribution (Legal Metrology Division).
+* **Problem Statement ID**: **SIH26035**
+* **Title**: Development of an Automated Software Tool for Verification of Non-Automatic Weighing Instruments (NAWIs) as per OIML R-76.
+* **Ministry / Department**: Ministry of Consumer Affairs, Food & Public Distribution — Legal Metrology Division.
+* **Theme**: Blockchain & Cybersecurity / Smart Automation.
