@@ -164,7 +164,7 @@ tests/test_vertical_slice_api.py ........... PASSED [100%]
 
 ---
 
-## 👥 Team PrecisionX — Smart India Hackathon 2026
+## 👥 Team PrecisionXP — Smart India Hackathon 2026
 
 * **Problem Statement ID**: **SIH26035**
 * **Title**: Development of an Automated Software Tool for Verification of Non-Automatic Weighing Instruments (NAWIs) as per OIML R-76.
