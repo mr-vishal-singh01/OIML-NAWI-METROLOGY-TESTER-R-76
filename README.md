@@ -169,4 +169,4 @@ tests/test_vertical_slice_api.py ........... PASSED [100%]
 * **Problem Statement ID**: **SIH26035**
 * **Title**: Development of an Automated Software Tool for Verification of Non-Automatic Weighing Instruments (NAWIs) as per OIML R-76.
 * **Ministry / Department**: Ministry of Consumer Affairs, Food & Public Distribution — Legal Metrology Division, Govt. of India.
-* **Theme**: Blockchain & Cybersecurity / Smart Automation.
+* **Theme**: Miscellaneous / Blockchain & Cybersecurity / Smart Automation.
