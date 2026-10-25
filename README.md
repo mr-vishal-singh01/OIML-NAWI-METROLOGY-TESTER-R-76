@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/branding/precisionx_cli_pixel_512.png" width="130" height="130" alt="PrecisionX Sovereign Logo" style="border-radius: 24px; box-shadow: 0 8px 32px rgba(255, 0, 63, 0.35);">
+  <img src="assets/branding/logo.png" width="180" height="180" alt="PrecisionX Sovereign OIML R-76 Bauhaus Platinum Emblem" style="border-radius: 22px; box-shadow: 0 10px 35px rgba(59, 130, 246, 0.4);">
 </p>
 
 # <p align="center">🇮🇳 OIML-NAWI-METROLOGY-TESTER-R-76</p>
