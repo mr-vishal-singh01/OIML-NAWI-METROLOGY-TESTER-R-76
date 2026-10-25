@@ -4884,7 +4884,7 @@ def index_workbench():
                     <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/65 to-slate-950/90 backdrop-blur-[2px]"></div>
                 </div>
 
-                <div id="inspectorAuthCard" class="w-full max-w-2xl shadow-2xl relative z-10" style="background: var(--surface-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+                <div id="inspectorAuthCard" class="w-full max-w-2xl shadow-2xl relative z-10" style="background: var(--surface-card); backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
 <!-- Accessible Distinct Gateways Definition (Screen Readers & Compliance Testing) -->
                     <div class="sr-only hidden" aria-hidden="true">
                         <h4>Select Verification Gateway</h4>
