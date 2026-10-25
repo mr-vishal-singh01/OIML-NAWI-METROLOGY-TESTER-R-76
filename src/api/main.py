@@ -3667,10 +3667,23 @@ def index_workbench():
             color: rgb(248 250 252);
             border-left: 3px solid rgb(99 102 241);
         }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        /* Remove ugly browser scrollbars globally while preserving smooth touch & mouse scroll */
+        * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        ::-webkit-scrollbar {
+            width: 0px !important;
+            height: 0px !important;
+            display: none !important;
+            background: transparent !important;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: transparent !important;
+        }
 
         /* ========================================================================= */
         /* HIGH-CONTRAST DYNAMIC CSS THEME TOKENS (DARK & LIGHT MODE)               */
@@ -4890,12 +4903,11 @@ def index_workbench():
             </section>
 
             <!-- ================= 2. INSPECTOR SOVEREIGN SIGN-IN (ORDER: DIRECTLY BELOW TELEMETRY) ================= -->
-            <div id="inspectorAuthContainer" class="w-full border-b px-5 sm:px-8 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-hidden" style="border-bottom: 1px solid var(--border-color); min-height: 580px;">
-                <!-- Ambient NAWI Laptop Connected Hardware Background (High Visibility) -->
-                <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden flex items-center justify-center">
-                    <img src="/icons/SIH_NAWI_Laptop_Connected_Dark.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-contain object-center opacity-85 transform scale-100 filter contrast-110 dark-mode-only">
-                    <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-contain object-center opacity-85 transform scale-100 filter contrast-105 light-mode-only hidden">
-                    <div class="absolute inset-0 bg-radial from-transparent via-slate-950/20 to-slate-950/60 pointer-events-none"></div>
+            <div id="inspectorAuthContainer" class="w-full border-b px-4 sm:px-8 lg:px-12 py-16 flex flex-col items-center justify-center relative overflow-hidden" style="border-bottom: 1px solid var(--border-color); min-height: 720px; background-color: #020617;">
+                <!-- Ambient NAWI Laptop Connected Hardware Background (Full 100% Cover) -->
+                <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+                    <img src="/icons/SIH_NAWI_Laptop_Connected_Dark.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-cover object-center opacity-95 transform scale-100 dark-mode-only">
+                    <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-cover object-center opacity-95 transform scale-100 light-mode-only hidden">
                 </div>
 
                 <div id="inspectorAuthCard" class="w-full max-w-2xl shadow-2xl relative z-10" style="background: var(--surface-card); backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
@@ -5412,12 +5424,11 @@ def index_workbench():
 
 
     <!-- ================= MULTI-FACTOR AUTHENTICATION (MFA) CHALLENGE MODAL ================= -->
-        <div id="mfaModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/75 transition-all duration-200">
-            <!-- Modal Background: NAWI Laptop Hardware Intercept Backdrop (Crystal Clear Visibility) -->
-            <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden flex items-center justify-center">
-                <img src="/icons/SIH_NAWI_Laptop_Connected_Dark.png" alt="NAWI Connected Hardware" class="w-full h-full object-contain object-center opacity-90 transform scale-100 filter contrast-110 drop-shadow-[0_0_35px_rgba(56,189,248,0.2)] dark-mode-only">
-                <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="NAWI Connected Hardware" class="w-full h-full object-contain object-center opacity-90 transform scale-100 light-mode-only hidden">
-                <div class="absolute inset-0 bg-slate-950/35 pointer-events-none"></div>
+        <div id="mfaModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 transition-all duration-200">
+            <!-- Modal Background: NAWI Laptop Hardware Intercept Backdrop (Full 100% Cover) -->
+            <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+                <img src="/icons/SIH_NAWI_Laptop_Connected_Dark.png" alt="NAWI Connected Hardware" class="w-full h-full object-cover object-center opacity-95 transform scale-100 dark-mode-only">
+                <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="NAWI Connected Hardware" class="w-full h-full object-cover object-center opacity-95 transform scale-100 light-mode-only hidden">
             </div>
 
             <div class="bg-slate-900/95 border border-white/[0.12] rounded-2xl max-w-md w-full p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] space-y-5 relative z-10 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">

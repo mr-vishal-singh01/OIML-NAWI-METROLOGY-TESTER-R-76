@@ -27,6 +27,17 @@
         };
     </script>
     <style>
+        /* Hide browser scrollbars globally */
+        * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        ::-webkit-scrollbar {
+            width: 0px !important;
+            height: 0px !important;
+            display: none !important;
+            background: transparent !important;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
         
         body {
@@ -1057,11 +1068,10 @@
         </section>
 
         <!-- ================= 3. MAIN AUTHENTICATION & ACCESS GATE ================= -->
-        <section aria-label="Sovereign Authentication Gate" class="flex justify-center relative overflow-hidden py-12" style="min-height: 580px;">
-            <!-- Ambient NAWI Laptop Connected Hardware Background -->
-            <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden flex items-center justify-center">
-                <img src="SIH_NAWI_Laptop_Connected_Dark.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-contain object-center opacity-85 transform scale-100 filter contrast-110 drop-shadow-[0_0_35px_rgba(56,189,248,0.2)]">
-                <div class="absolute inset-0 bg-slate-950/35 pointer-events-none"></div>
+        <section aria-label="Sovereign Authentication Gate" class="flex justify-center relative overflow-hidden py-16" style="min-height: 720px; background-color: #020617;">
+            <!-- Ambient NAWI Laptop Connected Hardware Background (Full 100% Cover) -->
+            <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+                <img src="SIH_NAWI_Laptop_Connected_Dark.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-cover object-center opacity-95 transform scale-100">
             </div>
 
             <div id="inspectorAuthCard" class="w-full max-w-2xl glass-panel shadow-2xl relative border z-10" style="background: var(--surface-card); backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
