@@ -5,9 +5,9 @@ import numpy as np
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 
-BASE_IMAGE_PATH = "/home/zeno/Desktop/SIH_NAWI_Login_Background.png"
-OUTPUT_VIDEO_PATH = "/home/zeno/Desktop/SIH_NAWI_Background_Loop.mp4"
-FONT_PATH = "/home/zeno/.local/share/fonts/JetBrainsMonoNerdFontMono-ExtraBold.ttf"
+BASE_IMAGE_PATH = os.path.expanduser("~/Desktop/SIH_NAWI_Login_Background.png")
+OUTPUT_VIDEO_PATH = os.path.expanduser("~/Desktop/SIH_NAWI_Background_Loop.mp4")
+FONT_PATH = os.path.expanduser("~/.local/share/fonts/JetBrainsMonoNerdFontMono-ExtraBold.ttf")
 
 TOTAL_FRAMES = 240  # 8.0 seconds at 30 fps (seamless high-fps loop)
 FPS = 30

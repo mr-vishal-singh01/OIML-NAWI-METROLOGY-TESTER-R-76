@@ -1,12 +1,18 @@
-# 🇮🇳 OIML-NAWI-METROLOGY-TESTER-R-76 (PrecisionX)
+<p align="center">
+  <img src="assets/branding/precisionx_cli_pixel_512.png" width="130" height="130" alt="PrecisionX Sovereign Logo" style="border-radius: 24px; box-shadow: 0 8px 32px rgba(255, 0, 63, 0.35);">
+</p>
+
+# <p align="center">🇮🇳 OIML-NAWI-METROLOGY-TESTER-R-76</p>
+### <p align="center">PrecisionX: Automated Sovereign OIML R-76 Guided Testing Suite</p>
 
 <p align="center">
-  <b>Automated OIML R-76 Guided NAWI Testing Suite, ISO 19005-3 PDF/A-3, PTB DCC v3.2.1 XML & Ed25519 Cryptographic Verification</b><br>
-  <i>Smart India Hackathon 2026 (Problem Statement ID: SIH26035) — Team PrecisionX</i><br>
+  <b>ISO 19005-3 PDF/A-3 Sovereign Archival Container &bull; PTB DCC v3.2.1 XML &bull; Ed25519 Cryptographic Verification</b><br>
+  <i>Smart India Hackathon 2026 (Problem Statement ID: SIH26035) &bull; Team PrecisionX</i><br>
   <i>Ministry of Consumer Affairs, Food & Public Distribution | Legal Metrology Division, Govt. of India</i>
 </p>
 
 <p align="center">
+  <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/releases/tag/v2026.1.0-sih"><img src="https://img.shields.io/badge/Release-v2026.1.0--sih-ff003f.svg?style=for-the-badge&logo=github" alt="Release v2026.1.0-sih"></a>
   <img src="https://img.shields.io/badge/OIML%20Standard-R%2076--1%3A2006%20(E)-00529B.svg?style=for-the-badge&logo=shield" alt="OIML R-76">
   <img src="https://img.shields.io/badge/WELMEC%20Guide-7.2%20(Ext%20L%20%26%20U)-F58220.svg?style=for-the-badge" alt="WELMEC 7.2">
   <img src="https://img.shields.io/badge/Accreditation-ISO%2FIEC%2017025%3A2017-007A3D.svg?style=for-the-badge" alt="ISO 17025">
@@ -14,37 +20,163 @@
   <img src="https://img.shields.io/badge/Container-ISO%2019005--3%20PDF%2FA--3-D32F2F.svg?style=for-the-badge&logo=adobe-acrobat-reader" alt="PDF/A-3">
   <img src="https://img.shields.io/badge/Cryptographic%20Seal-Ed25519%20%7C%20SHA--256-102048.svg?style=for-the-badge" alt="Ed25519">
   <img src="https://img.shields.io/badge/Verification%20Tests-142%20Passed%20(100%25)-22c55e.svg?style=for-the-badge" alt="Tests 142 Passed">
-  <img src="https://img.shields.io/badge/User%20Manual-38%20Screenshots%20(Bilingual)-ff003f.svg?style=for-the-badge&logo=markdown" alt="User Manual">
+  <a href="HOW_TO_USE.md"><img src="https://img.shields.io/badge/User%20Manual-38%20Screenshots%20(Bilingual)-ff003f.svg?style=for-the-badge&logo=markdown" alt="User Manual"></a>
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Architecture-Zero--Trust%20%7C%20Local--First-102048.svg?style=for-the-badge" alt="Zero Trust">
 </p>
 
 <p align="center">
-  <a href="HOW_TO_USE.md"><b>📖 Read the Full User Manual & How-to-Use Guide (38 Screenshots) ➔</b></a> &nbsp;|&nbsp;
-  <a href="#-quickstart-guide"><b>🚀 Quickstart Guide ➔</b></a> &nbsp;|&nbsp;
-  <a href="#-video-demonstration-catalog"><b>🎥 Video Showcase ➔</b></a>
+  <a href="HOW_TO_USE.md"><b>📖 Full User Manual (38 Screenshots) ➔</b></a> &nbsp;&bull;&nbsp;
+  <a href="#-first-page--sovereign-portal-interface"><b>🖥️ First Page Interface ➔</b></a> &nbsp;&bull;&nbsp;
+  <a href="#-important-inspection-modules--visual-walkthrough"><b>📸 Core Visual Modules ➔</b></a> &nbsp;&bull;&nbsp;
+  <a href="#-quickstart-guide"><b>🚀 Quickstart Guide ➔</b></a> &nbsp;&bull;&nbsp;
+  <a href="#-video-demonstration-catalog"><b>🎥 11 Video Demonstrations ➔</b></a>
 </p>
 
 ---
 
 ## 📑 Table of Contents
-- [📌 Executive Summary](#-executive-summary)
-- [🏛️ National Metrological Context](#️-national-metrological-context-indias-oiml-cs-global-status)
-- [🏗️ Engineering Architecture](#️-core-engineering-architecture)
-- [📐 Mathematical Metrology & Turning Point Calculations](#-mathematical-metrology--turning-point-calculations)
-- [🎯 Key Innovation Pillars](#-key-innovation-pillars)
-- [🖼️ Visual Interface & Screenshot Gallery](#️-visual-interface--screenshot-gallery)
-- [🎥 Video Demonstration Catalog](#-video-demonstration-catalog)
-- [🚀 Quickstart Guide](#-quickstart-guide)
-- [📡 REST API Specification](#-rest-api-specification)
-- [🧪 Verification & Automated Testing (142 Tests)](#-verification--automated-testing)
-- [🏛️ Regulatory Compliance Matrix](#️-standards--regulatory-compliance)
-- [🔒 Security & Key Management](#-security--key-management)
-- [👥 Team PrecisionX — SIH 2026](#-team-precisionx--smart-india-hackathon-2026)
+1. [🏛️ First Page: Sovereign Portal Interface](#-first-page--sovereign-portal-interface)
+2. [📸 Important Inspection Modules & Visual Walkthrough](#-important-inspection-modules--visual-walkthrough)
+3. [📌 Executive Summary & Problem Context](#-executive-summary--problem-context)
+4. [🌍 India's Sovereign OIML-CS 13th Nation Milestone](#-indias-sovereign-oiml-cs-13th-nation-milestone)
+5. [📐 Mathematical Metrology & Turning Point Calculations](#-mathematical-metrology--turning-point-calculations)
+6. [🏗️ Core Engineering Architecture](#️-core-engineering-architecture)
+7. [🎥 Video Demonstration Catalog (11 HyperFrames Renders)](#-video-demonstration-catalog-11-hyperframes-renders)
+8. [🚀 Quickstart Guide (Desktop / Web / Pi Kiosk)](#-quickstart-guide)
+9. [📡 REST API Endpoints Matrix](#-rest-api-endpoints-matrix)
+10. [🧪 Verification & Test Suite (142 Tests Passed)](#-verification--test-suite)
+11. [🏛️ Regulatory Compliance Matrix](#️-regulatory-compliance-matrix)
+12. [🔒 Zero-Trust Security & Confidentiality](#-zero-trust-security--confidentiality)
+13. [👥 Team PrecisionX — SIH 2026](#-team-precisionx--smart-india-hackathon-2026)
 
 ---
 
-## 📌 Executive Summary
+## 🏛️ First Page: Sovereign Portal Interface
+
+The entry point of **PrecisionX** is the official **National Legal Metrology Portal & Officer Workbench**, designed to streamline government inspections, pattern approval verification, and citizen transparency.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#1-portal-landing--officer-entry-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2018-45-49.png" width="96%" alt="PrecisionX Sovereign First Page: National Legal Metrology Portal" style="border: 2px solid #334155; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 1.1: Official Sovereign First Page — Ministry of Consumer Affairs, Food & Public Distribution | Legal Metrology Officer Entry & Surveillance Dashboard.</i>
+</p>
+
+### 🔑 First Page Core Capabilities
+- **Role-Gated Officer Authentication**: Multi-credential sign-in with 2FA OTP for Legal Metrology Officers, RRSL Directors, and Authorized Verifiers.
+- **Citizen Metrology Redressal**: Direct verification of scale certification stickers and grievance filing under Section 15 of Legal Metrology Act, 2009.
+- **National Advisory Ticker**: Real-time ticker streaming statutory gazette updates, model approval notices, and calibration deadlines.
+
+---
+
+## 📸 Important Inspection Modules & Visual Walkthrough
+
+Here are the critical inspection, mathematical, and cryptographic phases that power the PrecisionX platform:
+
+### 1. Instrument Classification & Setup (Form 1 Preparation)
+PrecisionX auto-configures Maximum Permissible Error (MPE) corridors according to **OIML R 76-1:2006 Table 6** for Class I (Special), Class II (High), Class III (Medium), and Class IIII (Ordinary) instruments.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#4-session-setup--instrument-classification-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2018-47-22.png" width="94%" alt="Instrument Classification & Session Setup" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.1: Instrument Setup — Configuring $Max$, Scale Interval ($e$), Verification Division ($d$), and Environmental Controls ($T^\circ\text{C}$, Humidity).</i>
+</p>
+
+---
+
+### 2. Form 1: Weighing Performance & Turning Point Mathematical Derivation
+Digital indicators round display readings to the nearest division interval ($d$). PrecisionX guides inspectors through fractional load additions ($\Delta L$) to derive the exact turning point ($P = I + 0.5e - \Delta L$) and corrected error ($E_c = E - E_0$).
+
+<p align="center">
+  <a href="HOW_TO_USE.md#8-form-1-weighing-performance-test-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-19-42.png" width="94%" alt="Form 1 Weighing Performance & Turning Point Derivation" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.2: Form 1 Weighing Performance — Real-time turning point calculations with instant green/red tolerance corridor checks.</i>
+</p>
+
+---
+
+### 3. Form 3: Corner Eccentricity 5-Position Verification
+Evaluates off-center loading tolerances by placing test loads ($\approx 1/3 Max$) across 5 standard platform coordinates (Center, Front-Left, Back-Left, Back-Right, Front-Right) per Clause 3.6.2.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#9-form-3-eccentricity-test-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-21-55.png" width="94%" alt="Form 3 Corner Eccentricity Loading" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.3: Form 3 Eccentricity — Visual 5-position cantilever load verification ensuring $|E_c| \le |\text{mpe}|$.</i>
+</p>
+
+---
+
+### 4. Dynamic Trumpet Curve Tolerance Corridor
+Renders the real-time statutory OIML R-76 MPE "Trumpet Curve" corridor ($\pm 0.5e$, $\pm 1.0e$, $\pm 1.5e$). Any observation exceeding statutory limits triggers immediate visual escalation.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#12-dynamic-trumpet-curve-tolerance-corridor-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-24-03.png" width="94%" alt="Trumpet Curve MPE Corridor" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.4: Trumpet Curve Analysis — Visual representation of loading and unloading error curves against statutory MPE step thresholds.</i>
+</p>
+
+---
+
+### 5. Sovereign ISO 19005-3 PDF/A-3 Archival Certificate with Embedded PTB DCC XML
+Issues tamper-proof, 50+ year archival certificates conforming to **ISO 19005-3 (PDF/A-3)**. The certificate embeds raw **PTB DCC v3.2.1 SmartCom D-SI XML** and an **Ed25519 64-byte asymmetric cryptographic seal**.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#11-anti-rollback-audit-trail--session-sealing-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-22-38.png" width="94%" alt="ISO 19005-3 PDF/A-3 Certificate Generation" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.5: Certified Inspection Report — Featuring Schedule VIII Verification Stamp, Ed25519 QR seal, and embedded PTB DCC XML.</i>
+</p>
+
+---
+
+### 6. Zero-Internet Ed25519 Offline QR Verification (20-30% Damage Recovery)
+Enables field consumer protection squads to verify physical scale stickers and certificates in milliseconds with **zero internet connection**. Advanced computer vision preprocessing recovers scuffed or damaged QR codes up to 30% surface abrasion.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#14-offline-qr-verification-scanner-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-28-16.png" width="94%" alt="Offline QR Verification with Reed-Solomon Error Correction" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.6: Offline QR Scanner — On-chip public key verification validating authenticity, officer ID, and calibration expiry offline.</i>
+</p>
+
+---
+
+### 7. Mandi GIS Surveillance & Enforcement Heatmap
+Provides directors and enforcement squads with a real-time spatial GIS heatmap of verified weighing instruments, uncalibrated instruments, and high-risk mandis.
+
+<p align="center">
+  <a href="HOW_TO_USE.md#15-mandi-gis-heatmaps--field-mobility-phase">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2019-27-16.png" width="94%" alt="Sovereign Legal Metrology GIS Heatmap" style="border: 1px solid #334155; border-radius: 8px;">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 2.7: GIS Surveillance Heatmap — National compliance tracking across agricultural mandis, ports, and industrial logistics centers.</i>
+</p>
+
+👉 *[Explore all 38 workflow screenshots and step-by-step instructions in HOW_TO_USE.md](HOW_TO_USE.md)*
+
+---
+
+## 📌 Executive Summary & Problem Context
 
 India is an official issuing authority under the **OIML-CS (OIML Certificate System)**, joining an elite group of only 13 nations globally recognized to issue international pattern approval certificates for weighing and measuring instruments. 
 
@@ -58,7 +190,7 @@ However, verification of Non-Automatic Weighing Instruments (NAWIs) across Regio
 
 ---
 
-## 🏛️ National Metrological Context: India's OIML-CS Global Status
+## 🌍 India's Sovereign OIML-CS 13th Nation Milestone
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -74,6 +206,38 @@ However, verification of Non-Automatic Weighing Instruments (NAWIs) across Regio
 
 * **Strategic Significance**: India's appointment as the 13th OIML-CS issuing nation empowers domestic weighing scale manufacturers to obtain global pattern approval locally, eliminating the need to ship prototypes to European laboratories (saving months of shipping delay and large foreign exchange expenses).
 * **The Mission for SIH26035**: To maintain global issuing accreditation, domestic RRSL laboratories must maintain digitized, automated, and tamper-proof metrological software. PrecisionX delivers this world-class testing infrastructure.
+
+---
+
+## 📐 Mathematical Metrology & Turning Point Calculations
+
+In accordance with **OIML R 76-1:2006 (E) Clause A.4.4.3**, digital indicators round displayed values to the nearest scale division interval ($d$). PrecisionX computes the precise turning point without approximation:
+
+### 1. Turning Point Indication ($P$)
+$$P = I + \frac{1}{2}e - \Delta L$$
+Where:
+- $I$: Indicated value displayed on the digital indicator.
+- $e$: Verification scale interval ($d \le e$).
+- $\Delta L$: Incremental fractional load placed on the pan until the display unambiguously shifts to the next division ($I + d$).
+
+### 2. Actual & Corrected Error ($E$ & $E_c$)
+The raw error $E$ is determined as:
+$$E = P - L = I + \frac{1}{2}e - \Delta L - L$$
+The corrected error $E_c$ eliminates zero-load drift ($E_0$):
+$$E_c = E - E_0$$
+
+### 3. Maximum Permissible Error (MPE) Limits (Clause 3.5.1, Table 6)
+
+| Class | Load Range ($m$ in $e$) | Maximum Permissible Error ($\text{mpe}$) |
+| :--- | :--- | :--- |
+| **Class I** | $0 \le m \le 50\,000$ <br> $50\,000 < m \le 200\,000$ <br> $m > 200\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
+| **Class II** | $0 \le m \le 5\,000$ <br> $5\,000 < m \le 20\,000$ <br> $20\,000 < m \le 100\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
+| **Class III** | $0 \le m \le 500$ <br> $500 < m \le 2\,000$ <br> $2\,000 < m \le 10\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
+| **Class IIII** | $0 \le m \le 50$ <br> $50 < m \le 200$ <br> $200 < m \le 1\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
+
+### 4. Repeatability & Eccentricity Limits
+- **Repeatability (Form 5)**: $\Delta E = E_{\max} - E_{\min} \le |\text{mpe}(L)|$.
+- **Eccentricity (Form 3)**: Tested at $\approx \frac{1}{3}\text{Max}$ across 5 platform locations; each must satisfy $|E_c| \le |\text{mpe}(L)|$.
 
 ---
 
@@ -111,88 +275,7 @@ However, verification of Non-Automatic Weighing Instruments (NAWIs) across Regio
 
 ---
 
-## 📐 Mathematical Metrology & Turning Point Calculations
-
-In accordance with **OIML R 76-1:2006 (E) Clause A.4.4.3**, digital indicators round displayed values to the nearest scale division interval ($d$). PrecisionX computes the precise turning point without approximation:
-
-### 1. Turning Point Indication ($P$)
-$$P = I + \frac{1}{2}e - \Delta L$$
-Where:
-- $I$: Indicated value displayed on the digital indicator.
-- $e$: Verification scale interval ($d \le e$).
-- $\Delta L$: Incremental fractional load placed on the pan until the display unambiguously shifts to the next division ($I + d$).
-
-### 2. Actual & Corrected Error ($E$ & $E_c$)
-The raw error $E$ is determined as:
-$$E = P - L = I + \frac{1}{2}e - \Delta L - L$$
-The corrected error $E_c$ eliminates zero-load drift ($E_0$):
-$$E_c = E - E_0$$
-
-### 3. Maximum Permissible Error (MPE) Limits (Clause 3.5.1, Table 6)
-For initial verification:
-
-| Class | Load Range ($m$ in $e$) | Maximum Permissible Error ($\text{mpe}$) |
-| :--- | :--- | :--- |
-| **Class I** | $0 \le m \le 50\,000$ <br> $50\,000 < m \le 200\,000$ <br> $m > 200\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
-| **Class II** | $0 \le m \le 5\,000$ <br> $5\,000 < m \le 20\,000$ <br> $20\,000 < m \le 100\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
-| **Class III** | $0 \le m \le 500$ <br> $500 < m \le 2\,000$ <br> $2\,000 < m \le 10\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
-| **Class IIII** | $0 \le m \le 50$ <br> $50 < m \le 200$ <br> $200 < m \le 1\,000$ | $\pm 0.5\,e$ <br> $\pm 1.0\,e$ <br> $\pm 1.5\,e$ |
-
-### 4. Repeatability & Eccentricity Limits
-- **Repeatability (Form 5)**: The difference between maximum and minimum results for 3 weighings at the same load must not exceed the absolute value of the maximum permissible error for that load:
-  $$\Delta E = E_{\max} - E_{\min} \le |\text{mpe}(L)|$$
-- **Eccentricity (Form 3)**: Tested at $\approx \frac{1}{3}\text{Max}$ (or $\frac{1}{4}\text{Max}$ for 4-point cantilevers) across 5 standard platform positions (Center, Top-Left, Top-Right, Bottom-Right, Bottom-Left). Each position must satisfy:
-  $$|E_c| \le |\text{mpe}(L)|$$
-
----
-
-## 🎯 Key Innovation Pillars
-
-### 1. Automated Turning Point Derivation
-Guides the field inspector step-by-step through exact fractional additions ($0.1e$ steps), calculating $P$, $E$, and $E_c$ in real time with immediate green/red visual tolerance indicators.
-
-### 2. ISO/IEC 17025 Anti-Rollback Invalidation Engine
-- When a test report is formally certified, its cryptographic state hash is frozen in an append-only ledger.
-- If an operator modifies any earlier observation reading, the system automatically:
-  1. Revokes existing approvals and demands a mandatory technical justification reason.
-  2. Flags all downstream calculations and certificates as `STALE`.
-  3. Increments the session to a new revision while locking the superseded revision in an immutable audit archive.
-
-### 3. High-Density Offline QR & Ed25519 Digital Seals
-- Compresses verified certificate claims into a lightweight, high-density QR Code (Error Correction Level H).
-- Signed with an asymmetric **Ed25519 (RFC 8032)** private key.
-- Field consumer protection inspectors can scan the physical certificate or scale sticker with any mobile camera and verify authenticity in milliseconds with **zero internet connection**.
-- Computer vision preprocessing with CLAHE and adaptive thresholding recovers scuffed or damaged QR codes up to 30% physical abrasion.
-
-### 4. Dual Interoperable Archival Export (PDF/A-3 + PTB DCC XML)
-- Produces **ISO 19005-3 PDF/A-3** containers designed for 50+ year regulatory preservation.
-- Embeds standardized **PTB Digital Calibration Certificate (DCC v3.2.1)** XML conforming to Physikalisch-Technische Bundesanstalt schemas.
-- Enables machine-to-machine validation and automated national registry synchronization.
-
----
-
-## 🖼️ Visual Interface & Screenshot Gallery
-
-All 38 user interface workflows are fully documented with corresponding screenshots in [HOW_TO_USE.md](HOW_TO_USE.md). Below is an architectural overview:
-
-| Inspection Phase | Screenshot Preview | Metrological Description |
-| :--- | :--- | :--- |
-| **Inspector Authentication** | [Screenshot 1](docs/screenshots/Screenshot%20from%202026-10-22%2018-45-49.png) | 2FA Government Inspector login with security clearance role gating. |
-| **Session & Scale Setup** | [Screenshot 4](docs/screenshots/Screenshot%20from%202026-10-22%2018-47-22.png) | NAWI Classification (Class I, II, III, IIII), $Max$, $e$, $d$, and temperature tracking. |
-| **Form 1: Weighing Performance** | [Screenshot 8](docs/screenshots/Screenshot%20from%202026-10-22%2018-49-39.png) | Guided turning point test with real-time MPE corridor evaluation. |
-| **Form 3: Corner Eccentricity** | [Screenshot 12](docs/screenshots/Screenshot%20from%202026-10-22%2019-12-08.png) | 5-position off-center loading test at $1/3 Max$ with radial graphic guidance. |
-| **Form 5: Repeatability Test** | [Screenshot 14](docs/screenshots/Screenshot%20from%202026-10-22%2019-16-25.png) | 3 runs at $50\% Max$ and $100\% Max$ with automatic $\Delta E \le \text{mpe}$ validation. |
-| **Anti-Rollback Audit Trail** | [Screenshot 18](docs/screenshots/Screenshot%20from%202026-10-22%2019-19-42.png) | SHA-256 chained transaction log enforcing ISO 17025 non-repudiation. |
-| **PDF/A-3 Sovereign Certificate** | [Screenshot 22](docs/screenshots/Screenshot%20from%202026-10-22%2019-22-38.png) | ISO 19005-3 certificate preview with embedded PTB DCC v3.2.1 XML and QR seal. |
-| **Offline QR Verification** | [Screenshot 26](docs/screenshots/Screenshot%20from%202026-10-22%2019-25-06.png) | Mobile camera Ed25519 offline verification with 20% Reed-Solomon damage recovery. |
-| **Field Inspection Heatmap** | [Screenshot 30](docs/screenshots/Screenshot%20from%202026-10-22%2019-27-16.png) | GIS spatial mapping of verification status, expiry alerts, and compliance flags. |
-| **Hardware Kiosk Telemetry** | [Screenshot 34](docs/screenshots/Screenshot%20from%202026-10-22%2019-29-15.png) | RS-232 / MT-SICS serial telemetry stream for automated industrial kiosks. |
-
-👉 *[Click here to view all 38 workflow screenshots with step-by-step instructions in HOW_TO_USE.md](HOW_TO_USE.md)*
-
----
-
-## 🎥 Video Demonstration Catalog
+## 🎥 Video Demonstration Catalog (11 HyperFrames Renders)
 
 The repository includes 11 cinematic, high-definition (1080p @ 30fps) technical demonstration videos generated using **HyperFrames**:
 
@@ -209,8 +292,6 @@ The repository includes 11 cinematic, high-definition (1080p @ 30fps) technical 
 | **08** | `08_PrecisionX_Anti_Rollback_Audit_Supervision.mp4` | 20s | Tamper resistance, state revocation, and audit trail ledger immutability. |
 | **09** | `09_PrecisionX_Hardware_Kiosk_Telemetry.mp4` | 20s | Serial RS-232 / MT-SICS telemetry stream and headless kiosk operations. |
 | **10** | `10_PrecisionX_SIH2026_Champion_Walkthrough.mp4` | 20s | Comprehensive end-to-end champion summary for SIH 2026 evaluators. |
-
-*Exported locally in `~/Desktop/SIH_Videos_Export/` and `~/Desktop/sih video/`.*
 
 ---
 
@@ -247,9 +328,7 @@ pnpm start
 
 ---
 
-## 📡 REST API Specification
-
-PrecisionX provides an enterprise-grade RESTful API built on FastAPI:
+## 📡 REST API Endpoints Matrix
 
 | Endpoint | Method | Description |
 | :--- | :---: | :--- |
@@ -267,16 +346,15 @@ PrecisionX provides an enterprise-grade RESTful API built on FastAPI:
 
 ---
 
-## 🧪 Verification & Automated Testing
+## 🧪 Verification & Test Suite
 
-The metrological mathematical engine and cryptographic integrity are verified through **142 automated regression and fuzzing tests**:
+The entire platform is backed by **142 automated regression, fuzzing, and cryptographic unit tests**:
 
 ```bash
 PYTHONPATH=src:. python3 -m unittest discover tests
 ```
 
 ```
-============================= test session results ==============================
 Ran 142 tests in 111.433s
 
 OK (100% Pass Rate - 142/142 tests passed)
@@ -288,12 +366,11 @@ Coverage:
 - Reed-Solomon QR Error Correction (Up to 30% Damage): 100%
 - ISO 19005-3 PDF/A-3 & PTB DCC v3.2.1 XML Schemas: 100%
 - REST API Vertical Slices & Field Mobility: 100%
-=================================================================================
 ```
 
 ---
 
-## 🏛️ Standards & Regulatory Compliance
+## 🏛️ Regulatory Compliance Matrix
 
 | Regulatory Standard | Scope & Mandate | PrecisionX Compliance Level |
 | :--- | :--- | :--- |
@@ -306,7 +383,7 @@ Coverage:
 
 ---
 
-## 🔒 Security & Key Management
+## 🔒 Zero-Trust Security & Confidentiality
 
 - **Zero Secret Leakage**: All production private keys and sensitive tokens are strictly air-gapped and excluded from git version control.
 - **Immutable Ledger**: Cryptographic hash chaining prevents retrospective modification of observation records.
@@ -321,4 +398,4 @@ Coverage:
 * **Title**: Development of an Automated Software Tool for Verification of Non-Automatic Weighing Instruments (NAWIs) as per OIML R-76.
 * **Ministry / Department**: Ministry of Consumer Affairs, Food & Public Distribution — Legal Metrology Division, Govt. of India.
 * **Theme**: Miscellaneous / Blockchain & Cybersecurity / Smart Automation.
-* **Documentation**: [User Manual (HOW_TO_USE.md)](HOW_TO_USE.md) | [Hardware Specs](HARDWARE_AND_PLATFORM_SPECIFICATION.md) | [Contributing Guide](CONTRIBUTING.md)
+* **Documentation**: [User Manual (HOW_TO_USE.md)](HOW_TO_USE.md) | [Hardware Specs](HARDWARE_AND_PLATFORM_SPECIFICATION.md) | [Security Policy](SECURITY.md) | [Contributing Guide](CONTRIBUTING.md)

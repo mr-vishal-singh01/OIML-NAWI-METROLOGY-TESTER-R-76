@@ -105,4 +105,4 @@ $$\text{Standard Weights Required} = \begin{cases}
 > *PrecisionX doesn't just calculate metrology math. PrecisionX embodies Indian Statutory Law in every line of code."*
 
 ---
-*Created and verified on /home/zeno/Desktop/ for SIH26035.*
+*Created and verified for Smart India Hackathon 2026 (Problem Statement ID: SIH26035).*

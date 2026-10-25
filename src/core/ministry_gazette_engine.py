@@ -27,12 +27,11 @@ _candidate_paths = [
     os.environ.get("MINISTRY_DATASET_DIR"),
     str(Path(__file__).resolve().parent.parent.parent / "data" / "gazettes"),
     str(Path(__file__).resolve().parent.parent / "data" / "gazettes"),
+    str(Path(__file__).resolve().parent.parent.parent / "data" / "gazettes"),
     str(Path.home() / "Desktop" / "DATASET BY SIH MINISTRY "),
     str(Path.home() / "Desktop" / "DATASET BY SIH MINISTRY"),
     str(Path.home() / "Downloads" / "DATASET BY SIH MINISTRY "),
     str(Path.home() / "Downloads" / "DATASET BY SIH MINISTRY"),
-    "/home/zeno/Desktop/DATASET BY SIH MINISTRY ",
-    "/home/zeno/Desktop/DATASET BY SIH MINISTRY",
 ]
 
 DATASET_DIR_CANDIDATES = [Path(p) for p in _candidate_paths if p]
