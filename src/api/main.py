@@ -160,7 +160,7 @@ SCALE_PRESETS = {
     },
     "CLASS_IIII": {
         "id": "CLASS_IIII",
-        "name": "Class IIII: 50 t / 20 kg (Industrial Highway Weighbridge)",
+        "name": "Class IV: 50 t / 20 kg (Industrial Highway Weighbridge)",
         "accuracy_class": AccuracyClass.CLASS_IIII,
         "max_capacity": Decimal("50000"),
         "min_capacity": Decimal("400"),
@@ -1584,9 +1584,10 @@ def get_scale_presets():
 @app.post("/api/session/select-preset/{preset_id}")
 def select_scale_preset(preset_id: str):
     global session
-    if preset_id not in SCALE_PRESETS:
+    lookup_id = "CLASS_IIII" if preset_id.upper() in ["CLASS_IV", "CLASS_IIII", "CLASSIV", "CLASSIIII"] else preset_id
+    if lookup_id not in SCALE_PRESETS:
         raise HTTPException(status_code=404, detail=f"Scale preset '{preset_id}' not found")
-    p = SCALE_PRESETS[preset_id]
+    p = SCALE_PRESETS[lookup_id]
     spec = InstrumentSpecification(
         accuracy_class=p["accuracy_class"],
         max_capacity=p["max_capacity"],
@@ -1921,7 +1922,8 @@ def setup_session_instrument(req: InstrumentSetupRequest):
         "CLASS_I": AccuracyClass.CLASS_I,
         "CLASS_II": AccuracyClass.CLASS_II,
         "CLASS_III": AccuracyClass.CLASS_III,
-        "CLASS_IIII": AccuracyClass.CLASS_IIII
+        "CLASS_IIII": AccuracyClass.CLASS_IIII,
+        "CLASS_IV": AccuracyClass.CLASS_IIII
     }
     acc_cls = cls_map.get(req.accuracy_class.upper(), AccuracyClass.CLASS_III)
     
@@ -2954,10 +2956,12 @@ def start_verification_task(task_id: str):
         "Class II": AccuracyClass.CLASS_II,
         "Class III": AccuracyClass.CLASS_III,
         "Class IIII": AccuracyClass.CLASS_IIII,
+        "Class IV": AccuracyClass.CLASS_IIII,
         "CLASS_I": AccuracyClass.CLASS_I,
         "CLASS_II": AccuracyClass.CLASS_II,
         "CLASS_III": AccuracyClass.CLASS_III,
-        "CLASS_IIII": AccuracyClass.CLASS_IIII
+        "CLASS_IIII": AccuracyClass.CLASS_IIII,
+        "CLASS_IV": AccuracyClass.CLASS_IIII
     }
     acc_class = class_map.get(task["accuracy_class"], AccuracyClass.CLASS_III)
 
@@ -3020,10 +3024,12 @@ def api_batch_execute_all_tasks():
         "Class II": AccuracyClass.CLASS_II,
         "Class III": AccuracyClass.CLASS_III,
         "Class IIII": AccuracyClass.CLASS_IIII,
+        "Class IV": AccuracyClass.CLASS_IIII,
         "CLASS_I": AccuracyClass.CLASS_I,
         "CLASS_II": AccuracyClass.CLASS_II,
         "CLASS_III": AccuracyClass.CLASS_III,
-        "CLASS_IIII": AccuracyClass.CLASS_IIII
+        "CLASS_IIII": AccuracyClass.CLASS_IIII,
+        "CLASS_IV": AccuracyClass.CLASS_IIII
     }
 
     global session
@@ -5877,7 +5883,7 @@ def index_workbench():
                         <option value="CLASS_III" selected>Class III: 15 kg / 5 g</option>
                         <option value="CLASS_I">Class I: 220 g / 0.1 mg</option>
                         <option value="CLASS_II">Class II: 600 g / 10 mg</option>
-                        <option value="CLASS_IIII">Class IIII: 50 t / 20 kg</option>
+                        <option value="CLASS_IIII">Class IV: 50 t / 20 kg</option>
                     </select>
                 </div>
 
@@ -6471,7 +6477,7 @@ def index_workbench():
                                 <option value="CLASS_III" selected>Class III (Medium)</option>
                                 <option value="CLASS_I">Class I (Special)</option>
                                 <option value="CLASS_II">Class II (High)</option>
-                                <option value="CLASS_IIII">Class IIII (Ordinary)</option>
+                                <option value="CLASS_IIII">Class IV (Ordinary / साधारण)</option>
                             </select>
                         </div>
                         <div>
@@ -6860,7 +6866,7 @@ def index_workbench():
                                     <option value="CLASS_I">Class I (Special Accuracy / Micro-balances)</option>
                                     <option value="CLASS_II">Class II (High Accuracy / Bullion & Pharma)</option>
                                     <option value="CLASS_III" selected>Class III (Medium Accuracy / Commercial & Mandi)</option>
-                                    <option value="CLASS_IIII">Class IIII (Ordinary Accuracy / Industrial & Highway)</option>
+                                    <option value="CLASS_IIII">Class IV (Ordinary Accuracy / Industrial & Highway)</option>
                                 </select>
                             </div>
                             <div>
@@ -8198,9 +8204,9 @@ def index_workbench():
                                     <input id="tol_class_iii_s2" type="number" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white font-mono" value="2000">
                                 </div>
                             </div>
-                            <!-- Class IIII -->
+                            <!-- Class IIII / IV -->
                             <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                                <span class="text-xs font-bold text-amber-400 font-mono block">Accuracy Class IIII (Ordinary)</span>
+                                <span class="text-xs font-bold text-amber-400 font-mono block">Accuracy Class IV (Ordinary - IIII)</span>
                                 <div>
                                     <label class="text-[10px] text-slate-400 block">Step 1 Limit (&plusmn;0.5e) [m/e]</label>
                                     <input id="tol_class_iiii_s1" type="number" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white font-mono" value="50">
@@ -8238,7 +8244,7 @@ def index_workbench():
                                         <option value="Class III">Class III (Medium)</option>
                                         <option value="Class I">Class I (Special)</option>
                                         <option value="Class II">Class II (High)</option>
-                                        <option value="Class IIII">Class IIII (Ordinary)</option>
+                                        <option value="Class IIII">Class IV (Ordinary)</option>
                                     </select>
                                 </div>
                                 <div>
@@ -8529,7 +8535,7 @@ def index_workbench():
                                 <option value="Class III" selected>Class III (Medium - मध्यम)</option>
                                 <option value="Class I">Class I (Special - विशेष)</option>
                                 <option value="Class II">Class II (High - उच्च)</option>
-                                <option value="Class IIII">Class IIII (Ordinary - साधारण)</option>
+                                <option value="Class IIII">Class IV (Ordinary - साधारण)</option>
                             </select>
                         </div>
                         <div>
@@ -9571,7 +9577,8 @@ def index_workbench():
                 }
 
                 if (badge) {
-                    badge.textContent = `✓ ACTIVE: ${data.preset_id}`;
+                    const displayBadgeId = (data.preset_id === "CLASS_IIII" || data.preset_id === "CLASS_IV") ? "CLASS_IV" : data.preset_id;
+                    badge.textContent = `✓ ACTIVE: ${displayBadgeId}`;
                     badge.classList.remove("hidden");
                     setTimeout(() => badge.classList.add("hidden"), 3500);
                 }
@@ -9595,7 +9602,7 @@ def index_workbench():
                     if (obsLoadEl) obsLoadEl.value = "300";
                     if (obsIndEl) obsIndEl.value = "300.01";
                     if (obsDeltaLEl) obsDeltaLEl.value = "0.005";
-                } else if (presetId === "CLASS_IIII") {
+                } else if (presetId === "CLASS_IIII" || presetId === "CLASS_IV") {
                     if (zeroIndEl) zeroIndEl.value = "0";
                     if (zeroDeltaLEl) zeroDeltaLEl.value = "10";
                     if (obsLoadEl) obsLoadEl.value = "10000";
@@ -9624,9 +9631,10 @@ def index_workbench():
                 if (f5Input100El) f5Input100El.value = maxVal.toFixed(1);
 
                 // Prominent Toast Notification
+                const displayClass = (data.accuracy_class === "Class IIII" || data.accuracy_class === "Class IV") ? "Class IV" : data.accuracy_class;
                 const msg = (window.currentAppLanguage === 'hi')
-                    ? `✓ सक्रिय पैमाना बदला गया: ${data.accuracy_class} (${data.manufacturer} ${data.model}, Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`
-                    : `✓ Switched to ${data.accuracy_class}: ${data.manufacturer} ${data.model} (Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`;
+                    ? `✓ सक्रिय पैमाना बदला गया: ${displayClass} (${data.manufacturer} ${data.model}, Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`
+                    : `✓ Switched to ${displayClass}: ${data.manufacturer} ${data.model} (Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`;
                 showToast(msg, "success");
             } catch (err) {
                 if (sel) {
@@ -9702,16 +9710,17 @@ def index_workbench():
                 if (sel) {
                     if (acc === "Class I") sel.value = "CLASS_I";
                     else if (acc === "Class II") sel.value = "CLASS_II";
-                    else if (acc === "Class IIII") sel.value = "CLASS_IIII";
+                    else if (acc === "Class IIII" || acc === "Class IV") sel.value = "CLASS_IIII";
                     else if (acc === "Class III") sel.value = "CLASS_III";
                 }
                 const nameEl = document.getElementById("activeScaleName");
                 const specsEl = document.getElementById("activeScaleSpecs");
                 const modelBadge = document.getElementById("badgeScaleModel");
                 const fullName = `${inst.manufacturer || ""} ${inst.model || ""}`.trim() || "NAWI Digital Scale";
+                const displayAcc = (acc === "Class IIII" || acc === "Class IV") ? "Class IV" : acc;
                 if (nameEl) nameEl.textContent = fullName;
-                if (specsEl) specsEl.innerHTML = `<span class="text-indigo-300 font-bold">${inst.accuracy_class || ""}</span> &bull; Max: ${parseFloat(inst.max_capacity).toLocaleString()} ${inst.unit} &bull; e=${inst.e} ${inst.unit}`;
-                if (modelBadge) modelBadge.textContent = fullName + (acc ? ` (${acc})` : "");
+                if (specsEl) specsEl.innerHTML = `<span class="text-indigo-300 font-bold">${displayAcc}</span> &bull; Max: ${parseFloat(inst.max_capacity).toLocaleString()} ${inst.unit} &bull; e=${inst.e} ${inst.unit}`;
+                if (modelBadge) modelBadge.textContent = fullName + (displayAcc ? ` (${displayAcc})` : "");
             }
             
             // Completion badge
@@ -14117,16 +14126,21 @@ SHA-256 Hash: ${data.event_hash.slice(0, 24)}...`);
         ["Telangana", "तेलंगाना"],
 
         // Compliance Ratios & Failure Modes
-        ["Class I, II, III & IIII Pass Ratios", "वर्ग I, II, III एवं IIII उत्तीर्ण अनुपात"],
+        ["Class I, II, III & IIII Pass Ratios", "वर्ग I, II, III एवं IV उत्तीर्ण अनुपात"],
+        ["Class I, II, III & IV Pass Ratios", "वर्ग I, II, III एवं IV उत्तीर्ण अनुपात"],
         ["Class I (Special Analytical)", "वर्ग I (विशेष विश्लेषणात्मक)"],
         ["Class II (High Precision / Bullion)", "वर्ग II (उच्च परिशुद्धता / सर्राफा)"],
         ["Class III (Commercial Retail & Mandi)", "वर्ग III (वाणिज्यिक खुदरा एवं मंडी)"],
-        ["Class IIII (Ordinary Industrial Weighbridges)", "वर्ग IIII (साधारण औद्योगिक धर्मकांटा)"],
+        ["Class IIII (Ordinary Industrial Weighbridges)", "वर्ग IV (साधारण औद्योगिक धर्मकांटा)"],
+        ["Class IV (Ordinary Industrial Weighbridges)", "वर्ग IV (साधारण औद्योगिक धर्मकांटा)"],
+        ["Class IV: 50 t / 20 kg", "वर्ग IV: 50 t / 20 kg"],
+        ["Class IV (Ordinary)", "वर्ग IV (साधारण)"],
         ["Accuracy Class Compliance", "सटीकता वर्ग अनुपालन"],
         ["Class I High Precision", "वर्ग I उच्च परिशुद्धता"],
         ["Class II Laboratory", "वर्ग II प्रयोगशाला"],
         ["Class III Mandi Commercial", "वर्ग III मंडी वाणिज्यिक"],
-        ["Class IIII Industrial Heavy", "वर्ग IIII औद्योगिक भारी"],
+        ["Class IIII Industrial Heavy", "वर्ग IV औद्योगिक भारी"],
+        ["Class IV Industrial Heavy", "वर्ग IV औद्योगिक भारी"],
         ["Pass Ratios", "उत्तीर्ण अनुपात"],
         ["Primary Failure Causes", "प्रमुख विफलता कारण"],
         ["Seventh Schedule Violations Breakdown", "सातवीं अनुसूची उल्लंघन वर्गीकरण"],

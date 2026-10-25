@@ -160,8 +160,8 @@ class TestDefensiveRedTeamSecurity(unittest.TestCase):
         self.assertEqual(len(updated["form3_positions"]), 5)
 
     def test_07_scale_preset_switching_and_specs_sync(self):
-        """All 4 scale presets must switch cleanly, return full metadata, and update active instrument."""
-        presets = ["CLASS_I", "CLASS_II", "CLASS_III", "CLASS_IIII"]
+        """All scale presets (including Class IV / CLASS_IV alias) must switch cleanly, return full metadata, and update active instrument."""
+        presets = ["CLASS_I", "CLASS_II", "CLASS_III", "CLASS_IIII", "CLASS_IV"]
         for p_id in presets:
             res = self.client.post(f"/api/session/select-preset/{p_id}")
             self.assertEqual(res.status_code, 200, f"Preset {p_id} switch failed: {res.text}")
