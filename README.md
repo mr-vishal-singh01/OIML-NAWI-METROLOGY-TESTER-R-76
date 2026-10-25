@@ -13,6 +13,7 @@
 
 <p align="center">
   <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/releases/tag/v2026.1.0-sih"><img src="https://img.shields.io/badge/Release-v2026.1.0--sih-ff003f.svg?style=for-the-badge&logo=github" alt="Release v2026.1.0-sih"></a>
+  <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml"><img src="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml/badge.svg?branch=main" alt="PrecisionX CI Status"></a>
   <img src="https://img.shields.io/badge/OIML%20Standard-R%2076--1%3A2006%20(E)-00529B.svg?style=for-the-badge&logo=shield" alt="OIML R-76">
   <img src="https://img.shields.io/badge/WELMEC%20Guide-7.2%20(Ext%20L%20%26%20U)-F58220.svg?style=for-the-badge" alt="WELMEC 7.2">
   <img src="https://img.shields.io/badge/Accreditation-ISO%2FIEC%2017025%3A2017-007A3D.svg?style=for-the-badge" alt="ISO 17025">
