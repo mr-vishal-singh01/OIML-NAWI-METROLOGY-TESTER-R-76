@@ -4,7 +4,10 @@ and Material You Theme Color Palette Popover Overhaul.
 """
 import unittest
 from fastapi.testclient import TestClient
-from backend.api.main import app
+try:
+    from api.main import app
+except ImportError:
+    from backend.api.main import app
 
 
 class TestNoticeTickerAndThemePickerModernization(unittest.TestCase):

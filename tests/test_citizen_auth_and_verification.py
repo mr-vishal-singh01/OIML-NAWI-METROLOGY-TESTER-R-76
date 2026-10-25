@@ -7,7 +7,10 @@ and legal report verification under Section 15 of Legal Metrology Act, 2009.
 
 import unittest
 from fastapi.testclient import TestClient
-from backend.api.main import app
+try:
+    from api.main import app
+except ImportError:
+    from backend.api.main import app
 
 class TestCitizenAuthAndVerification(unittest.TestCase):
     def setUp(self):

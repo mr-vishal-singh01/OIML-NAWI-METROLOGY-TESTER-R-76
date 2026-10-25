@@ -9,7 +9,10 @@ Validates the complete workflow demonstrated in the video:
 
 import unittest
 from fastapi.testclient import TestClient
-from backend.api.main import app
+try:
+    from api.main import app
+except ImportError:
+    from backend.api.main import app
 
 
 class TestVideoFlowFeatures(unittest.TestCase):
