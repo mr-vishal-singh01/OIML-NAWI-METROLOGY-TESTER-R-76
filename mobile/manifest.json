@@ -1,0 +1,37 @@
+{
+  "name": "OIML R-76 Legal Metrology Workbench (SIH26035)",
+  "short_name": "Metrology NAWI",
+  "description": "Offline-capable non-automatic weighing instruments testing and cryptographic certificate verification app.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Verify PDF/A-3",
+      "url": "/#tab-pdfa3",
+      "description": "Verify digital calibration certificates"
+    },
+    {
+      "name": "Scan Certificate QR",
+      "url": "/mobile/scanner.html",
+      "description": "Optical camera scanner for physical certificates"
+    }
+  ]
+}

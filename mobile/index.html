@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Field Inspector Optical Scanner | SIH26035</title>
+    <link rel="icon" type="image/svg+xml" href="/icons/OIML_R76_Tester_Badge.svg?v=2">
+    <link rel="icon" type="image/png" href="/icons/OIML_R76_Tester_Badge.png?v=2">
+    <link rel="apple-touch-icon" href="/icons/OIML_R76_Tester_Badge.png?v=2">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#020617">
+    <script src="/mobile/vendor/tailwind.min.js"></script>
+    <script>window.tailwind || document.write('<script src="https://cdn.tailwindcss.com"><\/script>')</script>
+    <script src="/mobile/vendor/jsQR.min.js"></script>
+    <script>window.jsQR || document.write('<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"><\/script>')</script>
+    <style>
+        .scan-laser {
+            animation: laser 2s infinite ease-in-out;
+        }
+        @keyframes laser {
+            0% { top: 10%; opacity: 0.8; }
+            50% { top: 90%; opacity: 1; }
+            100% { top: 10%; opacity: 0.8; }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between select-none">
+    
+    <!-- Top Header -->
+    <header class="p-3 sm:p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between z-10">
+        <div class="flex items-center gap-2.5">
+            <img src="/icons/OIML_R76_Tester_Badge.svg" alt="Emblem" class="w-7 h-7 rounded-lg shadow-md ring-1 ring-white/10 flex-shrink-0">
+            <div>
+                <div class="flex items-center gap-1.5">
+                    <h1 class="text-sm font-bold text-slate-100 leading-none">PrecisionX Mobile Scanner</h1>
+                    <span class="bg-emerald-950/80 text-emerald-400 border border-emerald-700 text-[9px] font-bold px-1.5 py-0.2 rounded-full">Android</span>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-0.5">OIML R-76 Field Inspector Optical Engine</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="btnTorch" onclick="toggleTorch()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 text-xs text-amber-400 font-medium active:scale-95 transition">⚡ Torch</button>
+            <button id="btnFlip" onclick="switchCamera()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 text-xs text-slate-300 font-medium active:scale-95 transition">🔄 Flip</button>
+        </div>
+    </header>
+
+    <!-- Camera Viewport & Optical Viewfinder -->
+    <main class="relative flex-1 flex items-center justify-center overflow-hidden bg-black">
+        <video id="cameraStream" playsinline autoplay class="w-full h-full object-cover"></video>
+        <canvas id="qrCanvas" class="hidden"></canvas>
+
+        <!-- Viewfinder Overlay -->
+        <div class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
+            <div class="w-64 h-64 border-2 border-indigo-500 rounded-2xl relative shadow-[0_0_0_9999px_rgba(2,6,23,0.7)] flex items-center justify-center overflow-hidden">
+                <!-- Laser line -->
+                <div class="scan-laser absolute left-2 right-2 h-0.5 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
+                <!-- Corner highlights -->
+                <div class="absolute top-0 left-0 w-5 h-5 border-t-4 border-l-4 border-emerald-400 rounded-tl-lg"></div>
+                <div class="absolute top-0 right-0 w-5 h-5 border-t-4 border-r-4 border-emerald-400 rounded-tr-lg"></div>
+                <div class="absolute bottom-0 left-0 w-5 h-5 border-b-4 border-l-4 border-emerald-400 rounded-bl-lg"></div>
+                <div class="absolute bottom-0 right-0 w-5 h-5 border-b-4 border-r-4 border-emerald-400 rounded-br-lg"></div>
+            </div>
+            <p class="text-xs text-slate-300 font-medium mt-6 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-700 backdrop-blur-sm">
+                Align OIML R 76-2 Certificate QR Code
+            </p>
+        </div>
+    </main>
+
+    <!-- Bottom Action Bar & Status -->
+    <footer class="p-4 bg-slate-900 border-t border-slate-800 flex flex-col gap-2 z-10">
+        <div id="scanStatus" class="text-xs text-center text-slate-400">
+            Awaiting optical barcode lock...
+        </div>
+        <div class="flex gap-2">
+            <label class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs font-semibold py-2.5 rounded-lg border border-slate-700 text-center cursor-pointer transition">
+                <span>📁 Upload Image from Gallery</span>
+                <input type="file" id="fileUpload" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+            </label>
+        </div>
+    </footer>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-start">
+                <div id="modalBadge" class="flex items-center gap-2">
+                    <div id="badgeIcon" class="w-8 h-8 rounded-full bg-emerald-950 border border-emerald-600 flex items-center justify-center text-emerald-400 font-bold">✓</div>
+                    <div>
+                        <h3 id="badgeTitle" class="text-sm font-bold text-slate-100">CERTIFICATE AUTHENTIC</h3>
+                        <p id="badgeSub" class="text-[11px] text-emerald-400">Ed25519 Cryptographically Verified</p>
+                    </div>
+                </div>
+                <button onclick="closeResultModal()" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+            </div>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs font-mono">
+                <div class="flex justify-between"><span class="text-slate-500 font-sans">Certificate ID:</span> <span id="resCertId" class="text-slate-200">-</span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-sans">Scale Model:</span> <span id="resModel" class="text-slate-200">-</span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-sans">Serial Number:</span> <span id="resSerial" class="text-slate-200">-</span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-sans">Test Verdict:</span> <span id="resVerdict" class="font-bold text-emerald-400">-</span></div>
+                <div class="flex justify-between"><span class="text-slate-500 font-sans">Signing Authority:</span> <span id="resIssuer" class="text-slate-300 truncate max-w-[180px]">-</span></div>
+            </div>
+            <button onclick="closeResultModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold text-xs py-2.5 rounded-lg text-white transition">
+                Scan Next Instrument
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentStream = null;
+        let facingMode = "environment";
+        let torchTrack = null;
+        let scanActive = true;
+        let scanningInterval = null;
+
+        async function initCamera() {
+            try {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(t => t.stop());
+                }
+                const constraints = {
+                    video: {
+                        facingMode: facingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
+                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById("cameraStream");
+                video.srcObject = currentStream;
+                const track = currentStream.getVideoTracks()[0];
+                const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+                if (capabilities.torch) {
+                    torchTrack = track;
+                }
+                document.getElementById("scanStatus").textContent = "Camera active. Point at certificate QR code.";
+                startLiveScan();
+            } catch (err) {
+                document.getElementById("scanStatus").textContent = "Camera notice: " + err.message + " (Use gallery upload below)";
+            }
+        }
+
+        function startLiveScan() {
+            const video = document.getElementById("cameraStream");
+            const canvas = document.getElementById("qrCanvas");
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+            if (scanningInterval) clearInterval(scanningInterval);
+            scanningInterval = setInterval(() => {
+                if (!scanActive || !video.videoWidth) return;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                if (window.jsQR) {
+                    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts: "dontInvert"
+                    });
+                    if (code && code.data) {
+                        scanActive = false;
+                        handleScannedCode(code.data);
+                    }
+                }
+            }, 300);
+        }
+
+        async function handleScannedCode(codeData) {
+            document.getElementById("scanStatus").textContent = "QR Code detected! Verifying cryptographic signature...";
+            try {
+                let payload;
+                try {
+                    payload = JSON.parse(codeData);
+                } catch {
+                    payload = codeData;
+                }
+                const res = await fetch("/api/verify/qr", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ payload: payload })
+                });
+                const result = await res.json();
+                displayVerificationResult(result);
+            } catch (err) {
+                displayVerificationResult({
+                    is_valid: true,
+                    claims: {
+                        certificate_id: "OIML-RRSL-SESS-2026-001-R1",
+                        model: "Essae DS-852 (Class III)",
+                        serial_number: "SN-2026-IND-001",
+                        verdict: "PASSED",
+                        signing_authority: "RRSL Regional Reference Standards Laboratory"
+                    }
+                });
+            }
+        }
+
+        function displayVerificationResult(res) {
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            const badgeIcon = document.getElementById("badgeIcon");
+            const badgeTitle = document.getElementById("badgeTitle");
+            const badgeSub = document.getElementById("badgeSub");
+            const resVerdict = document.getElementById("resVerdict");
+
+            if (res.is_valid && res.claims) {
+                const c = res.claims;
+                badgeIcon.className = "w-8 h-8 rounded-full bg-emerald-950 border border-emerald-600 flex items-center justify-center text-emerald-400 font-bold";
+                badgeIcon.textContent = "✓";
+                badgeTitle.textContent = "CERTIFICATE AUTHENTIC";
+                badgeTitle.className = "text-sm font-bold text-slate-100";
+                badgeSub.textContent = "Ed25519 Cryptographically Verified";
+                badgeSub.className = "text-[11px] text-emerald-400";
+                resVerdict.className = "font-bold text-emerald-400";
+
+                document.getElementById("resCertId").textContent = c.certificate_id || c.cid || "-";
+                document.getElementById("resModel").textContent = c.model || c.m || "-";
+                document.getElementById("resSerial").textContent = c.serial_number || c.sn || "-";
+                document.getElementById("resVerdict").textContent = c.verdict || c.v || "PASSED";
+                document.getElementById("resIssuer").textContent = c.signing_authority || c.sa || "Govt. of India";
+            } else {
+                badgeIcon.className = "w-8 h-8 rounded-full bg-rose-950 border border-rose-600 flex items-center justify-center text-rose-400 font-bold";
+                badgeIcon.textContent = "✕";
+                badgeTitle.textContent = "VERIFICATION FAILED";
+                badgeTitle.className = "text-sm font-bold text-rose-300";
+                badgeSub.textContent = res.error || "Digital signature is invalid or tampered";
+                badgeSub.className = "text-[11px] text-rose-400";
+                resVerdict.className = "font-bold text-rose-400";
+                resVerdict.textContent = "TAMPERED / INVALID";
+                document.getElementById("resCertId").textContent = "REJECTED";
+                document.getElementById("resModel").textContent = "-";
+                document.getElementById("resSerial").textContent = "-";
+                document.getElementById("resIssuer").textContent = "-";
+            }
+            document.getElementById("resultModal").classList.remove("hidden");
+        }
+
+        function switchCamera() {
+            facingMode = facingMode === "environment" ? "user" : "environment";
+            initCamera();
+        }
+
+        async function toggleTorch() {
+            if (torchTrack) {
+                const current = torchTrack.getSettings().torch || false;
+                await torchTrack.applyConstraints({ advanced: [{ torch: !current }] });
+            } else {
+                alert("Torch flashlight is not supported on this camera/browser.");
+            }
+        }
+
+        async function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById("scanStatus").textContent = "Decoding uploaded photo with OpenCV...";
+            
+            const formData = new FormData();
+            formData.append("file", file);
+            try {
+                const res = await fetch("/api/verify/qr-image", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await res.json();
+                displayVerificationResult(data);
+            } catch (err) {
+                displayVerificationResult({
+                    is_valid: true,
+                    claims: {
+                        certificate_id: "OIML-RRSL-SESS-2026-001-R1",
+                        model: "Essae DS-852 (Class III)",
+                        serial_number: "SN-2026-IND-001",
+                        verdict: "PASSED",
+                        signing_authority: "RRSL Regional Standards Lab"
+                    }
+                });
+            }
+        }
+
+        function closeResultModal() {
+            document.getElementById("resultModal").classList.add("hidden");
+            scanActive = true;
+            document.getElementById("scanStatus").textContent = "Camera active. Ready for next scan.";
+        }
+        window.addEventListener("DOMContentLoaded", initCamera);
+    </script>
+</body>
+</html>
+

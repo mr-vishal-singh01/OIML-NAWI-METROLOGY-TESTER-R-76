@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&amp;display=swap");
+      .font-sans { font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    </style>
+    <filter id="block-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="8" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1024" height="1024" fill="#0B0F19" />
+
+  <!-- Bauhaus Circle Base -->
+  <circle cx="420" cy="420" r="320" fill="#3B82F6" />
+
+  <!-- Architectural Pin Line & Dot -->
+  <line x1="245" y1="130" x2="245" y2="370" stroke="#F8FAFC" stroke-width="4" stroke-linecap="round" />
+  <circle cx="245" cy="130" r="14" fill="#F8FAFC" />
+
+  <!-- Dark Block Base with Elevation Shadow -->
+  <rect x="360" y="360" width="520" height="520" rx="20" fill="#111827" filter="url(#block-shadow)" />
+
+  <!-- Crisp OIML Emblem with Two-Tone Accent Balance Arrow -->
+  <g transform="translate(620, 520) scale(0.48)">
+    <!-- O (#F8FAFC) -->
+    <path fill="#F8FAFC" fill-rule="evenodd" d="M -208.85 -163.37 L -274.29 -125.71 L -274.29 125.71 L -208.85 163.37 L -143.41 125.71 L -143.41 -125.71 Z M -208.85 -121.00 L -179.19 -103.11 L -179.19 103.11 L -208.85 121.00 L -237.57 104.05 L -237.57 -104.05 Z" />
+    <!-- I Arrow (#60A5FA) -->
+    <path fill="#60A5FA" d="M -57.25 -250.00 L -103.86 -223.63 L -103.86 -181.26 L -75.61 -196.33 L -75.61 196.33 L -103.86 181.26 L -103.86 223.63 L -57.25 250.00 L -10.64 223.63 L -10.64 181.26 L -38.89 195.39 L -38.89 -196.33 L -10.64 -181.26 L -10.64 -223.63 Z" />
+    <!-- M (#F8FAFC) -->
+    <path fill="#F8FAFC" d="M 28.91 -201.04 L 28.91 201.04 L 73.16 175.61 L 66.57 -79.57 L 92.94 -29.66 L 123.07 -70.15 L 114.60 151.13 L 159.79 125.71 L 159.79 -125.71 L 122.13 -146.42 L 92.00 -101.22 L 65.63 -179.38 Z" />
+    <!-- L (#F8FAFC) -->
+    <path fill="#F8FAFC" d="M 195.10 -117.70 L 234.65 -96.05 L 234.65 75.33 L 295.86 75.33 L 295.86 127.12 L 195.10 127.12 Z" />
+  </g>
+
+  <!-- Boxed R 76 with Open Breakout Frame and Top Architectural Notch -->
+  <g transform="translate(300, 480) scale(1.1)">
+    <path d="M -100 -100 L -65 -100 A 15 15 0 0 0 -35 -100 L 100 -100 L 100 15 M 40 100 L -100 100 L -100 -100" 
+          fill="none" stroke="#F8FAFC" stroke-width="12" stroke-linecap="square" stroke-linejoin="miter"/>
+    <!-- Letter R: Bold geometric uppercase -->
+    <text x="-15" y="48" class="font-sans" font-size="142" font-weight="900" fill="#F8FAFC" text-anchor="middle">R</text>
+    <!-- Subscript 76 sitting in breakout corner -->
+    <text x="84" y="100" class="font-sans" font-size="96" font-weight="900" fill="#F8FAFC" text-anchor="middle">76</text>
+  </g>
+
+  <!-- Architectural Typography Banner: TESTER R-76 -->
+  <rect x="360" y="800" width="520" height="80" fill="#60A5FA"/>
+  <text x="620" y="853" class="font-sans" font-size="38" font-weight="900" fill="#0B0F19" letter-spacing="0.26em" text-anchor="middle">TESTER R-76</text>
+
+  <!-- Left Architectural Typography: OIML (NAWI) METROLOGY -->
+  <text x="180" y="848" class="font-sans" font-size="18" font-weight="900" fill="#F8FAFC" letter-spacing="0.12em" text-anchor="middle">OIML (NAWI) METROLOGY</text>
+</svg>

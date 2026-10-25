@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIH26035 — Legal Metrology Division | PrecisionX NAWI Sovereign Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#22d3ee',
+                            emerald: '#10b981',
+                            slateBg: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary, #020617);
+            color: var(--text-primary, #f8fafc);
+        }
+
+        /* ========================================================================= */
+        /* HIGH-CONTRAST DYNAMIC CSS THEME TOKENS (DARK & LIGHT MODE)               */
+        /* ========================================================================= */
+        :root, html[data-theme="dark"] {
+            --bg-primary: #0b0f19;
+            --surface-card: rgba(15, 23, 42, 0.75);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+
+            --primary: #06b6d4;
+            --primary-hover: #0891b2;
+            --accent: #38bdf8;
+            --ring: rgba(6, 182, 212, 0.4);
+            --ring-offset: #0f172a;
+            --surface-bg: var(--surface-card);
+            --surface-border: var(--border-color);
+            --card-bg: #0f172a;
+        }
+
+        [data-theme="light"], html[data-theme="light"], body.theme-emerald {
+            --bg-primary: #f8fafc;
+            --surface-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: rgba(0, 0, 0, 0.08);
+
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --accent: #0ea5e9;
+            --ring: rgba(2, 132, 199, 0.3);
+            --ring-offset: #ffffff;
+            --surface-bg: var(--surface-card);
+            --surface-border: var(--border-color);
+            --card-bg: #ffffff;
+        }
+
+        html, body {
+            background-color: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] body,
+        body.theme-emerald {
+            background-color: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .glass-panel,
+        body.theme-emerald .glass-panel {
+            background: var(--surface-card) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .bg-slate-900,
+        body.theme-emerald .bg-slate-900 {
+            background-color: var(--surface-card) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .bg-slate-950,
+        body.theme-emerald .bg-slate-950 {
+            background-color: var(--bg-primary) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .bg-slate-800,
+        body.theme-emerald .bg-slate-800 {
+            background-color: #f1f5f9 !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] header,
+        body.theme-emerald header {
+            background-color: var(--surface-card) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        html[data-theme="light"] h1:not(.keep-white),
+        html[data-theme="light"] h2:not(.keep-white),
+        html[data-theme="light"] h3:not(.keep-white),
+        html[data-theme="light"] h4:not(.keep-white),
+        body.theme-emerald h1:not(.keep-white),
+        body.theme-emerald h2:not(.keep-white),
+        body.theme-emerald h3:not(.keep-white),
+        body.theme-emerald h4:not(.keep-white) {
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .text-slate-100,
+        html[data-theme="light"] .text-slate-200,
+        html[data-theme="light"] .text-slate-300,
+        body.theme-emerald .text-slate-100,
+        body.theme-emerald .text-slate-200,
+        body.theme-emerald .text-slate-300 {
+            color: var(--text-primary) !important;
+        }
+
+        html[data-theme="light"] .text-slate-400,
+        body.theme-emerald .text-slate-400 {
+            color: var(--text-secondary) !important;
+        }
+
+        html[data-theme="light"] .border-slate-800,
+        html[data-theme="light"] .border-slate-700,
+        body.theme-emerald .border-slate-800,
+        body.theme-emerald .border-slate-700 {
+            border-color: var(--border-color) !important;
+        }
+
+        /* ========================================================================= */
+        /* HIGH-CONTRAST LIGHT MODE WORKBENCH OVERHAUL (#dashboardAppShell)          */
+        /* ========================================================================= */
+        html[data-theme="light"] #dashboardAppShell,
+        body.theme-emerald #dashboardAppShell {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #dashboardMainWrapper,
+        body.theme-emerald #dashboardMainWrapper {
+            background-color: #f8fafc !important;
+        }
+
+        /* Sidebar in Light Mode */
+        html[data-theme="light"] #appSidebar,
+        body.theme-emerald #appSidebar {
+            background-color: #ffffff !important;
+            border-right: 1px solid #e2e8f0 !important;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        html[data-theme="light"] #appSidebar .border-slate-800,
+        html[data-theme="light"] #appSidebar .border-slate-800\/80,
+        html[data-theme="light"] #appSidebar .border-slate-800\/60,
+        body.theme-emerald #appSidebar .border-slate-800,
+        body.theme-emerald #appSidebar .border-slate-800\/80,
+        body.theme-emerald #appSidebar .border-slate-800\/60 {
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Sidebar Profile Card */
+        html[data-theme="light"] #appSidebar .bg-slate-950\/40,
+        body.theme-emerald #appSidebar .bg-slate-950\/40 {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html[data-theme="light"] #appSidebar .bg-slate-950\/40:hover,
+        body.theme-emerald #appSidebar .bg-slate-950\/40:hover {
+            background-color: #f1f5f9 !important;
+        }
+
+        html[data-theme="light"] #sidebarUserName,
+        body.theme-emerald #sidebarUserName {
+            color: #0f172a !important;
+            font-weight: 700 !important;
+        }
+
+        html[data-theme="light"] #sidebarUserRole,
+        body.theme-emerald #sidebarUserRole {
+            color: #475569 !important;
+        }
+
+        html[data-theme="light"] #sidebarAuthBadge,
+        body.theme-emerald #sidebarAuthBadge {
+            background-color: #f1f5f9 !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        /* Lock Workbench Session Button in Sidebar */
+        html[data-theme="light"] #appSidebar button[onclick="lockInspectorSession()"],
+        body.theme-emerald #appSidebar button[onclick="lockInspectorSession()"] {
+            background-color: #fff1f2 !important;
+            border-color: #fecdd3 !important;
+            color: #e11d48 !important;
+        }
+
+        html[data-theme="light"] #appSidebar button[onclick="lockInspectorSession()"]:hover,
+        body.theme-emerald #appSidebar button[onclick="lockInspectorSession()"]:hover {
+            background-color: #ffe4e6 !important;
+            color: #be123c !important;
+        }
+
+        /* Sidebar Nav Section Titles */
+        html[data-theme="light"] #appSidebar .sidebar-text.uppercase,
+        body.theme-emerald #appSidebar .sidebar-text.uppercase {
+            color: #475569 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Sidebar Nav Links */
+        html[data-theme="light"] #appSidebar .nav-item,
+        body.theme-emerald #appSidebar .nav-item {
+            color: #334155 !important;
+        }
+
+        html[data-theme="light"] #appSidebar .nav-item:hover,
+        body.theme-emerald #appSidebar .nav-item:hover {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        /* Active Nav Item */
+        html[data-theme="light"] #appSidebar .nav-item.active,
+        body.theme-emerald #appSidebar .nav-item.active {
+            background-color: #eff6ff !important;
+            color: #1d4ed8 !important;
+            font-weight: 700 !important;
+            border-left: 3px solid #2563eb !important;
+        }
+
+        html[data-theme="light"] #appSidebar .nav-item.active svg,
+        body.theme-emerald #appSidebar .nav-item.active svg {
+            color: #2563eb !important;
+        }
+
+        /* Sidebar Settings Utility Box */
+        html[data-theme="light"] #appSidebar .bg-slate-900\/60,
+        body.theme-emerald #appSidebar .bg-slate-900\/60 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html[data-theme="light"] #appSidebar .bg-slate-800\/80,
+        body.theme-emerald #appSidebar .bg-slate-800\/80 {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #sidebarThemeNameLabel,
+        body.theme-emerald #sidebarThemeNameLabel {
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #theme-btn-light,
+        html[data-theme="light"] #theme-btn-dark,
+        html[data-theme="light"] #theme-btn-system,
+        body.theme-emerald #theme-btn-light,
+        body.theme-emerald #theme-btn-dark,
+        body.theme-emerald #theme-btn-system {
+            color: #475569 !important;
+        }
+
+        html[data-theme="light"] #theme-btn-light.bg-blue-600,
+        html[data-theme="light"] #theme-btn-dark.bg-blue-600,
+        html[data-theme="light"] #theme-btn-system.bg-blue-600,
+        body.theme-emerald #theme-btn-light.bg-blue-600,
+        body.theme-emerald #theme-btn-dark.bg-blue-600,
+        body.theme-emerald #theme-btn-system.bg-blue-600 {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        /* Sidebar Footer */
+        html[data-theme="light"] #appSidebar .bg-slate-950\/60,
+        body.theme-emerald #appSidebar .bg-slate-950\/60 {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #64748b !important;
+        }
+
+        /* Top Header Bar */
+        html[data-theme="light"] #topHeaderBar,
+        body.theme-emerald #topHeaderBar {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+        }
+
+        html[data-theme="light"] #topHeaderBar h1,
+        body.theme-emerald #topHeaderBar h1 {
+            color: #0f172a !important;
+        }
+
+        /* Scale Preset Dropdown & Buttons in Header */
+        html[data-theme="light"] #topHeaderBar .bg-slate-900\/90,
+        body.theme-emerald #topHeaderBar .bg-slate-900\/90 {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #scalePresetSelect,
+        body.theme-emerald #scalePresetSelect {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #btnExportMenu,
+        html[data-theme="light"] #btnAdminLoginHeader,
+        html[data-theme="light"] #btnLogoutHeader,
+        body.theme-emerald #btnExportMenu,
+        body.theme-emerald #btnAdminLoginHeader,
+        body.theme-emerald #btnLogoutHeader {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+
+        html[data-theme="light"] #btnLockSessionHeader,
+        body.theme-emerald #btnLockSessionHeader {
+            background-color: #fff1f2 !important;
+            border-color: #fecdd3 !important;
+            color: #e11d48 !important;
+        }
+
+        html[data-theme="light"] #exportMenuDropdown,
+        body.theme-emerald #exportMenuDropdown {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Status Ribbon */
+        html[data-theme="light"] #statusRibbon > div,
+        body.theme-emerald #statusRibbon > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        html[data-theme="light"] #statusRibbon .text-slate-400,
+        body.theme-emerald #statusRibbon .text-slate-400 {
+            color: #64748b !important;
+        }
+
+        html[data-theme="light"] #statusRibbon .text-slate-100,
+        body.theme-emerald #statusRibbon .text-slate-100 {
+            color: #0f172a !important;
+            font-weight: 700 !important;
+        }
+
+        /* Cards & Form Controls */
+        html[data-theme="light"] #dashboardAppShell .bg-slate-900,
+        body.theme-emerald #dashboardAppShell .bg-slate-900 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell .bg-slate-950,
+        body.theme-emerald #dashboardAppShell .bg-slate-950 {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Scale Pan Top View (5 Target Positions) */
+        html[data-theme="light"] #tab-f3 .w-80.h-80,
+        body.theme-emerald #tab-f3 .w-80.h-80 {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        html[data-theme="light"] #btnPosFL,
+        html[data-theme="light"] #btnPosFR,
+        html[data-theme="light"] #btnPosBL,
+        html[data-theme="light"] #btnPosBR,
+        body.theme-emerald #btnPosFL,
+        body.theme-emerald #btnPosFR,
+        body.theme-emerald #btnPosBL,
+        body.theme-emerald #btnPosBR {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        html[data-theme="light"] #btnPosFL:hover,
+        html[data-theme="light"] #btnPosFR:hover,
+        html[data-theme="light"] #btnPosBL:hover,
+        html[data-theme="light"] #btnPosBR:hover,
+        body.theme-emerald #btnPosFL:hover,
+        body.theme-emerald #btnPosFR:hover,
+        body.theme-emerald #btnPosBL:hover,
+        body.theme-emerald #btnPosBR:hover {
+            background-color: #f1f5f9 !important;
+        }
+
+        html[data-theme="light"] #btnPosCenter,
+        body.theme-emerald #btnPosCenter {
+            background-color: #eff6ff !important;
+            border-color: #3b82f6 !important;
+            color: #1d4ed8 !important;
+        }
+
+        html[data-theme="light"] #labelPosFL,
+        html[data-theme="light"] #labelPosFR,
+        html[data-theme="light"] #labelPosBL,
+        html[data-theme="light"] #labelPosBR,
+        body.theme-emerald #labelPosFL,
+        body.theme-emerald #labelPosFR,
+        body.theme-emerald #labelPosBL,
+        body.theme-emerald #labelPosBR {
+            color: #64748b !important;
+        }
+
+        html[data-theme="light"] #labelPosCenter,
+        body.theme-emerald #labelPosCenter {
+            color: #2563eb !important;
+        }
+
+        /* Inputs in Dashboard */
+        html[data-theme="light"] #dashboardAppShell input,
+        html[data-theme="light"] #dashboardAppShell select,
+        html[data-theme="light"] #dashboardAppShell textarea,
+        body.theme-emerald #dashboardAppShell input,
+        body.theme-emerald #dashboardAppShell select,
+        body.theme-emerald #dashboardAppShell textarea {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell input:disabled,
+        body.theme-emerald #dashboardAppShell input:disabled {
+            background-color: #f1f5f9 !important;
+            color: #64748b !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell label,
+        body.theme-emerald #dashboardAppShell label {
+            color: #334155 !important;
+            font-weight: 600 !important;
+        }
+
+        /* ALL DASHBOARD DATA TABLES IN LIGHT MODE */
+        html[data-theme="light"] #dashboardAppShell table,
+        body.theme-emerald #dashboardAppShell table {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table thead,
+        html[data-theme="light"] #dashboardAppShell table thead tr,
+        html[data-theme="light"] #dashboardAppShell table thead tr th,
+        html[data-theme="light"] #dashboardAppShell table th,
+        body.theme-emerald #dashboardAppShell table thead,
+        body.theme-emerald #dashboardAppShell table thead tr,
+        body.theme-emerald #dashboardAppShell table thead tr th,
+        body.theme-emerald #dashboardAppShell table th {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            font-weight: 700 !important;
+            border-bottom: 2px solid #cbd5e1 !important;
+            border-color: #cbd5e1 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table tbody tr,
+        body.theme-emerald #dashboardAppShell table tbody tr {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            color: #1e293b !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table tbody tr:nth-child(even),
+        body.theme-emerald #dashboardAppShell table tbody tr:nth-child(even) {
+            background-color: #f8fafc !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table tbody tr:hover,
+        body.theme-emerald #dashboardAppShell table tbody tr:hover {
+            background-color: #eff6ff !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table td,
+        body.theme-emerald #dashboardAppShell table td {
+            color: #1e293b !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell table .italic,
+        html[data-theme="light"] #dashboardAppShell table td.italic,
+        html[data-theme="light"] #dashboardAppShell table td[colspan],
+        body.theme-emerald #dashboardAppShell table .italic,
+        body.theme-emerald #dashboardAppShell table td.italic,
+        body.theme-emerald #dashboardAppShell table td[colspan] {
+            color: #475569 !important;
+            font-style: italic !important;
+            font-weight: 500 !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell .text-slate-200,
+        html[data-theme="light"] #dashboardAppShell .text-slate-100,
+        html[data-theme="light"] #dashboardAppShell h3,
+        html[data-theme="light"] #dashboardAppShell h4,
+        body.theme-emerald #dashboardAppShell .text-slate-200,
+        body.theme-emerald #dashboardAppShell .text-slate-100,
+        body.theme-emerald #dashboardAppShell h3,
+        body.theme-emerald #dashboardAppShell h4 {
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell .text-slate-300,
+        body.theme-emerald #dashboardAppShell .text-slate-300 {
+            color: #1e293b !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell .text-slate-400,
+        body.theme-emerald #dashboardAppShell .text-slate-400 {
+            color: #475569 !important;
+        }
+
+        html[data-theme="light"] #dashboardAppShell .text-slate-500,
+        body.theme-emerald #dashboardAppShell .text-slate-500 {
+            color: #64748b !important;
+        }
+
+
+        html[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]),
+        html[data-theme="light"] select,
+        body.theme-emerald input:not([type="checkbox"]):not([type="radio"]),
+        body.theme-emerald select {
+            background-color: var(--surface-card) !important;
+            color: var(--text-primary) !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-subtle {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .telemetry-glow-cyan {
+            box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.25);
+        }
+
+        .telemetry-glow-emerald {
+            box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.25);
+        }
+
+        @keyframes continuousMarqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-track-container {
+            mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+        }
+
+        .marquee-track-content {
+            display: inline-flex;
+            white-space: nowrap;
+            width: max-content;
+            animation: continuousMarqueeScroll 42s linear infinite;
+        }
+
+        .marquee-track-content:hover,
+        .marquee-track-content.paused {
+            animation-play-state: paused !important;
+        }
+    
+        /* Complete Light Mode Overhaul for Top Masthead & Text Readability */
+        html[data-theme="light"] #topGovCombinedHeader,
+        body.theme-emerald #topGovCombinedHeader {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader > div:first-child,
+        body.theme-emerald #topGovCombinedHeader > div:first-child {
+            background: linear-gradient(to right, #f8fafc, #ffffff, #f8fafc) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader h1,
+        body.theme-emerald #topGovCombinedHeader h1 {
+            color: #0f172a !important;
+            background: none !important;
+            -webkit-text-fill-color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .text-slate-200,
+        html[data-theme="light"] #topGovCombinedHeader .text-slate-100,
+        body.theme-emerald #topGovCombinedHeader .text-slate-200,
+        body.theme-emerald #topGovCombinedHeader .text-slate-100 {
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .text-slate-300,
+        html[data-theme="light"] #topGovCombinedHeader .text-slate-400,
+        body.theme-emerald #topGovCombinedHeader .text-slate-300,
+        body.theme-emerald #topGovCombinedHeader .text-slate-400 {
+            color: #475569 !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .text-cyan-300,
+        html[data-theme="light"] #topGovCombinedHeader .text-cyan-400,
+        body.theme-emerald #topGovCombinedHeader .text-cyan-300,
+        body.theme-emerald #topGovCombinedHeader .text-cyan-400 {
+            color: #0284c7 !important;
+        }
+
+        html[data-theme="light"] #mastheadRightFlank,
+        body.theme-emerald #mastheadRightFlank {
+            display: flex !important;
+            visibility: visible !important;
+        }
+
+        html[data-theme="light"] #mastheadRightFlank .bg-slate-950\/80,
+        body.theme-emerald #mastheadRightFlank .bg-slate-950\/80 {
+            background-color: #ecfeff !important;
+            border-color: #a5f3fc !important;
+            color: #0e7490 !important;
+        }
+
+        html[data-theme="light"] #mastheadRightFlank .masthead-flank-title,
+        body.theme-emerald #mastheadRightFlank .masthead-flank-title {
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] #mastheadRightFlank .masthead-flank-sub,
+        body.theme-emerald #mastheadRightFlank .masthead-flank-sub {
+            color: #0284c7 !important;
+        }
+
+        html[data-theme="light"] #mastheadRightFlank .masthead-flank-bench,
+        body.theme-emerald #mastheadRightFlank .masthead-flank-bench {
+            color: #64748b !important;
+        }
+
+        /* Part 2: Sub-Nav Strip in Light Mode */
+        html[data-theme="light"] #topGovCombinedHeader .bg-slate-950\/90,
+        body.theme-emerald #topGovCombinedHeader .bg-slate-950\/90 {
+            background-color: #f1f5f9 !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .bg-emerald-950\/60,
+        body.theme-emerald #topGovCombinedHeader .bg-emerald-950\/60 {
+            background-color: #dcfce7 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+        }
+
+        /* Part 3: Live Telemetry 4 Cards in Light Mode */
+        html[data-theme="light"] #topGovCombinedHeader .grid.grid-cols-2,
+        body.theme-emerald #topGovCombinedHeader .grid.grid-cols-2 {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .grid.grid-cols-2 > div,
+        body.theme-emerald #topGovCombinedHeader .grid.grid-cols-2 > div {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme="light"] #topGovCombinedHeader .grid.grid-cols-2 > div:hover,
+        body.theme-emerald #topGovCombinedHeader .grid.grid-cols-2 > div:hover {
+            background-color: #f8fafc !important;
+        }
+
+        html[data-theme="light"] #heroStatVerified,
+        body.theme-emerald #heroStatVerified {
+            color: #0f172a !important;
+        }
+
+        /* National Emblem Inversion in Light Mode */
+        html[data-theme="light"] img[src*="emblem_of_india_white.png"],
+        body.theme-emerald img[src*="emblem_of_india_white.png"] {
+            filter: invert(1) brightness(0.2) contrast(1.2) !important;
+        }
+
+        /* WHAT IS PRECISIONX in Light Mode (Warm Beige Background & High Contrast Navy / Charcoal Text) */
+        #whatIsPrecisionXSection {
+            background-color: var(--surface-card);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+        #whatIsPrecisionXSection h2 {
+            color: var(--text-primary);
+        }
+        #whatIsPrecisionXSection p {
+            color: var(--text-secondary);
+        }
+
+        html[data-theme="light"] #whatIsPrecisionXSection,
+        body.theme-emerald #whatIsPrecisionXSection {
+            background-color: #faf8f5 !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+        html[data-theme="light"] #whatIsPrecisionXSection h2,
+        body.theme-emerald #whatIsPrecisionXSection h2 {
+            color: #0c2340 !important;
+        }
+        html[data-theme="light"] #whatIsPrecisionXSection p,
+        body.theme-emerald #whatIsPrecisionXSection p {
+            color: #1e293b !important;
+        }
+
+        /* Safeguard Milestones Banner Text in Light Mode (Always Deep Navy with Crisp White Text) */
+        html[data-theme="light"] #precisionxMilestonesBanner h2,
+        html[data-theme="light"] #precisionxMilestonesBanner .text-white,
+        body.theme-emerald #precisionxMilestonesBanner h2,
+        body.theme-emerald #precisionxMilestonesBanner .text-white {
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-slate-200,
+        body.theme-emerald #precisionxMilestonesBanner .text-slate-200 {
+            color: #e2e8f0 !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-cyan-300,
+        body.theme-emerald #precisionxMilestonesBanner .text-cyan-300 {
+            color: #67e8f9 !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-blue-300,
+        body.theme-emerald #precisionxMilestonesBanner .text-blue-300 {
+            color: #93c5fd !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-emerald-300,
+        body.theme-emerald #precisionxMilestonesBanner .text-emerald-300 {
+            color: #6ee7b7 !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-rose-300,
+        body.theme-emerald #precisionxMilestonesBanner .text-rose-300 {
+            color: #fda4af !important;
+        }
+        html[data-theme="light"] #precisionxMilestonesBanner .text-indigo-300,
+        body.theme-emerald #precisionxMilestonesBanner .text-indigo-300 {
+            color: #a5b4fc !important;
+        }
+
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- ================= 1. HEADER & LIVE STATUS BAR ================= -->
+    <header class="w-full border-b border-slate-800/80 bg-slate-950/95 sticky top-0 z-50 backdrop-blur-xl">
+        <!-- Top Sovereign Ministry Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <!-- Brand & Government Crest -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/80 p-1 flex items-center justify-center shadow-lg relative shrink-0">
+                    <svg class="w-8 h-8 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-9-6l9-6 9 6m-9-6v18M3 15l4 4m14-4l-4 4" />
+                    </svg>
+                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-950 flex items-center justify-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                    </span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800/60">SIH26035</span>
+                        <span class="text-xs font-semibold text-slate-400 hidden sm:inline">भारत सरकार • उपभोक्ता मामले मंत्रालय</span>
+                    </div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-white tracking-tight flex items-center gap-2">
+                        <span>Legal Metrology Division</span>
+                        <span class="text-xs font-medium text-slate-400 font-mono hidden md:inline">• National NAWI Sovereign Portal</span>
+                    </h1>
+                </div>
+
+                </div>
+
+            <!-- Right Controls: Telemetry Clock, Language & Fullscreen -->
+            <div class="flex items-center gap-2.5 text-xs font-mono shrink-0">
+                <!-- Telemetry Sync Pill -->
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/50 border border-emerald-800/60 text-emerald-300 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-[11px] font-bold tracking-wide">LIVE TELEMETRY SERVER</span>
+                    <span class="text-emerald-700">&bull;</span>
+                    <span id="liveClock" class="text-[11px] text-emerald-200">SYNCED</span>
+                </div>
+
+                <!-- Language Toggle -->
+                <button type="button" onclick="toggleLanguage()" class="px-2.5 py-1.5 rounded-xl glass-panel hover:bg-slate-800/80 text-slate-300 hover:text-cyan-300 transition text-[11px] font-semibold flex items-center gap-1.5 cursor-pointer" title="Toggle Language">
+                    <span>🌐</span>
+                    <span id="langLabel">हिंदी</span>
+                </button>
+
+                <!-- Theme Palette Picker Trigger -->
+                <div class="relative">
+                    <button type="button" id="headerThemePickerBtn" onclick="toggleThemeColorPicker(event)" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl glass-panel hover:bg-slate-800/80 text-slate-300 hover:text-white transition text-[11px] font-semibold cursor-pointer shadow-sm" title="Pick a theme color">
+                        <span class="w-3.5 h-3.5 rounded-full overflow-hidden inline-flex border border-white/20 shadow-xs shrink-0" id="headerCurrentThemePreview"></span>
+                        <span>Theme</span>
+                        <span class="text-[9px] text-slate-400">▾</span>
+                    </button>
+                </div>
+
+                <!-- 3-Mode Theme Selector Pill (Light/Dark/System) -->
+                <div class="flex items-center gap-0.5 p-0.5 rounded-lg border border-white/10" style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px);">
+                    <button type="button" onclick="setThemeMode('light')" id="theme-btn-light" title="Light Mode" class="px-1.5 py-0.5 rounded text-[10px] text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer">☀️</button>
+                    <button type="button" onclick="setThemeMode('dark')" id="theme-btn-dark" title="Dark Mode" class="px-1.5 py-0.5 rounded text-[10px] text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer">🌙</button>
+                    <button type="button" onclick="setThemeMode('system')" id="theme-btn-system" title="System Theme (Follow OS)" class="px-1.5 py-0.5 rounded text-[10px] bg-blue-600 text-white font-semibold transition cursor-pointer shadow-xs">💻</button>
+                </div>
+
+                <!-- Fullscreen Toggle -->
+                <button type="button" onclick="toggleFullscreen()" class="px-2.5 py-1.5 rounded-xl glass-panel hover:bg-slate-800/80 text-slate-300 hover:text-white transition text-[11px] flex items-center gap-1 cursor-pointer" title="Toggle Fullscreen">
+                    <span>⛶</span>
+                    <span class="hidden md:inline">Fullscreen</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= OFFICIAL WAREHOUSE & MANDI HERO BANNER + WHAT'S NEW TICKER (GOV OF INDIA) ================= -->
+    <div id="ministryNoticeTickerContainer" class="w-full border-b border-slate-800 shadow-2xl overflow-hidden" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+        
+        <!-- Part A: Official SIH & Legal Metrology Ad Banner Carousel (Matched from Screenshots) -->
+                <div id="ministryWarehouseHeroBanner" class="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden select-none bg-slate-950 flex items-center justify-between border-b border-slate-800/80 group" onmouseenter="pauseAdSlideAutoPlay()" onmouseleave="resumeAdSlideAutoPlay()">
+                    <!-- Banner Slide Image Container -->
+                    <div id="adSlidesTrack" class="relative w-full h-full">
+                        <img id="warehouseBannerImg" src="/icons/ad_slide_1.png" alt="Smart India Hackathon 2026 • Legal Metrology Sovereign Portal" class="w-full h-full object-cover object-center transition-all duration-300 ease-in-out select-none" style="filter: brightness(0.98);">
+                    </div>
+                    
+                    <!-- Hidden reference for backward compatibility with existing tests -->
+                    <span class="hidden" data-asset="/icons/warehouse_banner.png" aria-hidden="true">warehouse_banner.png</span>
+
+                    <!-- Subtle Dark Gradient Scrim to guarantee high-contrast legibility -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/20 pointer-events-none"></div>
+
+                    <!-- Left Navigation Arrow (Working Clickable Button matching Screenshot 10-57-52) -->
+                    <button type="button" onclick="showPrevWarehouseSlide()" aria-label="Previous Slide" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-14 sm:w-11 sm:h-16 rounded-md bg-black/75 hover:bg-black/90 active:scale-95 text-white flex items-center justify-center transition border border-white/20 shadow-2xl cursor-pointer" title="Previous Slide">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+
+                    <!-- Right Navigation Arrow (Working Clickable Button matching Screenshot 10-57-52) -->
+                    <button type="button" onclick="showNextWarehouseSlide()" aria-label="Next Slide" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-14 sm:w-11 sm:h-16 rounded-md bg-black/75 hover:bg-black/90 active:scale-95 text-white flex items-center justify-center transition border border-white/20 shadow-2xl cursor-pointer" title="Next Slide">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+
+                    <!-- Bottom-Left: Interactive Highlighted "For Video Click Here" Button (Matching Yellow Box in Screenshot) -->
+                    <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-6 z-20">
+                        <button type="button" onclick="openVideoDemoModal()" class="group flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-bold text-amber-300 hover:text-white transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md" style="background: rgba(26, 32, 44, 0.88); border: 2px solid #eab308; box-shadow: 0 0 16px rgba(234, 179, 8, 0.4);">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 group-hover:bg-amber-300 animate-ping"></span>
+                            <span>For Video Click Here</span>
+                            <span class="text-amber-400 group-hover:translate-x-1 transition-transform">▶</span>
+                        </button>
+                    </div>
+
+                    <!-- Bottom-Center: Carousel Navigation Dots & Counter Indicator -->
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/20" style="background: rgba(15, 23, 42, 0.8);">
+                        <button type="button" onclick="setAdSlide(0)" id="adSlideDot-0" class="w-6 h-2 rounded-full bg-amber-400 transition-all cursor-pointer" title="Slide 1"></button>
+                        <button type="button" onclick="setAdSlide(1)" id="adSlideDot-1" class="w-2 h-2 rounded-full bg-white/40 hover:bg-white/80 transition-all cursor-pointer" title="Slide 2"></button>
+                        <button type="button" onclick="setAdSlide(2)" id="adSlideDot-2" class="w-2 h-2 rounded-full bg-white/40 hover:bg-white/80 transition-all cursor-pointer" title="Slide 3"></button>
+                        <button type="button" onclick="setAdSlide(3)" id="adSlideDot-3" class="w-2 h-2 rounded-full bg-white/40 hover:bg-white/80 transition-all cursor-pointer" title="Slide 4"></button>
+                        <div class="h-3 w-px bg-white/20 mx-1"></div>
+                        <span id="adSlideCounter" class="text-[10px] text-amber-300 font-mono font-bold">1 / 4</span>
+                        <button type="button" onclick="toggleWarehouseBannerPause()" id="btnWarehouseBannerPause" class="text-amber-300 hover:text-white px-1 text-[10px] font-mono cursor-pointer ml-1" title="Pause / Play Banner">❚❚</button>
+                    </div>
+                </div>
+
+                <!-- Part B: Official "What's New ⏸" Continuous Running Ticker Bar (Matched from Screenshot) -->
+        <div class="w-full flex items-stretch justify-between border-t border-slate-800" style="background: #1e2430; min-height: 44px;">
+            
+            <!-- Left Section: What's New Pill with Pause/Play Button (Yellow Outline in Screenshot) -->
+            <div class="shrink-0 flex items-center gap-2 px-3 sm:px-4 py-2 text-xs font-bold text-slate-100 z-10" style="background: #181d27; border-right: 1.5px solid #ca8a04; border-top: 1.5px solid #ca8a04; border-bottom: 1.5px solid #ca8a04;">
+                <span class="tracking-wide whitespace-nowrap text-amber-300 flex items-center gap-1.5">
+                    <span>What's New</span>
+                </span>
+                <button type="button" id="btnToggleTickerPause" onclick="toggleNoticePause(event)" title="Pause / Play Ticker Scroll" class="w-5 h-5 rounded flex items-center justify-center text-amber-400 hover:text-white hover:bg-amber-400/20 text-[11px] font-mono transition cursor-pointer">
+                    <span id="tickerPauseIcon">❚❚</span>
+                </button>
+            </div>
+
+            <!-- Middle Section: Continuous Smooth Running Marquee (Yellow Box in Screenshot) -->
+            <div class="flex-1 overflow-hidden relative marquee-track-container mx-2 flex items-center" onmouseenter="pauseMarquee()" onmouseleave="resumeMarquee()">
+                <div class="marquee-track-content text-xs font-medium text-amber-200 py-1.5">
+                    <!-- Loop items 1 to 5 -->
+                    <div class="inline-flex items-center gap-6 pr-6">
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(0)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Imposition of sugar mill wise stock holding limit order for the month of October, 2026 Second fortnight (Dated : 13/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-red-950/90 text-red-300 border border-red-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Language: English, Size: 11.1MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(1)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Amendment in Imposition of Stock holding limit on Dealers and Traders under Essential Commodities Act (Dated : 18/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-red-950/90 text-red-300 border border-red-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Language: Hindi & English, Size: 4.8MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(2)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>OIML R-76 Statutory Directive: Mandatory Digital Verification QR-Code Sealing for Class III Scales in Mandis (Dated : 21/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-cyan-950/90 text-cyan-300 border border-cyan-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 2.4MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(3)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>National Metrology Conclave: CSIR-NPL & RRSL Atomic IST Time Traceability Verification Guidelines (Dated : 22/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-950/90 text-emerald-300 border border-emerald-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 3.1MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(4)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Promoting Growth of Scientific Warehousing & Electronic Negotiable Warehousing Receipts (eNWR) (Dated : 15/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-950/90 text-indigo-300 border border-indigo-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 1.8MB)</span>
+                        </a>
+                    </div>
+                    <!-- Duplicate for infinite seamless scroll -->
+                    <div class="inline-flex items-center gap-6 pr-6">
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(0)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Imposition of sugar mill wise stock holding limit order for the month of October, 2026 Second fortnight (Dated : 13/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-red-950/90 text-red-300 border border-red-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Language: English, Size: 11.1MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(1)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Amendment in Imposition of Stock holding limit on Dealers and Traders under Essential Commodities Act (Dated : 18/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-red-950/90 text-red-300 border border-red-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Language: Hindi & English, Size: 4.8MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(2)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>OIML R-76 Statutory Directive: Mandatory Digital Verification QR-Code Sealing for Class III Scales in Mandis (Dated : 21/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-cyan-950/90 text-cyan-300 border border-cyan-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 2.4MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(3)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>National Metrology Conclave: CSIR-NPL & RRSL Atomic IST Time Traceability Verification Guidelines (Dated : 22/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-950/90 text-emerald-300 border border-emerald-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 3.1MB)</span>
+                        </a>
+                        <span class="text-amber-400">🔔</span>
+                        <a href="javascript:void(0)" onclick="openAllNoticesModal(4)" class="hover:underline flex items-center gap-2 text-slate-100 hover:text-amber-300">
+                            <span>Promoting Growth of Scientific Warehousing & Electronic Negotiable Warehousing Receipts (eNWR) (Dated : 15/10/2026)</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-950/90 text-indigo-300 border border-indigo-700/60 font-mono font-bold whitespace-nowrap">📄 (Format: PDF, Size: 1.8MB)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section: View All Pill (Right Edge Yellow Highlight in Screenshot) -->
+            <div class="shrink-0 flex items-center px-3 sm:px-4 py-2 text-xs font-bold z-10" style="background: #181d27; border-left: 1.5px solid #ca8a04; border-top: 1.5px solid #ca8a04; border-bottom: 1.5px solid #ca8a04;">
+                <button type="button" onclick="openAllNoticesModal()" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-white border border-amber-500/40 text-[11px] font-bold tracking-wide transition flex items-center gap-1 cursor-pointer">
+                    <span>View All</span>
+                    <span class="text-xs">»</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 2. HERO METRICS & STATISTICS GRID ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Live Stat Cards (Gap: 4, 4 Columns) -->
+        <section aria-label="National Telemetry Statistics">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Card 1: Total Verified -->
+                <div class="glass-panel rounded-2xl p-5 hover:border-cyan-500/40 transition-all duration-300 telemetry-glow-cyan relative overflow-hidden group">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-colors"></div>
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-medium mb-2">
+                        <span class="uppercase tracking-wider">Instruments Verified</span>
+                        <span class="text-cyan-400 text-base">⚖️</span>
+                    </div>
+                    <div class="flex items-baseline gap-2.5">
+                        <span class="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">18,508</span>
+                        <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">+48 Today</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                        <span>Stamping Certificates Active</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Active Inspectors -->
+                <div class="glass-panel rounded-2xl p-5 hover:border-slate-700 transition-all duration-300 relative overflow-hidden group">
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-medium mb-2">
+                        <span class="uppercase tracking-wider">Active Field Officers</span>
+                        <span class="text-blue-400 text-base">👮</span>
+                    </div>
+                    <div class="flex items-baseline gap-2.5">
+                        <span class="text-2xl sm:text-3xl font-extrabold text-cyan-300 font-mono tracking-tight">142</span>
+                        <span class="text-[10px] font-bold text-blue-300 bg-blue-950/80 px-2 py-0.5 rounded-full border border-blue-800">36 States/UTs</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                        <span>On-Duty Legal Metrology Bench</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Compliance Rate -->
+                <div class="glass-panel rounded-2xl p-5 hover:border-emerald-500/40 transition-all duration-300 telemetry-glow-emerald relative overflow-hidden group">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-colors"></div>
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-medium mb-2">
+                        <span class="uppercase tracking-wider">Real-Time Compliance</span>
+                        <span class="text-emerald-400 text-base">📈</span>
+                    </div>
+                    <div class="flex items-baseline gap-2.5">
+                        <span class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono tracking-tight">98.4%</span>
+                        <span class="text-[10px] font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">Table 6 MPE</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        <span>Statutory OIML Tolerances Met</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Flagged Violations -->
+                <div class="glass-panel rounded-2xl p-5 hover:border-rose-500/40 transition-all duration-300 relative overflow-hidden group">
+                    <div class="flex items-center justify-between text-xs text-slate-400 font-medium mb-2">
+                        <span class="uppercase tracking-wider">Flagged & Seized</span>
+                        <span class="text-rose-400 text-base">🚨</span>
+                    </div>
+                    <div class="flex items-baseline gap-2.5">
+                        <span class="text-2xl sm:text-3xl font-extrabold text-rose-400 font-mono tracking-tight">313</span>
+                        <span class="text-[10px] font-bold text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-800">19 Seized</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-2 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                        <span>Tampered Wire Seals Prevented</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= 3. MAIN AUTHENTICATION & ACCESS GATE ================= -->
+        <section aria-label="Sovereign Authentication Gate" class="flex justify-center">
+            <div id="inspectorAuthCard" class="w-full max-w-2xl glass-panel shadow-2xl relative border" style="background: var(--surface-card); backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+                
+                <!-- Gate Heading & Subheading -->
+                <div class="text-center space-y-2 mb-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-700/80 text-cyan-300 text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span>OFFICIAL SOVEREIGN ACCESS GATE</span>
+                    </div>
+                    <h2 id="gateTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                        Inspector Sovereign Sign-In
+                    </h2>
+                    <p id="gateSubtitle" class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+                        Authenticate using statutory Officer ID, Departmental Email, and Passphrase to unlock the R-76 metrology workbench.
+                    </p>
+                </div>
+
+                <!-- Role Selector Tabs: Inspector, Verified Citizen, Trader/Mandi -->
+                <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-950/90 rounded-xl border border-slate-800 mb-6">
+                    <button type="button" onclick="setRole('INSPECTOR')" id="tabBtn-INSPECTOR" class="role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow-md">
+                        <span>⚖️</span>
+                        <span class="truncate">Inspector / Officer</span>
+                    </button>
+                    <button type="button" onclick="setRole('CITIZEN')" id="tabBtn-CITIZEN" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60">
+                        <span>👤</span>
+                        <span class="truncate">Verified Citizen</span>
+                    </button>
+                    <button type="button" onclick="setRole('TRADER')" id="tabBtn-TRADER" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60">
+                        <span>🏪</span>
+                        <span class="truncate">Trader / Mandi</span>
+                    </button>
+                </div>
+
+                <!-- ================= TAB 1: INSPECTOR / OFFICER FORM ================= -->
+                <form id="form-INSPECTOR" onsubmit="handleAuthSubmit(event, 'INSPECTOR')" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="inspectorEmail">Official Departmental Email</label>
+                        <input id="inspectorEmail" type="email" required value="inspector@metrology.gov.in" placeholder="officer@metrology.gov.in" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="inspectorOid">Officer ID (OID)</label>
+                            <input id="inspectorOid" type="text" required value="GOV-IN-7842" placeholder="e.g. GOV-IN-7842" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="inspectorPass">Statutory Passphrase</label>
+                            <div class="relative flex items-center">
+                                <input id="inspectorPass" type="password" required value="PrecisionX#2026" placeholder="Enter secure passphrase" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-3.5 pr-10 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono">
+                                <button type="button" onclick="togglePasswordVisibility('inspectorPass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 p-1 text-xs">
+                                    👁️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Standards Bench Selector Dropdown -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="benchSelector">Jurisdictional Reference Standards Bench (RRSL)</label>
+                        <select id="benchSelector" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono">
+                            <option value="faridabad">RRSL Northern Regional Bench — Faridabad (Apex National)</option>
+                            <option value="bengaluru">RRSL Southern Regional Bench — Bengaluru</option>
+                            <option value="ahmedabad">RRSL Western Regional Bench — Ahmedabad</option>
+                            <option value="bhubaneswar">RRSL Eastern Regional Bench — Bhubaneswar</option>
+                            <option value="guwahati">RRSL North-Eastern Regional Bench — Guwahati</option>
+                            <option value="state_mobile">State Legal Metrology Mobile Flying Squad (Field Air-Gap)</option>
+                        </select>
+                    </div>
+
+                    <!-- Hardware Token / TOTP 2FA Verification Checkbox -->
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs">
+                        <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                            <input type="checkbox" id="chkTotpToken" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-cyan-500/30">
+                            <span class="text-slate-300 font-medium">Enforce FIDO2 / Hardware Security Token (TOTP RFC 6238)</span>
+                        </label>
+                        <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">ENFORCED</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-600 via-cyan-500 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg hover:shadow-cyan-500/20 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <span>🛡️</span>
+                        <span>Authorize Sovereign Session</span>
+                        <span>→</span>
+                    </button>
+                </form>
+
+                <!-- ================= TAB 2: VERIFIED CITIZEN FORM ================= -->
+                <form id="form-CITIZEN" onsubmit="handleAuthSubmit(event, 'CITIZEN')" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="citizenName">Full Name (as per Aadhaar)</label>
+                        <input id="citizenName" type="text" required value="Ramesh Sharma" placeholder="Full Name" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="citizenAadhaar">12-Digit Aadhaar UID</label>
+                            <input id="citizenAadhaar" type="text" maxlength="14" required value="5489-2104-7832" placeholder="XXXX-XXXX-XXXX" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="citizenPhone">Registered Mobile (OTP)</label>
+                            <input id="citizenPhone" type="tel" maxlength="10" required value="9876543210" placeholder="10-digit mobile" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/60 text-xs text-emerald-300 flex items-center justify-between">
+                        <span>Direct Verification under Section 15 of Legal Metrology Act, 2009</span>
+                        <span class="text-[10px] font-mono bg-emerald-950 px-2 py-0.5 rounded border border-emerald-700">PUBLIC GATEWAY</span>
+                    </div>
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <span>🔍</span>
+                        <span>Verify Certificate & Scale Compliance</span>
+                        <span>→</span>
+                    </button>
+                </form>
+
+                <!-- ================= TAB 3: TRADER / MANDI FORM ================= -->
+                <form id="form-TRADER" onsubmit="handleAuthSubmit(event, 'TRADER')" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="traderFirm">Registered Commercial Enterprise / Mandi Trade Name</label>
+                        <input id="traderFirm" type="text" required value="Patel Grain & Oil Mandi Trading Co." placeholder="e.g. APMC Mandi Stall No." class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="traderAadhaar">Proprietor Aadhaar / GSTIN</label>
+                            <input id="traderAadhaar" type="text" required value="4210-9876-1234" placeholder="UID / GSTIN" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5" for="traderPincode">Mandi APMC Pin Code</label>
+                            <input id="traderPincode" type="text" maxlength="6" required value="400705" placeholder="6-digit pincode" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono">
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-amber-950/40 border border-amber-800/60 text-xs text-amber-300 flex items-center justify-between">
+                        <span>Check Weighing Scale Stamping Validity & Rule 27 Re-Verification Dates</span>
+                        <span class="text-[10px] font-mono bg-amber-950 px-2 py-0.5 rounded border border-amber-700">MANDI ACCESS</span>
+                    </div>
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold text-sm tracking-wide shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <span>🏪</span>
+                        <span>Access Trader Stamping Dossier</span>
+                        <span>→</span>
+                    </button>
+                </form>
+
+                <!-- Feedback Message -->
+                <div id="authFeedback" class="mt-4 hidden p-3 rounded-xl text-xs font-mono"></div>
+
+            </div>
+        </section>
+
+        <!-- ================= 4. ENFORCEMENT ANOMALY DENSITY & RISK HEATMAP ================= -->
+        <section aria-label="Regional Enforcement Anomaly Density & Risk Heatmap" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                        <span>Regional Enforcement Anomaly Density & Risk Heatmap</span>
+                    </h3>
+                    <p class="text-xs text-slate-400">AI-calculated fraud probability and scale tampering hot-zones across APMC Mandis & Commercial Hubs.</p>
+                </div>
+                <span class="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-400">
+                    Live Surveillance
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Zone 1: APMC Vashi -->
+                <div class="glass-panel rounded-2xl p-4 border border-rose-900/60 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">APMC Mandi Yard — Zone 1 (Vashi)</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">HIGH RISK • 88%</span>
+                    </div>
+                    <p class="text-xs text-slate-300">Frequent eccentricity deviation observed on 60kg bag platform scales. Wireless RF relay override suspect.</p>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                        <div class="bg-rose-500 h-full rounded-full" style="width: 88%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
+                        <span>Target: Class III Scales</span>
+                        <span class="text-rose-400 font-semibold">14 Seizures Pending</span>
+                    </div>
+                </div>
+
+                <!-- Zone 2: Azadpur Mandi -->
+                <div class="glass-panel rounded-2xl p-4 border border-amber-900/60 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">Azadpur Wholesale Mandi (Delhi)</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-bold">MEDIUM RISK • 54%</span>
+                    </div>
+                    <p class="text-xs text-slate-300">Repeatability test variance exceeds Table 6 limits during peak morning auction hours. Inspection camp scheduled.</p>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                        <div class="bg-amber-500 h-full rounded-full" style="width: 54%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
+                        <span>Target: Class III Bench Scales</span>
+                        <span class="text-amber-400 font-semibold">Verification Camp Live</span>
+                    </div>
+                </div>
+
+                <!-- Zone 3: Peenya Industrial -->
+                <div class="glass-panel rounded-2xl p-4 border border-emerald-900/60 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">Peenya Industrial Hub (Bengaluru)</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">LOW RISK • 9%</span>
+                    </div>
+                    <p class="text-xs text-slate-300">99.1% compliance with CSIR-NPLI mass standards. DCC XML exported with Ed25519 tamper-proof digital seals.</p>
+                    <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                        <div class="bg-emerald-500 h-full rounded-full" style="width: 9%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1">
+                        <span>Target: Class I & II Precision</span>
+                        <span class="text-emerald-400 font-semibold">100% Certified</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= 5. OIML ACCURACY CLASS COMPLIANCE OVERVIEW ================= -->
+        <section aria-label="OIML R-76 Accuracy Classes Compliance Breakdown" class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-white">OIML R-76 Statutory Accuracy Classes Performance</h3>
+                    <p class="text-xs text-slate-400">Breakdown of Table 6 MPE limits across verification tiers under Section 15 of Legal Metrology Act, 2009.</p>
+                </div>
+                <div class="text-xs font-mono text-slate-400">
+                    Threshold: <span class="text-emerald-400 font-bold">±0.5e to ±1.5e</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                
+                <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-cyan-300">Class I: Special</span>
+                        <span class="font-mono text-emerald-400 font-bold">99.8%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">Analytical & laboratory balances (d ≤ 1 mg)</p>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-cyan-400 h-full rounded-full" style="width: 99.8%"></div>
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-blue-300">Class II: High</span>
+                        <span class="font-mono text-emerald-400 font-bold">98.9%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">Jewellery & bullion scales (1 mg ≤ e ≤ 50 mg)</p>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-blue-400 h-full rounded-full" style="width: 98.9%"></div>
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-amber-300">Class III: Medium</span>
+                        <span class="font-mono text-emerald-400 font-bold">97.6%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">APMC Mandi & commercial retail (0.1 g ≤ e ≤ 2 g)</p>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-amber-400 h-full rounded-full" style="width: 97.6%"></div>
+                    </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-purple-300">Class IIII: Ordinary</span>
+                        <span class="font-mono text-emerald-400 font-bold">96.8%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">Industrial weighbridges & freight scales (e ≥ 5 g)</p>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-purple-400 h-full rounded-full" style="width: 96.8%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= 6. STATUTORY COMPLIANCE FOOTER ================= -->
+    <footer class="w-full border-t border-slate-800/80 bg-slate-950/95 py-6 mt-12 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-cyan-400 font-bold font-mono">PrecisionX SIH26035</span>
+                <span>•</span>
+                <span>The Legal Metrology Act, 2009 & OIML R-76 International Compliance</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] font-mono">
+                <span class="text-slate-500">Ministry of Consumer Affairs, Food & Public Distribution</span>
+                <span>•</span>
+                <span class="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>Air-Gap Ready</span>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= CLIENT JAVASCRIPT CONTROLLERS ================= -->
+    <script>
+        // ==========================================
+        // OFFICIAL GOVERNMENT MARQUEE TICKER & MODAL CONTROLLERS
+        // ==========================================
+        let isMarqueePaused = false;
+        let isWarehouseBannerPaused = false;
+
+        function toggleNoticePause(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            isMarqueePaused = !isMarqueePaused;
+            const track = document.querySelector('.marquee-track-content');
+            const icon = document.getElementById('tickerPauseIcon');
+            const btn = document.getElementById('btnToggleTickerPause');
+            if (track) {
+                if (isMarqueePaused) {
+                    track.classList.add('paused');
+                } else {
+                    track.classList.remove('paused');
+                }
+            }
+            if (icon) icon.textContent = isMarqueePaused ? "▶" : "❚❚";
+            if (btn) btn.title = isMarqueePaused ? "Resume Ticker Scroll" : "Pause Ticker Scroll";
+        }
+
+        function pauseMarquee() {
+            const track = document.querySelector('.marquee-track-content');
+            if (track) track.classList.add('paused');
+        }
+
+        function resumeMarquee() {
+            if (!isMarqueePaused) {
+                const track = document.querySelector('.marquee-track-content');
+                if (track) track.classList.remove('paused');
+            }
+        }
+
+        const adSlides = [
+            { src: "/icons/ad_slide_1.png", alt: "Warning: Avoid Fraudsters - Smart India Hackathon 2026" },
+            { src: "/icons/ad_slide_2.png", alt: "Deadline Extended - Team Nomination & Idea Submission" },
+            { src: "/icons/ad_slide_3.png", alt: "New Challenges Added - 20 Problem Statements" },
+            { src: "/icons/ad_slide_4.png", alt: "Today, the world recognises India's strength - Shri Narendra Modi" }
+        ];
+        let currentAdSlideIndex = 0;
+        let adSlideInterval = null;
+
+        function setAdSlide(index) {
+            currentAdSlideIndex = (index + adSlides.length) % adSlides.length;
+            const imgEl = document.getElementById("warehouseBannerImg");
+            if (imgEl) {
+                imgEl.style.opacity = '0';
+                setTimeout(() => {
+                    imgEl.src = adSlides[currentAdSlideIndex].src;
+                    imgEl.alt = adSlides[currentAdSlideIndex].alt;
+                    imgEl.style.opacity = '1';
+                }, 120);
+            }
+            for (let i = 0; i < adSlides.length; i++) {
+                const dot = document.getElementById(`adSlideDot-${i}`);
+                if (dot) {
+                    if (i === currentAdSlideIndex) {
+                        dot.className = "w-6 h-2 rounded-full bg-amber-400 transition-all cursor-pointer";
+                    } else {
+                        dot.className = "w-2 h-2 rounded-full bg-white/40 hover:bg-white/80 transition-all cursor-pointer";
+                    }
+                }
+            }
+            const counter = document.getElementById("adSlideCounter");
+            if (counter) counter.textContent = `${currentAdSlideIndex + 1} / ${adSlides.length}`;
+        }
+
+        function showPrevWarehouseSlide() {
+            setAdSlide(currentAdSlideIndex - 1);
+        }
+
+        function showNextWarehouseSlide() {
+            setAdSlide(currentAdSlideIndex + 1);
+        }
+
+        function toggleWarehouseBannerPause() {
+            isWarehouseBannerPaused = !isWarehouseBannerPaused;
+            const btn = document.getElementById('btnWarehouseBannerPause');
+            if (btn) btn.textContent = isWarehouseBannerPaused ? "▶" : "❚❚";
+            if (isWarehouseBannerPaused) {
+                if (adSlideInterval) clearInterval(adSlideInterval);
+                adSlideInterval = null;
+            } else {
+                startAdSlideAutoPlay();
+            }
+        }
+
+        function pauseAdSlideAutoPlay() {
+            if (!isWarehouseBannerPaused && adSlideInterval) {
+                clearInterval(adSlideInterval);
+                adSlideInterval = null;
+            }
+        }
+
+        function resumeAdSlideAutoPlay() {
+            if (!isWarehouseBannerPaused && !adSlideInterval) {
+                startAdSlideAutoPlay();
+            }
+        }
+
+        function startAdSlideAutoPlay() {
+            if (adSlideInterval) clearInterval(adSlideInterval);
+            adSlideInterval = setInterval(() => {
+                if (!isWarehouseBannerPaused) {
+                    showNextWarehouseSlide();
+                }
+            }, 5000);
+        }
+
+        startAdSlideAutoPlay();
+
+        function openAllNoticesModal(initialNoticeIndex = null) {
+            const modal = document.getElementById('allNoticesModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                if (initialNoticeIndex !== null) {
+                    highlightNoticeRow(initialNoticeIndex);
+                }
+            }
+        }
+
+        function closeAllNoticesModal() {
+            const modal = document.getElementById('allNoticesModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function highlightNoticeRow(idx) {
+            const rows = document.querySelectorAll('.notice-table-row');
+            rows.forEach((r, i) => {
+                if (i === idx) {
+                    r.classList.add('border-amber-400', 'bg-amber-950/40');
+                    setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+                } else {
+                    r.classList.remove('border-amber-400', 'bg-amber-950/40');
+                }
+            });
+        }
+
+        function filterNoticesTable(cat) {
+            const rows = document.querySelectorAll('.notice-table-row');
+            const btns = document.querySelectorAll('.notice-filter-btn');
+            btns.forEach(b => {
+                if (b.getAttribute('data-cat') === cat) {
+                    b.className = "notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-amber-500 text-slate-950 shadow-sm cursor-pointer";
+                } else {
+                    b.className = "notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 transition cursor-pointer";
+                }
+            });
+            rows.forEach(r => {
+                if (cat === 'all' || r.getAttribute('data-category') === cat) {
+                    r.style.display = '';
+                } else {
+                    r.style.display = 'none';
+                }
+            });
+        }
+
+        function searchNoticesTable(query) {
+            const q = (query || '').toLowerCase();
+            const rows = document.querySelectorAll('.notice-table-row');
+            rows.forEach(r => {
+                const text = r.textContent.toLowerCase();
+                r.style.display = text.includes(q) ? '' : 'none';
+            });
+        }
+
+        function openVideoDemoModal() {
+            const modal = document.getElementById('portalVideoDemoModal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeVideoDemoModal() {
+            const modal = document.getElementById('portalVideoDemoModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // 1. Live Clock Simulation (IST)
+        function updateClock() {
+            const clockEl = document.getElementById("liveClock");
+            if (!clockEl) return;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
+            clockEl.textContent = `${timeStr} IST`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 2. Multi-Role Switcher (Inspector, Citizen, Trader)
+        let activeRole = "INSPECTOR";
+        function setRole(role) {
+            activeRole = role;
+            const roles = ["INSPECTOR", "CITIZEN", "TRADER"];
+            roles.forEach(r => {
+                const btn = document.getElementById("tabBtn-" + r);
+                const form = document.getElementById("form-" + r);
+                if (r === role) {
+                    btn.className = "role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow-md";
+                    if (form) form.classList.remove("hidden");
+                } else {
+                    btn.className = "role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60";
+                    if (form) form.classList.add("hidden");
+                }
+            });
+
+            const title = document.getElementById("gateTitle");
+            const sub = document.getElementById("gateSubtitle");
+            const feedback = document.getElementById("authFeedback");
+            if (feedback) feedback.classList.add("hidden");
+
+            if (role === "INSPECTOR") {
+                title.textContent = "Inspector Sovereign Sign-In";
+                sub.textContent = "Authenticate using statutory Officer ID, Departmental Email, and Passphrase to unlock the R-76 metrology workbench.";
+            } else if (role === "CITIZEN") {
+                title.textContent = "Verified Citizen Identity Verification";
+                sub.textContent = "Authenticate with your 12-digit Aadhaar Number and Registered Mobile to check public scale stamping certificates.";
+            } else if (role === "TRADER") {
+                title.textContent = "Trader & Mandi Commercial Access";
+                sub.textContent = "Enter your APMC Mandi details and Aadhaar to review stamping validity and schedule mandatory re-verification.";
+            }
+        }
+
+        // 3. Password Visibility Toggle
+        function togglePasswordVisibility(inputId) {
+            const el = document.getElementById(inputId);
+            if (el) {
+                el.type = el.type === "password" ? "text" : "password";
+            }
+        }
+
+        // 4. Form Submit Handler & Visual Response
+        function handleAuthSubmit(e, role) {
+            e.preventDefault();
+            const feedback = document.getElementById("authFeedback");
+            if (!feedback) return;
+            
+            feedback.classList.remove("hidden");
+            feedback.className = "mt-4 p-3.5 rounded-xl text-xs font-mono bg-cyan-950/80 border border-cyan-700 text-cyan-200 flex items-center gap-2";
+            feedback.innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+                <span>Authenticating ${role} credentials against sovereign zero-trust database...</span>
+            `;
+
+            setTimeout(() => {
+                feedback.className = "mt-4 p-3.5 rounded-xl text-xs font-mono bg-emerald-950/90 border border-emerald-600 text-emerald-200 flex items-center justify-between";
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span>✅</span>
+                        <span>Session Authorized: <strong>${role === 'INSPECTOR' ? 'Officer GOV-IN-7842' : role === 'CITIZEN' ? 'Citizen UID Verified' : 'Mandi Trader Verified'}</strong></span>
+                    </div>
+                    <span class="text-[10px] bg-emerald-900 px-2 py-0.5 rounded font-bold">TOKEN ISSUED</span>
+                `;
+            }, 750);
+        }
+
+        // 5. Fullscreen Toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // 6. Language Toggle Simulation
+        let currentLang = "en";
+        function toggleLanguage() {
+            currentLang = currentLang === "en" ? "hi" : "en";
+            const label = document.getElementById("langLabel");
+            if (label) label.textContent = currentLang === "en" ? "हिंदी" : "English";
+        }
+
+        // 7. UNIVERSAL THEME PALETTES & PICKER CONTROLLER
+        const THEME_PALETTES = {
+            "classic-blue": {
+                name: "Classic Blue",
+                top: "#0b57d0",
+                bottomLeft: "#a8c7fa",
+                bottomRight: "#747775",
+                primary: "#0b57d0",
+                primaryHover: "#0842a0",
+                accent: "#a8c7fa",
+                ring: "rgba(11, 87, 208, 0.4)",
+                bg: "#060d1f",
+                surface: "#0b1730",
+                card: "#102042",
+                border: "rgba(59, 130, 246, 0.22)",
+                glow: "rgba(11, 87, 208, 0.25)"
+            },
+            "cool-grey": {
+                name: "Cool Grey",
+                top: "#444746",
+                bottomLeft: "#c4c7c5",
+                bottomRight: "#747775",
+                primary: "#475569",
+                primaryHover: "#334155",
+                accent: "#94a3b8",
+                ring: "rgba(71, 85, 105, 0.4)",
+                bg: "#0f141c",
+                surface: "#181f2a",
+                card: "#222b3a",
+                border: "rgba(148, 163, 184, 0.20)",
+                glow: "rgba(148, 163, 184, 0.20)"
+            },
+            "navy-blue": {
+                name: "Navy Blue",
+                top: "#1e4976",
+                bottomLeft: "#b3c5ff",
+                bottomRight: "#6e7681",
+                primary: "#1d4ed8",
+                primaryHover: "#1e40af",
+                accent: "#93c5fd",
+                ring: "rgba(29, 78, 216, 0.4)",
+                bg: "#050e26",
+                surface: "#0a173d",
+                card: "#112356",
+                border: "rgba(37, 99, 235, 0.24)",
+                glow: "rgba(29, 78, 216, 0.25)"
+            },
+            "steel-blue": {
+                name: "Steel Blue",
+                top: "#3b4856",
+                bottomLeft: "#b8c8d9",
+                bottomRight: "#6f7985",
+                primary: "#0284c7",
+                primaryHover: "#0369a1",
+                accent: "#7dd3fc",
+                ring: "rgba(2, 132, 199, 0.4)",
+                bg: "#07131e",
+                surface: "#0d1e2e",
+                card: "#152c42",
+                border: "rgba(2, 132, 199, 0.24)",
+                glow: "rgba(2, 132, 199, 0.25)"
+            },
+            "sage-teal": {
+                name: "Sage Teal",
+                top: "#374948",
+                bottomLeft: "#b8ccc9",
+                bottomRight: "#6f7a77",
+                primary: "#0d9488",
+                primaryHover: "#0f766e",
+                accent: "#5eead4",
+                ring: "rgba(13, 148, 136, 0.4)",
+                bg: "#061514",
+                surface: "#0b2120",
+                card: "#12302e",
+                border: "rgba(13, 148, 136, 0.24)",
+                glow: "rgba(13, 148, 136, 0.25)"
+            },
+            "teal-cyan": {
+                name: "Teal Cyan",
+                top: "#005047",
+                bottomLeft: "#70f5e1",
+                bottomRight: "#627571",
+                primary: "#06b6d4",
+                primaryHover: "#0891b2",
+                accent: "#67e8f9",
+                ring: "rgba(6, 182, 212, 0.4)",
+                bg: "#03161c",
+                surface: "#06232c",
+                card: "#0b333f",
+                border: "rgba(6, 182, 212, 0.24)",
+                glow: "rgba(6, 182, 212, 0.25)"
+            },
+            "forest-green": {
+                name: "Forest Green",
+                top: "#1c521f",
+                bottomLeft: "#97d79b",
+                bottomRight: "#6b776a",
+                primary: "#16a34a",
+                primaryHover: "#15803d",
+                accent: "#86efac",
+                ring: "rgba(22, 163, 74, 0.4)",
+                bg: "#05160b",
+                surface: "#092413",
+                card: "#10351d",
+                border: "rgba(22, 163, 74, 0.24)",
+                glow: "rgba(22, 163, 74, 0.25)"
+            },
+            "olive-green": {
+                name: "Olive Green",
+                top: "#3c4a36",
+                bottomLeft: "#bed0b6",
+                bottomRight: "#717a6c",
+                primary: "#65a30d",
+                primaryHover: "#4d7c0f",
+                accent: "#bef264",
+                ring: "rgba(101, 163, 13, 0.4)",
+                bg: "#0e1607",
+                surface: "#17240c",
+                card: "#233513",
+                border: "rgba(101, 163, 13, 0.24)",
+                glow: "rgba(101, 163, 13, 0.25)"
+            },
+            "olive-gold": {
+                name: "Olive Gold",
+                top: "#594c00",
+                bottomLeft: "#e9cd4c",
+                bottomRight: "#797664",
+                primary: "#ca8a04",
+                primaryHover: "#a16207",
+                accent: "#fde047",
+                ring: "rgba(202, 138, 4, 0.4)",
+                bg: "#161303",
+                surface: "#241e06",
+                card: "#332b0a",
+                border: "rgba(202, 138, 4, 0.24)",
+                glow: "rgba(202, 138, 4, 0.25)"
+            },
+            "tangerine-orange": {
+                name: "Tangerine",
+                top: "#7a3800",
+                bottomLeft: "#ffb784",
+                bottomRight: "#857367",
+                primary: "#ea580c",
+                primaryHover: "#c2410c",
+                accent: "#fdba74",
+                ring: "rgba(234, 88, 12, 0.4)",
+                bg: "#1a0b03",
+                surface: "#2a1306",
+                card: "#3b1c0a",
+                border: "rgba(234, 88, 12, 0.24)",
+                glow: "rgba(234, 88, 12, 0.25)"
+            },
+            "warm-brown": {
+                name: "Warm Brown",
+                top: "#53433a",
+                bottomLeft: "#dcc3b7",
+                bottomRight: "#7a726d",
+                primary: "#b45309",
+                primaryHover: "#92400e",
+                accent: "#fcd34d",
+                ring: "rgba(180, 83, 9, 0.4)",
+                bg: "#170e08",
+                surface: "#26180e",
+                card: "#382315",
+                border: "rgba(180, 83, 9, 0.24)",
+                glow: "rgba(180, 83, 9, 0.25)"
+            },
+            "ruby-crimson": {
+                name: "Ruby Crimson",
+                top: "#78253a",
+                bottomLeft: "#ffb1c3",
+                bottomRight: "#847175",
+                primary: "#e11d48",
+                primaryHover: "#be123c",
+                accent: "#fda4af",
+                ring: "rgba(225, 29, 72, 0.4)",
+                bg: "#1a050d",
+                surface: "#290a16",
+                card: "#3a1020",
+                border: "rgba(225, 29, 72, 0.24)",
+                glow: "rgba(225, 29, 72, 0.25)"
+            },
+            "rose-mauve": {
+                name: "Rose Mauve",
+                top: "#564146",
+                bottomLeft: "#dfbfca",
+                bottomRight: "#7c7074",
+                primary: "#be185d",
+                primaryHover: "#9d174d",
+                accent: "#f472b6",
+                ring: "rgba(190, 24, 93, 0.4)",
+                bg: "#180612",
+                surface: "#270d1e",
+                card: "#38142b",
+                border: "rgba(190, 24, 93, 0.24)",
+                glow: "rgba(190, 24, 93, 0.25)"
+            },
+            "berry-magenta": {
+                name: "Berry Magenta",
+                top: "#6d2b63",
+                bottomLeft: "#ffabed",
+                bottomRight: "#80717c",
+                primary: "#c026d3",
+                primaryHover: "#a21caf",
+                accent: "#f0abfc",
+                ring: "rgba(192, 38, 211, 0.4)",
+                bg: "#19041a",
+                surface: "#280829",
+                card: "#390e3b",
+                border: "rgba(192, 38, 211, 0.24)",
+                glow: "rgba(192, 38, 211, 0.25)"
+            },
+            "purple-violet": {
+                name: "Purple Violet",
+                top: "#493574",
+                bottomLeft: "#cfbdff",
+                bottomRight: "#757181",
+                primary: "#7c3aed",
+                primaryHover: "#6d28d9",
+                accent: "#c4b5fd",
+                ring: "rgba(124, 58, 237, 0.4)",
+                bg: "#110620",
+                surface: "#1a0c30",
+                card: "#271344",
+                border: "rgba(124, 58, 237, 0.24)",
+                glow: "rgba(124, 58, 237, 0.25)"
+            }
+        };
+
+        function generateCustomBackgrounds(hex) {
+            let c = (hex || "#0b57d0").replace('#', '');
+            if (c.length === 3) c = c.split('').map(x => x + x).join('');
+            const r = parseInt(c.substring(0, 2), 16) || 0;
+            const g = parseInt(c.substring(2, 4), 16) || 0;
+            const b = parseInt(c.substring(4, 6), 16) || 0;
+            
+            const blend = (factor) => {
+                const nr = Math.min(255, Math.round(7 + r * factor));
+                const ng = Math.min(255, Math.round(9 + g * factor));
+                const nb = Math.min(255, Math.round(14 + b * factor));
+                return '#' + nr.toString(16).padStart(2, '0') + ng.toString(16).padStart(2, '0') + nb.toString(16).padStart(2, '0');
+            };
+
+            return {
+                bg: blend(0.06),
+                surface: blend(0.12),
+                card: blend(0.19),
+                border: `rgba(${r}, ${g}, ${b}, 0.24)`,
+                glow: `rgba(${r}, ${g}, ${b}, 0.25)`
+            };
+        }
+
+        function renderPaletteMiniSvg(p) {
+            return `<svg viewBox="0 0 16 16" width="16" height="16" class="rounded-full overflow-hidden block"><path d="M 0,8 A 8,8 0 0,1 16,8 Z" fill="${p.top}"></path><path d="M 0,8 A 8,8 0 0,0 8,16 L 8,8 Z" fill="${p.bottomLeft}"></path><path d="M 8,8 L 8,16 A 8,8 0 0,0 16,8 Z" fill="${p.bottomRight}"></path></svg>`;
+        }
+
+        function setAppThemeColor(key, customHex = null) {
+            let palette;
+            let currentKey = key;
+            if (customHex) {
+                const customBg = generateCustomBackgrounds(customHex);
+                palette = {
+                    name: "Custom Color",
+                    top: customHex,
+                    bottomLeft: customHex,
+                    bottomRight: "#747775",
+                    primary: customHex,
+                    primaryHover: customHex,
+                    accent: customHex,
+                    ring: customHex + "66",
+                    bg: customBg.bg,
+                    surface: customBg.surface,
+                    card: customBg.card,
+                    border: customBg.border,
+                    glow: customBg.glow
+                };
+                currentKey = "custom";
+            } else {
+                currentKey = key;
+                palette = THEME_PALETTES[currentKey] || THEME_PALETTES["classic-blue"];
+            }
+
+            const root = document.documentElement;
+            root.style.setProperty('--primary', palette.primary);
+            root.style.setProperty('--primary-hover', palette.primaryHover);
+            root.style.setProperty('--accent', palette.accent);
+            root.style.setProperty('--ring', palette.ring);
+            root.style.setProperty('--theme-bg', palette.bg);
+            root.style.setProperty('--theme-surface', palette.surface);
+            root.style.setProperty('--theme-card', palette.card);
+            root.style.setProperty('--theme-border', palette.border);
+            root.setAttribute('data-theme-color', currentKey);
+
+            document.body.style.backgroundColor = palette.bg;
+
+            let styleTag = document.getElementById('dynamic-theme-style');
+            if (!styleTag) {
+                styleTag = document.createElement('style');
+                styleTag.id = 'dynamic-theme-style';
+                document.head.appendChild(styleTag);
+            }
+            styleTag.innerHTML = `
+                :root {
+                    --primary: ${palette.primary} !important;
+                    --primary-hover: ${palette.primaryHover} !important;
+                    --accent: ${palette.accent} !important;
+                    --ring: ${palette.ring} !important;
+                    --theme-bg: ${palette.bg} !important;
+                    --theme-surface: ${palette.surface} !important;
+                    --theme-card: ${palette.card} !important;
+                    --theme-border: ${palette.border} !important;
+                }
+                body, header, main, .glass-panel, .glass-panel-subtle {
+                    transition: background-color 0.3s ease, border-color 0.3s ease !important;
+                }
+                body {
+                    background-color: ${palette.bg} !important;
+                }
+                header {
+                    background-color: ${palette.surface} !important;
+                    border-color: ${palette.border} !important;
+                }
+                [class*="bg-slate-950"] {
+                    background-color: ${palette.bg} !important;
+                }
+                [class*="bg-slate-900"] {
+                    background-color: ${palette.surface} !important;
+                }
+                [class*="bg-slate-800"] {
+                    background-color: ${palette.card} !important;
+                }
+                .glass-panel {
+                    background: ${palette.surface} !important;
+                    border-color: ${palette.border} !important;
+                }
+                .glass-panel-subtle {
+                    background: ${palette.bg} !important;
+                    border-color: ${palette.border} !important;
+                }
+                [class*="border-slate-800"], [class*="border-slate-700"] {
+                    border-color: ${palette.border} !important;
+                }
+                #themeColorPickerPopover {
+                    background-color: #1f1f21 !important;
+                    border-color: rgba(255, 255, 255, 0.12) !important;
+                }
+                .role-tab.active,
+                button[type="submit"] {
+                    background-color: ${palette.primary} !important;
+                    border-color: ${palette.primary} !important;
+                    color: #ffffff !important;
+                }
+                .role-tab.active:hover,
+                button[type="submit"]:hover {
+                    background-color: ${palette.primaryHover} !important;
+                }
+                .text-cyan-400, .text-cyan-300 {
+                    color: ${palette.accent} !important;
+                }
+                .border-cyan-500, .border-cyan-400 {
+                    border-color: ${palette.primary} !important;
+                }
+            `;
+
+            document.querySelectorAll('.theme-swatch-item').forEach(item => {
+                const itemKey = item.getAttribute('data-theme-key');
+                const badge = item.querySelector('.swatch-check-badge');
+                if (itemKey === currentKey) {
+                    if (badge) badge.classList.remove('hidden');
+                    item.classList.add('scale-110');
+                } else {
+                    if (badge) badge.classList.add('hidden');
+                    item.classList.remove('scale-110');
+                }
+            });
+
+            const headerPreview = document.getElementById('headerCurrentThemePreview');
+            if (headerPreview) headerPreview.innerHTML = renderPaletteMiniSvg(palette);
+
+            try {
+                localStorage.setItem('preferredThemeColor', currentKey);
+                if (customHex) localStorage.setItem('preferredCustomHex', customHex);
+            } catch(e) {}
+        }
+
+        function openThemeColorPicker(triggerEl) {
+            const popover = document.getElementById('themeColorPickerPopover');
+            const backdrop = document.getElementById('themeColorPickerBackdrop');
+            if (!popover) return;
+
+            if (triggerEl && window.innerWidth >= 640) {
+                const rect = triggerEl.getBoundingClientRect();
+                const popoverWidth = 350;
+                let left = rect.right - popoverWidth;
+                if (left < 16) left = 16;
+                if (left + popoverWidth > window.innerWidth - 16) {
+                    left = window.innerWidth - popoverWidth - 16;
+                }
+                popover.style.top = (rect.bottom + 10) + 'px';
+                popover.style.left = left + 'px';
+                popover.style.transform = 'none';
+            } else {
+                popover.style.left = '50%';
+                popover.style.top = '50%';
+                popover.style.transform = 'translate(-50%, -50%)';
+            }
+
+            popover.classList.remove('hidden');
+            if (backdrop) backdrop.classList.remove('hidden');
+        }
+
+        function toggleThemeColorPicker(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            const popover = document.getElementById('themeColorPickerPopover');
+            if (popover && !popover.classList.contains('hidden')) {
+                closeThemeColorPicker();
+            } else {
+                const trigger = e ? e.currentTarget : document.getElementById('headerThemePickerBtn');
+                openThemeColorPicker(trigger);
+            }
+        }
+
+        function closeThemeColorPicker() {
+            const popover = document.getElementById('themeColorPickerPopover');
+            const backdrop = document.getElementById('themeColorPickerBackdrop');
+            if (popover) popover.classList.add('hidden');
+            if (backdrop) backdrop.classList.add('hidden');
+        }
+
+        function triggerCustomColorPicker(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            const input = document.getElementById('themeNativeColorInput');
+            if (input) input.click();
+        }
+
+        function applyCustomColorFromPicker(val) {
+            if (!val) return;
+            setAppThemeColor('custom', val);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeThemeColorPicker();
+        });
+
+        // =========================================================================
+        // ROBUST THEME CONTEXT & REAL-TIME SYSTEM PREFERENCE LISTENER
+        // =========================================================================
+        window.currentThemeMode = localStorage.getItem("theme") || localStorage.getItem("precisionx_theme_mode") || "system";
+
+        const ThemeContext = {
+            mode: window.currentThemeMode,
+            resolvedTheme: 'dark',
+            listeners: new Set(),
+            subscribe(callback) {
+                this.listeners.add(callback);
+                return () => this.listeners.delete(callback);
+            },
+            getTheme() {
+                return this.mode;
+            },
+            getResolvedTheme() {
+                return this.resolvedTheme;
+            },
+            setTheme(mode) {
+                setThemeMode(mode);
+            }
+        };
+        window.ThemeContext = ThemeContext;
+
+        function applyResolvedTheme(resolved) {
+            const html = document.documentElement;
+            const body = document.body;
+
+            html.setAttribute("data-theme", resolved);
+            if (resolved === "dark") {
+                html.classList.add("dark");
+                html.classList.remove("light");
+                if (body) body.classList.remove("theme-emerald");
+            } else {
+                html.classList.add("light");
+                html.classList.remove("dark");
+                if (body) body.classList.add("theme-emerald");
+            }
+
+            if (window.ThemeContext) {
+                window.ThemeContext.resolvedTheme = resolved;
+                window.ThemeContext.listeners.forEach(fn => {
+                    try { fn({ mode: window.currentThemeMode, resolvedTheme: resolved }); } catch(err) {}
+                });
+            }
+        }
+
+        function handleSystemThemeChange(e) {
+            if (window.currentThemeMode === "system") {
+                applyResolvedTheme(e.matches ? "dark" : "light");
+            }
+        }
+
+        // Real-time system preference listener on window.matchMedia
+        try {
+            const systemMediaDark = window.matchMedia("(prefers-color-scheme: dark)");
+            if (systemMediaDark.addEventListener) {
+                systemMediaDark.addEventListener("change", handleSystemThemeChange);
+            } else if (systemMediaDark.addListener) {
+                systemMediaDark.addListener(handleSystemThemeChange);
+            }
+        } catch(err) {
+            console.warn("[ThemeEngine] matchMedia listener unsupported:", err);
+        }
+
+        function setThemeMode(mode) {
+            if (!['light', 'dark', 'system'].includes(mode)) {
+                mode = 'system';
+            }
+            window.currentThemeMode = mode;
+            try {
+                localStorage.setItem("precisionx_theme_mode", mode);
+                localStorage.setItem("theme", mode);
+            } catch(e) {}
+
+            if (window.ThemeContext) {
+                window.ThemeContext.mode = mode;
+            }
+
+            let resolved = mode;
+            if (mode === "system") {
+                const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                resolved = prefersDark ? "dark" : "light";
+            }
+
+            applyResolvedTheme(resolved);
+
+            // Sync visual states for theme buttons
+            ['light', 'dark', 'system'].forEach(m => {
+                document.querySelectorAll(`[id="theme-btn-${m}"]`).forEach(btn => {
+                    if (m === mode) {
+                        btn.className = "px-1.5 py-0.5 rounded text-[10px] bg-blue-600 text-white font-semibold transition cursor-pointer shadow-xs";
+                    } else {
+                        btn.className = "px-1.5 py-0.5 rounded text-[10px] text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer";
+                    }
+                });
+            });
+        }
+
+        setThemeMode(window.currentThemeMode);
+
+        // Initialize preferred theme
+        const savedThemeColor = localStorage.getItem('preferredThemeColor') || 'classic-blue';
+        const savedCustomHex = localStorage.getItem('preferredCustomHex');
+        if (savedThemeColor === 'custom' && savedCustomHex) {
+            setAppThemeColor('custom', savedCustomHex);
+        } else {
+            setAppThemeColor(savedThemeColor);
+        }
+    </script>
+
+    <!-- ========================================================================= -->
+    <!-- ALL OFFICIAL LEGAL METROLOGY ADVISORIES & PUBLIC NOTICES MODAL (VIEW ALL) -->
+    <!-- ========================================================================= -->
+    <div id="allNoticesModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-[20px] hidden flex items-center justify-center p-4 z-50 transition-all duration-200">
+        <div class="bg-slate-900/95 border border-white/[0.12] rounded-2xl max-w-4xl w-full shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in zoom-in-95 duration-200 backdrop-blur-2xl relative flex flex-col max-h-[85vh]">
+            <!-- Modal Header -->
+            <div class="p-5 bg-gradient-to-r from-amber-950/90 via-slate-900 to-slate-950 border-b border-slate-800/80 flex items-center justify-between">
+                <div class="flex items-center gap-3.5">
+                    <span class="text-3xl p-2 rounded-xl bg-slate-950/80 border border-amber-500/40 shadow-inner">📜</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider block">OFFICIAL STATUTORY ARCHIVE</span>
+                            <span class="text-[10px] text-slate-400 font-mono">• The Legal Metrology Act, 2009</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white tracking-tight">LEGAL METROLOGY ADVISORIES & PUBLIC NOTICES</h3>
+                        <p class="text-xs text-amber-200/80">Department of Consumer Affairs • Legal Metrology Division • Government of India</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAllNoticesModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Controls: Search & Category Filters -->
+            <div class="p-4 bg-slate-950/70 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <button type="button" onclick="filterNoticesTable('all')" data-cat="all" class="notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition bg-amber-500 text-slate-950 shadow-sm cursor-pointer">All Notices</button>
+                    <button type="button" onclick="filterNoticesTable('statutory')" data-cat="statutory" class="notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 transition cursor-pointer">Statutory Orders</button>
+                    <button type="button" onclick="filterNoticesTable('rrsl')" data-cat="rrsl" class="notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 transition cursor-pointer">RRSL Calibration</button>
+                    <button type="button" onclick="filterNoticesTable('warehouse')" data-cat="warehouse" class="notice-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 transition cursor-pointer">Warehousing & eNWR</button>
+                </div>
+                <div class="relative w-full sm:w-64">
+                    <input type="text" oninput="searchNoticesTable(this.value)" placeholder="Search advisories..." class="w-full bg-slate-900 border border-slate-700 text-slate-200 placeholder-slate-500 text-xs rounded-lg px-3 py-1.5 pl-8 focus:outline-none focus:border-amber-400">
+                    <span class="absolute left-2.5 top-2 text-slate-500 text-xs">🔍</span>
+                </div>
+            </div>
+
+            <!-- Notices List Table -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                
+                <!-- Notice 1 -->
+                <div class="notice-table-row p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-category="statutory">
+                    <div class="space-y-1 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-300 border border-amber-800">STATUTORY ORDER</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Ref: DOCA/SUGAR/2026/89</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Dated: 13/10/2026</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">Imposition of sugar mill wise stock holding limit order for the month of October, 2026 Second fortnight</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Directives issued under the Essential Commodities Act to regulate grain, sugar, and pulse stock volumes in registered APMC warehouses and mills.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="https://consumeraffairs.nic.in" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 text-xs font-bold transition flex items-center gap-1.5">
+                            <span>📄 PDF (11.1MB)</span>
+                            <span>⬇</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Notice 2 -->
+                <div class="notice-table-row p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-category="statutory">
+                    <div class="space-y-1 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-300 border border-amber-800">GAZETTE AMENDMENT</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Gazette Notification G.S.R. 2026/14</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Dated: 18/10/2026</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">Amendment in Imposition of Stock holding limit on Dealers and Traders under Essential Commodities Act</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Statutory thresholds updated for wholesale and retail commercial establishments to maintain national food supply security.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="https://consumeraffairs.nic.in" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 text-xs font-bold transition flex items-center gap-1.5">
+                            <span>📄 PDF (4.8MB)</span>
+                            <span>⬇</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Notice 3 -->
+                <div class="notice-table-row p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-category="statutory">
+                    <div class="space-y-1 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">OIML R-76 DIRECTIVE</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Ref: DOCA/LM/2026/QR-01</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Dated: 21/10/2026</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">Mandatory Digital Verification QR-Code Sealing for Class III Non-Automatic Weighing Instruments in Mandis</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Mandating Ed25519 tamper-proof digital seals on all commercial scales across agricultural markets and state procurement centers.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="https://consumeraffairs.nic.in" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-xs font-bold transition flex items-center gap-1.5">
+                            <span>📄 PDF (2.4MB)</span>
+                            <span>⬇</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Notice 4 -->
+                <div class="notice-table-row p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-category="rrsl">
+                    <div class="space-y-1 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">RRSL CALIBRATION</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Ref: RRSL/CAL/2026/NPL</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Dated: 22/10/2026</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">National Metrology Conclave: CSIR-NPL & RRSL Atomic IST Time Traceability Verification Guidelines</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Secondary and Working Standard mass calibration slots open across Bengaluru, Ahmedabad, and Faridabad RRSL laboratories.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="https://consumeraffairs.nic.in" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/50 text-xs font-bold transition flex items-center gap-1.5">
+                            <span>📄 PDF (3.1MB)</span>
+                            <span>⬇</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Notice 5 -->
+                <div class="notice-table-row p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 hover:border-indigo-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-category="warehouse">
+                    <div class="space-y-1 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-800">WAREHOUSING & eNWR</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Ref: WDRA/ENWR/2026/SEC4</span>
+                            <span class="text-[10px] text-slate-400 font-mono">Dated: 15/10/2026</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">Promoting Growth of Scientific Warehousing & Electronic Negotiable Warehousing Receipts (eNWR)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Standards for automated gross/tare weighbridge integration and weight verification for digital repository issuance.</p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <a href="https://consumeraffairs.nic.in" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/50 text-xs font-bold transition flex items-center gap-1.5">
+                            <span>📄 PDF (1.8MB)</span>
+                            <span>⬇</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between">
+                <span class="text-[11px] text-slate-400 font-mono">Official Regulatory Gazette Archive • SIH26035 Engine</span>
+                <button type="button" onclick="closeAllNoticesModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition cursor-pointer">Close Archive</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- OFFICIAL VIDEO DEMONSTRATION MODAL (FOR VIDEO CLICK HERE)                 -->
+    <!-- ========================================================================= -->
+    <div id="portalVideoDemoModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-[20px] hidden flex items-center justify-center p-4 z-50 transition-all duration-200">
+        <div class="bg-slate-900/95 border border-white/[0.12] rounded-2xl max-w-3xl w-full shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden animate-in fade-in zoom-in-95 duration-200 backdrop-blur-2xl relative">
+            <div class="p-5 bg-gradient-to-r from-blue-950/90 via-slate-900 to-amber-950/90 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl p-2 rounded-xl bg-slate-950/80 border border-amber-500/40 shadow-inner">🎥</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider block">OFFICIAL VIDEO DEMONSTRATION</span>
+                            <span class="text-[10px] text-emerald-400 font-mono">● LIVE 1080P HD</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white tracking-tight">PrecisionX Sovereign NAWI Verification & Mandi Telemetry Walkthrough</h3>
+                    </div>
+                </div>
+                <button type="button" onclick="closeVideoDemoModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-xs sm:text-sm">
+                <!-- Video Screen / Player Presentation -->
+                <div class="w-full aspect-video rounded-xl bg-slate-950 border border-slate-800 relative overflow-hidden flex flex-col items-center justify-center shadow-inner group">
+                    <img src="/icons/warehouse_banner.png" alt="Warehouse Banner Preview" class="absolute inset-0 w-full h-full object-cover opacity-35 group-hover:scale-105 transition-transform duration-500">
+                    <div class="relative z-10 text-center space-y-3 p-4">
+                        <div class="w-16 h-16 rounded-full bg-amber-500/90 text-slate-950 flex items-center justify-center text-2xl mx-auto shadow-2xl hover:scale-110 active:scale-95 transition-transform cursor-pointer">
+                            ▶
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-white text-base">PrecisionX End-to-End Guided NAWI Testing Video Tour</h4>
+                            <p class="text-xs text-slate-300 max-w-md mx-auto">Demonstrates automated tolerance evaluation, PTB DCC PDF/A-3 certificate generation, and offline-verifiable QR code stamping.</p>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 text-[10px] font-mono text-amber-300">
+                            <span class="px-2 py-0.5 rounded bg-slate-900 border border-amber-500/40">Duration: 03:45</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-900 border border-amber-500/40">Resolution: 1080p 60fps</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-900 border border-amber-500/40">Bilingual Audio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Interactive Flow Pillars -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 text-center">
+                    <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <span class="text-base block mb-1">⚖️</span>
+                        <span class="font-bold text-[11px] text-slate-200 block">1. Scale Setup</span>
+                        <span class="text-[9px] text-slate-500">Class III Parameters</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <span class="text-base block mb-1">🔬</span>
+                        <span class="font-bold text-[11px] text-cyan-300 block">2. OIML R-76</span>
+                        <span class="text-[9px] text-slate-500">MPE Automated Check</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <span class="text-base block mb-1">📄</span>
+                        <span class="font-bold text-[11px] text-emerald-300 block">3. PTB DCC XML</span>
+                        <span class="text-[9px] text-slate-500">ISO 19005-3 Archival</span>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <span class="text-base block mb-1">🛡️</span>
+                        <span class="font-bold text-[11px] text-indigo-300 block">4. Ed25519 QR</span>
+                        <span class="text-[9px] text-slate-500">Anti-Tamper Sealing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
+                <span class="text-[11px] text-slate-400 font-mono">Ministry of Consumer Affairs • SIH26035 Video Suite</span>
+                <button type="button" onclick="closeVideoDemoModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition cursor-pointer">Close Video</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= UNIVERSAL THEME PALETTE PICKER MODAL/POPOVER ================= -->
+    <div id="themeColorPickerBackdrop" class="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-xs hidden transition-opacity" onclick="closeThemeColorPicker()"></div>
+    <div id="themeColorPickerPopover" class="fixed z-[9999] hidden rounded-2xl border shadow-2xl transition-all duration-200 select-none" style="background: #1f1f21; border-color: rgba(255, 255, 255, 0.12); box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.08); width: 350px; max-width: calc(100vw - 32px); padding: 20px;">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-semibold text-slate-100 tracking-wide select-none">Pick a theme color</h3>
+            <button type="button" onclick="closeThemeColorPicker()" class="w-6 h-6 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 flex items-center justify-center text-xs transition cursor-pointer select-none">&times;</button>
+        </div>
+        <div id="themeColorPickerGrid" class="grid grid-cols-6 gap-3 place-items-center">
+            <!-- 15 Tripartite Palette Swatches + 1 Eyedropper Button -->
+            <button type="button" onclick="setAppThemeColor('classic-blue')" data-theme-key="classic-blue" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Classic Blue">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#0b57d0"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#a8c7fa"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#747775"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('cool-grey')" data-theme-key="cool-grey" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Cool Grey">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#444746"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#c4c7c5"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#747775"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('navy-blue')" data-theme-key="navy-blue" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Navy Blue">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#1e4976"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#b3c5ff"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#6e7681"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('steel-blue')" data-theme-key="steel-blue" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Steel Blue">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#3b4856"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#b8c8d9"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#6f7985"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('sage-teal')" data-theme-key="sage-teal" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Sage Teal">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#374948"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#b8ccc9"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#6f7a77"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('teal-cyan')" data-theme-key="teal-cyan" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Teal Cyan">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#005047"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#70f5e1"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#627571"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('forest-green')" data-theme-key="forest-green" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Forest Green">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#1c521f"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#97d79b"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#6b776a"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('olive-green')" data-theme-key="olive-green" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Olive Green">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#3c4a36"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#bed0b6"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#717a6c"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('olive-gold')" data-theme-key="olive-gold" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Olive Gold">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#594c00"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#e9cd4c"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#797664"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('tangerine-orange')" data-theme-key="tangerine-orange" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Tangerine">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#7a3800"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#ffb784"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#857367"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('warm-brown')" data-theme-key="warm-brown" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Warm Brown">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#53433a"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#dcc3b7"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#7a726d"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('ruby-crimson')" data-theme-key="ruby-crimson" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Ruby Crimson">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#78253a"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#ffb1c3"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#847175"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('rose-mauve')" data-theme-key="rose-mauve" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Rose Mauve">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#564146"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#dfbfca"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#7c7074"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('berry-magenta')" data-theme-key="berry-magenta" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Berry Magenta">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#6d2b63"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#ffabed"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#80717c"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <button type="button" onclick="setAppThemeColor('purple-violet')" data-theme-key="purple-violet" class="theme-swatch-item relative w-10 h-10 rounded-full p-0 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform cursor-pointer" title="Purple Violet">
+                <svg viewBox="0 0 40 40" width="40" height="40" class="rounded-full overflow-hidden block pointer-events-none shadow-sm">
+                    <path d="M 0,20 A 20,20 0 0,1 40,20 Z" fill="#493574"></path>
+                    <path d="M 0,20 A 20,20 0 0,0 20,40 L 20,20 Z" fill="#cfbdff"></path>
+                    <path d="M 20,20 L 20,40 A 20,20 0 0,0 40,20 Z" fill="#757181"></path>
+                </svg>
+                <div class="swatch-check-badge hidden absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#a8c7fa] text-[#0b57d0] border border-[#0b57d0]/40 flex items-center justify-center font-bold text-[10px] shadow-sm select-none">✓</div>
+            </button>
+            <div class="relative w-10 h-10 flex items-center justify-center">
+                <button type="button" onclick="triggerCustomColorPicker(event)" class="w-10 h-10 rounded-2xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:scale-110 active:scale-95 transition-transform cursor-pointer shadow-sm" title="Custom color picker">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m14 7 3 3m-4.5-1.5L6 15l-3 6 6-3 6.5-6.5a2.121 2.121 0 0 0 0-3L14 7Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <input type="color" id="themeNativeColorInput" style="display: none;" onchange="applyCustomColorFromPicker(this.value)">
+    </div>
+</body>
+</html>

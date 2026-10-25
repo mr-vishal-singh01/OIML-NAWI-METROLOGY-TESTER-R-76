@@ -14,7 +14,12 @@
   <img src="https://img.shields.io/badge/Container-ISO%2019005--3%20PDF%2FA--3-D32F2F.svg?style=for-the-badge&logo=adobe-acrobat-reader" alt="PDF/A-3">
   <img src="https://img.shields.io/badge/Cryptographic%20Seal-Ed25519%20%7C%20SHA--256-102048.svg?style=for-the-badge" alt="Ed25519">
   <img src="https://img.shields.io/badge/Verification%20Tests-111%20Passed%20(100%25)-22c55e.svg?style=for-the-badge" alt="Tests 111 Passed">
+  <img src="https://img.shields.io/badge/User%20Manual-38%20Screenshots%20(Bilingual)-ff003f.svg?style=for-the-badge&logo=markdown" alt="User Manual">
   <img src="https://img.shields.io/badge/Architecture-Zero--Trust%20%7C%20Local--First-102048.svg?style=for-the-badge" alt="Zero Trust">
+</p>
+
+<p align="center">
+  <a href="HOW_TO_USE.md"><b>📖 Read the Full User Manual & How-to-Use Guide (38 Screenshots) ➔</b></a>
 </p>
 
 ---

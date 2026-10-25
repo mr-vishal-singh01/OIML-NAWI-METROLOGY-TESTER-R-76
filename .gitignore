@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+*/node_modules/
+.pnpm-store/
+
+# Python & Bytecode
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Build artifacts & Binaries
+dist/
+build/
+*.egg-info/
+electron
+*.log
+.DS_Store
+
+# Temporary & Scratch
+.scratch/
+tmp/
+# Databases & Local state
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3

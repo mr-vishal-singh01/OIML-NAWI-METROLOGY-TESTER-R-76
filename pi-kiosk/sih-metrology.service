@@ -1,0 +1,15 @@
+[Unit]
+Description=OIML R-76 Legal Metrology Workbench Backend (SIH26035)
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/sih-metrology/backend
+ExecStart=/home/pi/sih-metrology/.venv/bin/python3 -m uvicorn api.main:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=always
+RestartSec=3
+Environment="PYTHONPATH=/home/pi/sih-metrology/backend"
+
+[Install]
+WantedBy=multi-user.target

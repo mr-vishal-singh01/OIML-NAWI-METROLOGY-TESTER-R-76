@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OIML_R76_2_Pattern_Evaluation_Schema",
+  "description": "Standardized schema for Non-Automatic Weighing Instruments Pattern Evaluation Test Reports under SIH26035",
+  "type": "object",
+  "required": [
+    "certificate_metadata",
+    "instrument_specification",
+    "test_results"
+  ],
+  "properties": {
+    "certificate_metadata": {
+      "type": "object",
+      "required": ["certificate_number", "issuing_laboratory", "issuing_country", "date_of_issue"],
+      "properties": {
+        "certificate_number": { "type": "string", "example": "RRSL-FBD-2026-NAWI-0042" },
+        "issuing_laboratory": { "type": "string", "example": "Regional Reference Standard Laboratory, Faridabad" },
+        "issuing_country": { "type": "string", "enum": ["IN"], "default": "IN" },
+        "oiml_issuing_authority": { "type": "string", "default": "Legal Metrology Division, Govt. of India" },
+        "date_of_issue": { "type": "string", "format": "date" },
+        "welmec_lrs_sha256": { "type": "string" },
+        "digital_signature_valid": { "type": "boolean" }
+      }
+    },
+    "instrument_specification": {
+      "type": "object",
+      "required": ["manufacturer", "model", "serial_number", "accuracy_class", "max_capacity", "min_capacity", "e", "unit"],
+      "properties": {
+        "manufacturer": { "type": "string" },
+        "model": { "type": "string" },
+        "serial_number": { "type": "string" },
+        "accuracy_class": { "type": "string", "enum": ["Class I", "Class II", "Class III", "Class IIII"] },
+        "max_capacity": { "type": "string", "description": "Decimal representation" },
+        "min_capacity": { "type": "string", "description": "Decimal representation" },
+        "e": { "type": "string", "description": "Verification scale interval" },
+        "d": { "type": "string", "description": "Actual scale interval" },
+        "unit": { "type": "string", "enum": ["g", "kg", "mg", "t"], "default": "g" },
+        "is_multi_interval": { "type": "boolean", "default": false },
+        "partial_ranges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["max_capacity", "e"],
+            "properties": {
+              "max_capacity": { "type": "string" },
+              "e": { "type": "string" },
+              "d": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "test_results": {
+      "type": "object",
+      "required": ["form_0_summary", "form_1_weighing_performance"],
+      "properties": {
+        "form_0_summary": {
+          "type": "object",
+          "required": ["overall_conformity", "clauses_evaluated"],
+          "properties": {
+            "overall_conformity": { "type": "string", "enum": ["PASSED", "FAILED"] },
+            "clauses_evaluated": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "form_id": { "type": "string" },
+                  "test_name": { "type": "string" },
+                  "status": { "type": "string", "enum": ["PASS", "FAIL", "NOT_APPLICABLE"] }
+                }
+              }
+            }
+          }
+        },
+        "form_1_weighing_performance": {
+          "type": "object",
+          "required": ["zero_error_e0", "observations", "hysteresis_evaluated"],
+          "properties": {
+            "zero_error_e0": { "type": "string" },
+            "observations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["step_index", "direction", "applied_load", "indicated_value", "added_load_delta_l", "corrected_error_ec", "passed"],
+                "properties": {
+                  "step_index": { "type": "integer" },
+                  "direction": { "type": "string", "enum": ["ascending", "descending"] },
+                  "applied_load": { "type": "string" },
+                  "indicated_value": { "type": "string" },
+                  "added_load_delta_l": { "type": "string" },
+                  "corrected_error_ec": { "type": "string" },
+                  "mpe": { "type": "string" },
+                  "passed": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

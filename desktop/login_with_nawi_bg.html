@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspector Sovereign Sign-In — PrecisionX NAWI Legal Metrology</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#22d3ee',
+                            emerald: '#10b981',
+                            darkNavy: '#030712'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #030712;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Ambient Metrology Background Container */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .bg-layer svg, .bg-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: drop-shadow(0 0 40px rgba(6, 182, 212, 0.12));
+            transform: scale(1.02);
+            transition: transform 0.4s ease-out;
+        }
+
+        /* Glassmorphic Login Card */
+        .login-card-glass {
+            background: rgba(11, 17, 32, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.22);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 40px rgba(6, 182, 212, 0.14);
+        }
+
+        /* Role Selector Tabs */
+        .role-tab.active {
+            background: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+        }
+
+        /* Custom Input Styling */
+        .gov-input {
+            background: rgba(3, 7, 18, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .gov-input:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.25);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative selection:bg-cyan-500 selection:text-white">
+
+    <!-- Top Navigation Toolbar with Inspector Controls -->
+    <header class="w-full h-14 px-4 sm:px-8 border-b border-cyan-500/20 bg-slate-950/80 backdrop-blur-md flex items-center justify-between z-20 relative">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20 font-mono text-sm">
+                PX
+            </div>
+            <div>
+                <span class="text-xs sm:text-sm font-bold text-white font-mono tracking-wide">PRECISIONX</span>
+                <span class="text-[10px] sm:text-xs text-cyan-400 font-mono ml-2 hidden md:inline">OIML R-76.1 SOVEREIGN LEGAL METROLOGY</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button id="toggleDiagramBtn" onclick="toggleCardVisibility()" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-950/50 hover:border-cyan-400 text-xs font-mono font-semibold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <span id="toggleIcon">👁️</span>
+                <span id="toggleText">View Full Diagram</span>
+            </button>
+            <button onclick="openDccModal()" class="px-3 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/30 text-purple-300 hover:bg-purple-900/50 text-xs font-mono font-semibold transition flex items-center gap-1 cursor-pointer">
+                <span>📜</span>
+                <span class="hidden sm:inline">DCC XML</span>
+            </button>
+            <a href="PrecisionX_Sovereign_NAWI_Workbench.html" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold transition flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-900/40">
+                <span>🚀</span>
+                <span>Workbench →</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 1. ISOMETRIC NAWI METROLOGY VIDEO/SVG BACKGROUND -->
+    <div class="bg-layer" id="bgLayer">
+        <!-- Live MP4 Video Loop with SVG/PNG Fallback -->
+        <video autoplay loop muted playsinline class="w-full h-full object-cover">
+            <source src="SIH_NAWI_Background_Loop.mp4" type="video/mp4">
+            <object data="SIH_NAWI_Login_Background.svg" type="image/svg+xml" class="w-full h-full object-cover">
+                <img src="SIH_NAWI_Login_Background.png" alt="NAWI Background" class="w-full h-full object-cover">
+            </object>
+        </video>
+    </div>
+
+    <!-- Background Vignette Overlay for Crisp Readability -->
+    <div class="fixed inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/70 pointer-events-none z-[1]"></div>
+
+    <!-- 2. LOGIN CARD WRAPPER (Centered over the Isometric Background) -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 z-10 relative my-auto">
+        <div id="inspectorAuthCard" class="w-full max-w-xl login-card-glass rounded-2xl p-6 sm:p-8 space-y-5">
+            
+            <!-- Gate Badge & Heading -->
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-cyan-500/30 text-cyan-400 text-xs font-mono tracking-wider font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span>SOVEREIGN AUTHENTICATION & ACCESS GATE</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Inspector Sovereign Sign-In
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+                    Select your portal role below to unlock your designated access workbench or verification check.
+                </p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-950/90 rounded-xl border border-slate-800">
+                <button type="button" onclick="setRole('INSPECTOR')" id="tabBtn-INSPECTOR" class="role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
+                    <span>⚖️</span>
+                    <span class="truncate">Inspector / Officer</span>
+                </button>
+                <button type="button" onclick="setRole('CITIZEN')" id="tabBtn-CITIZEN" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <span>👤</span>
+                    <span class="truncate">Verified Citizen</span>
+                </button>
+                <button type="button" onclick="setRole('TRADER')" id="tabBtn-TRADER" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <span>🏪</span>
+                    <span class="truncate">Trader / Mandi</span>
+                </button>
+            </div>
+
+            <!-- Login Form Fields -->
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Authentication simulated: Unlocking PrecisionX Sovereign Workbench!');">
+                <!-- Departmental Email -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5 font-mono">Official Departmental Email</label>
+                    <input type="email" value="inspector@metrology.gov.in" class="gov-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono focus:ring-0">
+                </div>
+
+                <!-- Officer ID & Statutory Passphrase (2-col grid) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5 font-mono">Officer ID (OID)</label>
+                        <input type="text" value="GOV-IN-7842" class="gov-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono focus:ring-0">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5 font-mono">Statutory Passphrase</label>
+                        <div class="relative">
+                            <input type="password" value="••••••••••••••" class="gov-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono focus:ring-0 pr-10">
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-sm">👁️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jurisdictional Bench / Testing Laboratory -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5 font-mono">Jurisdictional Bench / Testing Laboratory</label>
+                    <select class="gov-input w-full px-3.5 py-2.5 rounded-lg text-sm font-sans focus:ring-0 cursor-pointer">
+                        <option>State Legal Metrology Enforcement Division (District HQ)</option>
+                        <option>Regional Reference Standards Laboratory (RRSL)</option>
+                        <option>National Physical Laboratory (NPL India)</option>
+                        <option>Mandi & APMC Authorized Inspection Flying Squad</option>
+                    </select>
+                </div>
+
+                <!-- 2FA Checkbox -->
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="requireToken" checked class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer">
+                    <label for="requireToken" class="text-xs text-slate-300 cursor-pointer select-none">Require Hardware Token / TOTP 2FA Verification (Recommended)</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-3 px-4 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-[0.99] transition shadow-lg shadow-cyan-900/40 flex items-center justify-center gap-2 cursor-pointer mt-2">
+                    <span>Authorize & Unlock Workbench</span>
+                    <span>→</span>
+                </button>
+            </form>
+
+            <!-- Secondary Links -->
+            <div class="text-center text-xs text-slate-400 pt-1">
+                <span>New Officer or Citizen Trader?</span>
+                <a href="#" class="text-cyan-400 hover:underline font-medium ml-1">[Register / Sign Up →]</a>
+            </div>
+
+            <!-- Bottom Support Badge Bar -->
+            <div class="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 font-mono">
+                <div class="flex items-center gap-1.5">
+                    <span>📞 Helpline:</span>
+                    <strong class="text-slate-300">1800-11-1955</strong>
+                </div>
+                <div>
+                    <span>Tech Support:</span>
+                    <strong class="text-slate-300">+91-11-23385566</strong>
+                </div>
+                <div class="flex items-center gap-1 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>24x7 Active</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- DCC XML Inspection Modal -->
+    <div id="dccModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="max-w-2xl w-full bg-slate-900 border border-purple-500/40 rounded-2xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">📜</span>
+                    <h3 class="text-base font-bold text-white font-mono">PTB Digital Calibration Certificate (DCC v3.1)</h3>
+                </div>
+                <button onclick="closeDccModal()" class="text-slate-400 hover:text-white font-bold text-lg cursor-pointer">✕</button>
+            </div>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-[11px] font-mono text-purple-300 overflow-x-auto max-h-80 leading-relaxed">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;dcc:digitalCalibrationCertificate xmlns:dcc="https://ptb.de/dcc" schemaVersion="3.1.2"&gt;
+  &lt;dcc:administrativeData&gt;
+    &lt;dcc:coreData&gt;
+      &lt;dcc:certificateNumber&gt;IN-LM-2026-98421&lt;/dcc:certificateNumber&gt;
+      &lt;dcc:countryCodeISO3166_1&gt;IN&lt;/dcc:countryCodeISO3166_1&gt;
+      &lt;dcc:usedLangCodeISO639_1&gt;en&lt;/dcc:usedLangCodeISO639_1&gt;
+      &lt;dcc:mandatoryLangCodeISO639_1&gt;en&lt;/dcc:mandatoryLangCodeISO639_1&gt;
+      &lt;dcc:uniqueIdentifier&gt;urn:uuid:7e2b10a4-4a29-4fc3-90d1-049832dcc001&lt;/dcc:uniqueIdentifier&gt;
+    &lt;/dcc:coreData&gt;
+  &lt;/dcc:administrativeData&gt;
+  &lt;dcc:measurementResults&gt;
+    &lt;dcc:instrument&gt;
+      &lt;dcc:name&gt;Non-Automatic Weighing Instrument (NAWI)&lt;/dcc:name&gt;
+      &lt;dcc:standard&gt;OIML R 76-1:2006 (E) Class III&lt;/dcc:standard&gt;
+      &lt;dcc:maxCapacity unit="kg"&gt;150.00&lt;/dcc:maxCapacity&gt;
+      &lt;dcc:scaleInterval_e unit="g"&gt;50.0&lt;/dcc:scaleInterval_e&gt;
+    &lt;/dcc:instrument&gt;
+    &lt;dcc:verification&gt;
+      &lt;dcc:appliedLoad unit="kg"&gt;50.00&lt;/dcc:appliedLoad&gt;
+      &lt;dcc:table6_mpe unit="g"&gt;±50.0&lt;/dcc:table6_mpe&gt;
+      &lt;dcc:observedError unit="g"&gt;+12.0&lt;/dcc:observedError&gt;
+      &lt;dcc:complianceStatus&gt;PASS_WITHIN_LEGAL_MPE&lt;/dcc:complianceStatus&gt;
+    &lt;/dcc:verification&gt;
+  &lt;/dcc:measurementResults&gt;
+  &lt;dcc:cryptographicSignature algorithm="Ed25519" rfc="8032"&gt;
+    3b827f2910c...9a41b8e0441
+  &lt;/dcc:cryptographicSignature&gt;
+&lt;/dcc:digitalCalibrationCertificate&gt;</pre>
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 pt-2">
+                <span>RFC 8032 Ed25519 Signed Container</span>
+                <button onclick="closeDccModal()" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Role Tab Handler, Card Visibility & Parallax -->
+    <script>
+        function setRole(role) {
+            ['INSPECTOR', 'CITIZEN', 'TRADER'].forEach(r => {
+                const btn = document.getElementById('tabBtn-' + r);
+                if (btn) {
+                    if (r === role) {
+                        btn.className = "role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer";
+                    } else {
+                        btn.className = "role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800/60";
+                    }
+                }
+            });
+        }
+
+        let isCardVisible = true;
+        function toggleCardVisibility() {
+            const card = document.getElementById('inspectorAuthCard');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const toggleText = document.getElementById('toggleText');
+            if (card) {
+                isCardVisible = !isCardVisible;
+                if (!isCardVisible) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.92) translateY(20px)';
+                    card.style.pointerEvents = 'none';
+                    toggleIcon.textContent = '📋';
+                    toggleText.textContent = 'Show Sign-In Card';
+                } else {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1) translateY(0)';
+                    card.style.pointerEvents = 'auto';
+                    toggleIcon.textContent = '👁️';
+                    toggleText.textContent = 'View Full Diagram';
+                }
+            }
+        }
+
+        function openDccModal() {
+            const modal = document.getElementById('dccModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeDccModal() {
+            const modal = document.getElementById('dccModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Subtle dynamic mouse parallax on background
+        const bgLayer = document.getElementById('bgLayer');
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 16;
+            const y = (e.clientY / window.innerHeight - 0.5) * 16;
+            if (bgLayer) {
+                bgLayer.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

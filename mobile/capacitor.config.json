@@ -1,0 +1,23 @@
+{
+  "appId": "gov.in.sih26035.metrology",
+  "appName": "Legal Metrology NAWI",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "Camera": {
+      "permissions": ["camera", "photos"]
+    },
+    "App": {
+      "launchShowDuration": 1500
+    }
+  }
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspector Sovereign Sign-In — PrecisionX NAWI Legal Metrology (B&amp;W Edition)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'ui-monospace', 'Menlo', 'monospace'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #fbfbfa;
+            color: #18181a;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .bg-layer video, .bg-layer img, .bg-layer object {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.92;
+        }
+
+        /* Minimal Black & White Glass Card */
+        .bw-login-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+            transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .role-tab.active {
+            background: #18181a;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .bw-input {
+            background: #ffffff;
+            border: 1px solid #d4d4d8;
+            color: #18181a;
+            transition: all 0.2s ease;
+        }
+        .bw-input:focus {
+            border-color: #18181a;
+            box-shadow: 0 0 0 2px rgba(24, 24, 26, 0.15);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative selection:bg-neutral-900 selection:text-white">
+
+    <!-- Top Minimal Navigation Toolbar -->
+    <header class="w-full h-14 px-4 sm:px-8 border-b border-black/10 bg-white/80 backdrop-blur-md flex items-center justify-between z-20 relative">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-black flex items-center justify-center font-bold text-white font-mono text-sm shadow-md">
+                PX
+            </div>
+            <div>
+                <span class="text-xs sm:text-sm font-black text-black font-mono tracking-wide">PRECISIONX</span>
+                <span class="text-[10px] sm:text-xs text-neutral-500 font-mono ml-2 hidden md:inline">OIML R-76.1 SOVEREIGN LEGAL METROLOGY</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button id="toggleDiagramBtn" onclick="toggleCardVisibility()" class="px-3 py-1.5 rounded-lg bg-white border border-neutral-300 text-neutral-800 hover:bg-neutral-100 text-xs font-mono font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <span id="toggleIcon">👁️</span>
+                <span id="toggleText">View Full Diagram</span>
+            </button>
+            <a href="SIH_NAWI_Anatomy_BW.html" class="px-3 py-1.5 rounded-lg bg-black hover:bg-neutral-800 text-white text-xs font-mono font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <span>💥</span>
+                <span>Explode Machine →</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 1. SIGNATURE BLACK & WHITE ANATOMY VIDEO/SVG BACKGROUND -->
+    <div class="bg-layer" id="bgLayer">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover">
+            <source src="SIH_NAWI_BW_Loop.mp4" type="video/mp4">
+            <object data="SIH_NAWI_Anatomy_BW.svg" type="image/svg+xml" class="w-full h-full object-cover">
+                <img src="SIH_NAWI_Anatomy_BW.png" alt="Black & White NAWI Background" class="w-full h-full object-cover">
+            </object>
+        </video>
+    </div>
+
+    <!-- Soft Vignette Overlay -->
+    <div class="fixed inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/40 pointer-events-none z-[1]"></div>
+
+    <!-- 2. LOGIN CARD WRAPPER (Centered over the Black & White Background) -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 z-10 relative my-auto">
+        <div id="inspectorAuthCard" class="w-full max-w-xl bw-login-card rounded-2xl p-6 sm:p-8 space-y-5">
+            
+            <!-- Gate Badge & Heading -->
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-800 text-xs font-mono tracking-wider font-bold">
+                    <span class="w-2 h-2 rounded-full bg-black"></span>
+                    <span>SOVEREIGN AUTHENTICATION &amp; ACCESS GATE</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-black text-black tracking-tight">
+                    Inspector Sovereign Sign-In
+                </h1>
+                <p class="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto">
+                    Select your portal role below to unlock your designated access workbench or verification check.
+                </p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="grid grid-cols-3 gap-1.5 p-1 bg-neutral-100 rounded-xl border border-neutral-200">
+                <button type="button" onclick="setRole('INSPECTOR')" id="tabBtn-INSPECTOR" class="role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
+                    <span>⚖️</span>
+                    <span class="truncate">Inspector / Officer</span>
+                </button>
+                <button type="button" onclick="setRole('CITIZEN')" id="tabBtn-CITIZEN" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 hover:text-black hover:bg-neutral-200">
+                    <span>👤</span>
+                    <span class="truncate">Verified Citizen</span>
+                </button>
+                <button type="button" onclick="setRole('TRADER')" id="tabBtn-TRADER" class="role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 hover:text-black hover:bg-neutral-200">
+                    <span>🏪</span>
+                    <span class="truncate">Trader / Mandi</span>
+                </button>
+            </div>
+
+            <!-- Login Form Fields -->
+            <form class="space-y-4" onsubmit="event.preventDefault(); window.location.href='SIH_NAWI_Anatomy_BW.html';">
+                <!-- Departmental Email -->
+                <div>
+                    <label class="block text-xs font-bold text-neutral-700 mb-1.5 font-mono">Official Departmental Email</label>
+                    <input type="email" value="inspector@metrology.gov.in" class="bw-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono">
+                </div>
+
+                <!-- Officer ID & Statutory Passphrase -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-neutral-700 mb-1.5 font-mono">Officer ID (OID)</label>
+                        <input type="text" value="GOV-IN-7842" class="bw-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-neutral-700 mb-1.5 font-mono">Passphrase</label>
+                        <input type="password" value="••••••••••••" class="bw-input w-full px-3.5 py-2.5 rounded-lg text-sm font-mono">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-3 px-4 rounded-xl bg-black hover:bg-neutral-800 text-white font-mono font-black text-sm tracking-wide transition flex items-center justify-center gap-2 shadow-lg shadow-black/20 cursor-pointer">
+                    <span>⚡</span>
+                    <span>Authenticate &amp; Open Sovereign Workbench</span>
+                </button>
+            </form>
+
+            <!-- Support Badge -->
+            <div class="pt-3 border-t border-neutral-200 flex items-center justify-between text-[11px] text-neutral-500 font-mono">
+                <div>Helpline: <strong class="text-neutral-800">1800-11-1955</strong></div>
+                <div>Status: <strong class="text-neutral-900">OIML R-76 Active</strong></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function setRole(role) {
+            ['INSPECTOR', 'CITIZEN', 'TRADER'].forEach(r => {
+                const btn = document.getElementById('tabBtn-' + r);
+                if (btn) {
+                    if (r === role) {
+                        btn.className = "role-tab active py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer";
+                    } else {
+                        btn.className = "role-tab py-2.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer text-neutral-600 hover:text-black hover:bg-neutral-200";
+                    }
+                }
+            });
+        }
+
+        let isCardVisible = true;
+        function toggleCardVisibility() {
+            const card = document.getElementById('inspectorAuthCard');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const toggleText = document.getElementById('toggleText');
+            if (card) {
+                isCardVisible = !isCardVisible;
+                if (!isCardVisible) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.92) translateY(20px)';
+                    card.style.pointerEvents = 'none';
+                    toggleIcon.textContent = '📋';
+                    toggleText.textContent = 'Show Sign-In Card';
+                } else {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1) translateY(0)';
+                    card.style.pointerEvents = 'auto';
+                    toggleIcon.textContent = '👁️';
+                    toggleText.textContent = 'View Full Diagram';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

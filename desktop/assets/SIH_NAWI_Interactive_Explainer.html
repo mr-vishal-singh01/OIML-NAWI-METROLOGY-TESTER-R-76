@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrecisionX (SIH26035) — How NAWI Weighing Data Is Intercepted & Verified</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #070d1d; color: #f8fafc; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel {
+            background: rgba(12, 22, 45, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 25px rgba(2, 132, 199, 0.12);
+        }
+        .step-tab.active {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #38bdf8;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-8 space-y-6">
+
+    <!-- Top Sovereign Header -->
+    <header class="w-full glass-panel rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-cyan-500/30">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-black font-mono font-black text-xl shadow-lg shadow-amber-500/30">
+                PX
+            </div>
+            <div>
+                <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold">
+                    <span>SIH26035 • SMART INDIA HACKATHON 2026</span>
+                </div>
+                <h1 class="text-xl md:text-2xl font-black text-white tracking-tight mt-1">
+                    PrecisionX: Sovereign Legal Metrology for NAWI Instruments
+                </h1>
+                <p class="text-xs md:text-sm text-slate-300">
+                    Ministry of Consumer Affairs • Non-Automatic Weighing Instruments (OIML R-76 Standard)
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <a href="SIH_Login_With_Background.html" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-mono font-bold transition flex items-center gap-2">
+                <span>🔐</span>
+                <span>Login Portal</span>
+            </a>
+            <a href="PrecisionX_Sovereign_NAWI_Workbench.html" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold transition flex items-center gap-2 shadow-lg shadow-emerald-900/40">
+                <span>🚀</span>
+                <span>Full Workbench →</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Visual Interactive 4-Step Navigation Tabs -->
+    <nav class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button onclick="showStep(1)" id="tab-1" class="step-tab active p-4 rounded-xl border border-slate-800 bg-slate-900/80 text-left transition cursor-pointer">
+            <div class="text-xs font-mono font-black text-amber-400">STEP 01</div>
+            <div class="text-sm font-bold mt-1">1. Mandi Scale (NAWI)</div>
+            <div class="text-[11px] text-slate-400">कांटा और समस्या</div>
+        </button>
+        <button onclick="showStep(2)" id="tab-2" class="step-tab p-4 rounded-xl border border-slate-800 bg-slate-900/80 text-left transition cursor-pointer">
+            <div class="text-xs font-mono font-black text-cyan-400">STEP 02</div>
+            <div class="text-sm font-bold mt-1">2. Direct Hardware Capture</div>
+            <div class="text-[11px] text-slate-400">डेटा कैसे निकलता है?</div>
+        </button>
+        <button onclick="showStep(3)" id="tab-3" class="step-tab p-4 rounded-xl border border-slate-800 bg-slate-900/80 text-left transition cursor-pointer">
+            <div class="text-xs font-mono font-black text-emerald-400">STEP 03</div>
+            <div class="text-sm font-bold mt-1">3. OIML R-76 MPE Engine</div>
+            <div class="text-[11px] text-slate-400">सटीकता की कानूनी जाँच</div>
+        </button>
+        <button onclick="showStep(4)" id="tab-4" class="step-tab p-4 rounded-xl border border-slate-800 bg-slate-900/80 text-left transition cursor-pointer">
+            <div class="text-xs font-mono font-black text-purple-400">STEP 04</div>
+            <div class="text-sm font-bold mt-1">4. Cryptographic Proof</div>
+            <div class="text-[11px] text-slate-400">डिजिटल मुहर और QR कोड</div>
+        </button>
+    </nav>
+
+    <!-- Master Interactive Demonstration Area -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
+        
+        <!-- Left 7 Cols: Full High-Definition Live Visual Canvas -->
+        <div class="lg:col-span-7 glass-panel rounded-2xl p-4 flex flex-col items-center justify-center relative overflow-hidden min-h-[520px]">
+            <!-- Responsive Video/SVG Player -->
+            <video autoplay loop muted playsinline class="w-full h-full max-h-[560px] object-contain rounded-xl shadow-2xl border border-slate-800">
+                <source src="SIH_NAWI_Background_Loop.mp4" type="video/mp4">
+                <img src="SIH_NAWI_Login_Background.png" alt="NAWI Explainer" class="w-full h-full object-contain">
+            </video>
+
+            <!-- Quick Overlay Zoom Callout -->
+            <div class="absolute bottom-6 left-6 right-6 p-3 rounded-xl bg-slate-950/90 border border-cyan-500/30 flex items-center justify-between text-xs font-mono">
+                <div class="flex items-center gap-2 text-cyan-300">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>LIVE TELEMETRY: 100 Hz RAW ADC SERIAL STREAM</span>
+                </div>
+                <div class="text-slate-400">
+                    Resolution: <strong class="text-white">1920x1080 (30 FPS)</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right 5 Cols: Deep Explanatory Step Panel (Hindi + English) -->
+        <div class="lg:col-span-5 glass-panel rounded-2xl p-6 flex flex-col justify-between space-y-6">
+            
+            <!-- STEP 1 CONTENT -->
+            <div id="step-content-1" class="step-panel space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/70 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold">
+                    <span>STEP 1: THE PHYSICAL INSTRUMENT & THE PROBLEM</span>
+                </div>
+                <h2 class="text-2xl font-black text-white">Non-Automatic Weighing Instrument (NAWI) क्या है?</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>
+                        <strong class="text-amber-400">NAWI (गैर-स्वचालित वजन यंत्र):</strong> वह कांटा होता है जिस पर सामान रखने या हटाने के लिए किसी ऑपरेटर (इंसान) की ज़रूरत होती है (जैसे कृषि मंडी का 150kg/500kg कांटा, राशन की दुकान का तराजू, या इंडस्ट्रियल प्लेटफॉर्म स्केल)।
+                    </p>
+                    <div class="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-200 space-y-1.5">
+                        <div class="font-bold font-mono text-xs text-rose-400">⚠️ परंपरागत समस्या (TRADITIONAL PROBLEM):</div>
+                        <p class="text-xs">
+                            1. <strong>मैन्युअल इंतज़ार (Waiting Delay):</strong> किसान और व्यापारी कांटे के डिस्प्ले पर अंक स्थिर होने का इंतज़ार करते हैं और फिर हाथ से पर्ची पर लिखते हैं।
+                        </p>
+                        <p class="text-xs">
+                            2. <strong>तोल में हेराफेरी (Fraud &amp; Bribery):</strong> पर्ची पर गलत वजन लिखना, कांटे के नीचे चुंबक लगाना या तराजू की चिप में छेड़छाड़ करना।
+                        </p>
+                        <p class="text-xs">
+                            3. <strong>कोई डिजिटल प्रमाण नहीं:</strong> कागज़ की पर्चियों का कोई सुरक्षित कानूनी ऑडिट रिकॉर्ड नहीं होता।
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2 CONTENT -->
+            <div id="step-content-2" class="step-panel hidden space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold">
+                    <span>STEP 2: DIRECT HARDWARE DATA INTERCEPT</span>
+                </div>
+                <h2 class="text-2xl font-black text-white">कांटे से डेटा कैसे निकलता है? (How Data is Taken)</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>
+                        हर आधुनिक डिजिटल कांटे (NAWI) के अंदर एक <strong>Load Cell</strong> (तनाव सेंसर) और एनालॉग-टू-डिजिटल कनवर्टर (ADC) चिप होती है, जो वजन को <strong>RS-232 / USB सीरियल पोर्ट</strong> पर भेजती है।
+                    </p>
+                    <div class="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-200 space-y-2">
+                        <div class="font-bold font-mono text-xs text-cyan-300">⚡ PRECISIONX समाधान (THE HARDWARE INTERCEPT):</div>
+                        <p class="text-xs">
+                            • हम कांटे के डिस्प्ले हेड के पीछे एक <strong>PrecisionX Smart IoT Bridge Dongle</strong> लगाते हैं।
+                        </p>
+                        <p class="text-xs">
+                            • जैसे ही बोरी कांटे पर रखी जाती है, यह डोंगल <strong>0.01 सेकंड (100 Hz)</strong> में रॉ सिग्नल को सीधे कैप्चर कर लेता है।
+                        </p>
+                        <p class="text-xs font-mono text-cyan-400">
+                            ➜ Raw Stream: <code>ST,GS,+00050.00kg,CHKSUM:0x4E\r\n</code>
+                        </p>
+                        <p class="text-xs text-slate-300">
+                            परिणाम: <strong>शून्य इंतज़ार (Zero Waiting)</strong> और इंसान द्वारा गलत नंबर लिखने की गुंजाइश 100% खत्म!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3 CONTENT -->
+            <div id="step-content-3" class="step-panel hidden space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold">
+                    <span>STEP 3: STATUTORY OIML R-76 MPE ENGINE</span>
+                </div>
+                <h2 class="text-2xl font-black text-white">सटीकता की कानूनी जाँच (OIML MPE Check)</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>
+                        अंतर्राष्ट्रीय कानूनी मापविज्ञान संगठन (OIML R-76) के अनुसार हर कांटे की एक कानूनी त्रुटि सीमा (<strong>Maximum Permissible Error - MPE</strong>) होती है।
+                    </p>
+                    <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 space-y-2 font-mono text-xs">
+                        <div class="font-bold text-emerald-400">📐 CLASS III TABLE 6 FORMULA:</div>
+                        <p>• Applied Load: <strong>50.00 kg</strong> (1000 e)</p>
+                        <p>• Legal Allowed Tolerance (MPE): <strong>± 1.0 e (± 50 g)</strong></p>
+                        <p>• Measured Error: <strong>+ 12.0 g (0.24 e)</strong></p>
+                        <div class="p-2 rounded bg-emerald-900/60 text-emerald-300 font-bold">
+                            STATUS: LEGAL &amp; VERIFIED PASS ✅
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        यदि कोई व्यापारी कांटे में चुंबक लगाकर 200 ग्राम की धोखाधड़ी करता है, तो सिस्टम तुरंत <strong>"MPE VIOLATION (FRAUD)"</strong> का अलार्म बजा देता है।
+                    </p>
+                </div>
+            </div>
+
+            <!-- STEP 4 CONTENT -->
+            <div id="step-content-4" class="step-panel hidden space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/70 border border-purple-500/40 text-purple-300 text-xs font-mono font-bold">
+                    <span>STEP 4: SOVEREIGN PROOF &amp; CITIZEN QR SEAL</span>
+                </div>
+                <h2 class="text-2xl font-black text-white">अंतिम समाधान: डिजिटल प्रमाण और QR मुहर</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>
+                        कांटे के वजन और कानूनी जाँच के बाद सिस्टम एक <strong>Digital Calibration Certificate (PTB DCC XML)</strong> बनाता है जो कभी बदला नहीं जा सकता।
+                    </p>
+                    <div class="p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-200 space-y-2 text-xs">
+                        <div class="font-bold font-mono text-purple-400">🛡️ CRYPTOGRAPHIC SECURITY:</div>
+                        <p>• <strong>RFC 8032 Ed25519</strong> डिजिटल हस्ताक्षर द्वारा सीलबंद।</p>
+                        <p>• <strong>ISO 19005-3 PDF/A-3</strong> कंटेनर में हमेशा के लिए सुरक्षित।</p>
+                        <p>• <strong>Offline Public QR Code:</strong> किसान या अधिकारी अपने साधारण मोबाइल कैमरे से QR स्कैन करके तुरंत सरकारी मुहर और तारीख देख सकते हैं।</p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-300">
+                        SHA256: <code>9e4f2a8c51b03d8e41a...d910 (VERIFIED)</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Simulation Button Trigger -->
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                <div class="text-xs font-mono text-slate-400">
+                    SIH26035 Interactive Demo
+                </div>
+                <button onclick="simulateLiveTest()" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-mono font-bold text-xs transition flex items-center gap-2 shadow-lg shadow-cyan-900/40 cursor-pointer">
+                    <span>⚡</span>
+                    <span>Test 50kg Sack Intercept</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Step Switcher Script -->
+    <script>
+        function showStep(num) {
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById('tab-' + i);
+                const content = document.getElementById('step-content-' + i);
+                if (tab && content) {
+                    if (i === num) {
+                        tab.className = "step-tab active p-4 rounded-xl border border-cyan-500 bg-cyan-900/40 text-left transition cursor-pointer shadow-lg";
+                        content.classList.remove('hidden');
+                    } else {
+                        tab.className = "step-tab p-4 rounded-xl border border-slate-800 bg-slate-900/80 text-left transition cursor-pointer hover:border-slate-700";
+                        content.classList.add('hidden');
+                    }
+                }
+            }
+        }
+
+        function simulateLiveTest() {
+            showStep(2);
+            setTimeout(() => {
+                showStep(3);
+                setTimeout(() => {
+                    showStep(4);
+                    alert("Simulation Success: 50.00 kg intercepted via RS-232, OIML R-76 MPE verified (+12g Pass), and Ed25519 DCC Certificate generated with QR seal!");
+                }, 1200);
+            }, 1200);
+        }
+    </script>
+</body>
+</html>

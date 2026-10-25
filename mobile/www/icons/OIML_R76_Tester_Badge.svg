@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&amp;display=swap');
+      .font-sans { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="#ffffff" />
+
+  <!-- Bauhaus Circle Base -->
+  <circle cx="420" cy="420" r="320" fill="#64748b"/>
+
+  <!-- Dark Charcoal Block Base -->
+  <rect x="360" y="360" width="520" height="520" rx="16" fill="#000000"/>
+
+  <!-- Crisp OIML Emblem (with O, I, M, L) in Ivory on Charcoal -->
+  <g transform="translate(620, 520) scale(0.48)" fill="#ffffff" fill-rule="evenodd">
+    <path d="M -208.85 -163.37 L -274.29 -125.71 L -274.29 125.71 L -208.85 163.37 L -143.41 125.71 L -143.41 -125.71 Z M -208.85 -121.00 L -179.19 -103.11 L -179.19 103.11 L -208.85 121.00 L -237.57 104.05 L -237.57 -104.05 Z" />
+    <path d="M -57.25 -250.00 L -103.86 -223.63 L -103.86 -181.26 L -75.61 -196.33 L -75.61 196.33 L -103.86 181.26 L -103.86 223.63 L -57.25 250.00 L -10.64 223.63 L -10.64 181.26 L -38.89 195.39 L -38.89 -196.33 L -10.64 -181.26 L -10.64 -223.63 Z" />
+    <path d="M 28.91 -201.04 L 28.91 201.04 L 73.16 175.61 L 66.57 -79.57 L 92.94 -29.66 L 123.07 -70.15 L 114.60 151.13 L 159.79 125.71 L 159.79 -125.71 L 122.13 -146.42 L 92.00 -101.22 L 65.63 -179.38 Z" />
+    <path d="M 195.10 -117.70 L 234.65 -96.05 L 234.65 75.33 L 295.86 75.33 L 295.86 127.12 L 195.10 127.12 Z" />
+  </g>
+
+  <!-- Boxed R 76 in Bauhaus Style -->
+  <g transform="translate(300, 480) scale(1.1)">
+    <!-- Box open at bottom right -->
+    <path d="M 50 100 L -100 100 L -100 -100 L 100 -100 L 100 30" 
+          fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter"/>
+    <!-- Letter R -->
+    <text x="-15" y="45" class="font-sans" font-size="145" font-weight="900" fill="#ffffff" text-anchor="middle">R</text>
+    <!-- Subscript 76 breaking out of bottom right -->
+    <text x="75" y="98" class="font-sans" font-size="92" font-weight="800" fill="#ffffff" text-anchor="middle">76</text>
+  </g>
+
+  <!-- Architectural Typography Banner: TESTER R-76 -->
+  <rect x="360" y="800" width="520" height="80" fill="#000000"/>
+  <text x="620" y="855" class="font-sans" font-size="44" font-weight="900" fill="#ffffff" letter-spacing="0.25em" text-anchor="middle">TESTER R-76</text>
+
+  <!-- Left Architectural Typography: OIML (NAWI) METROLOGY -->
+  <text x="180" y="855" class="font-sans" font-size="16" font-weight="800" fill="#000000" letter-spacing="0.14em" text-anchor="middle">OIML (NAWI) METROLOGY</text>
+</svg>
