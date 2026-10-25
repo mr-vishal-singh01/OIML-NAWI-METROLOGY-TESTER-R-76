@@ -314,21 +314,21 @@ $$E_c = E - E_0$$
 
 ## 🎥 Video Demonstration Catalog (11 HyperFrames Renders)
 
-The repository includes 11 cinematic, high-definition (1080p @ 30fps) technical demonstration videos generated using **HyperFrames**:
+The repository includes 11 cinematic, high-definition (1080p @ 30fps) technical demonstration videos generated using **HyperFrames**. Click on any video below to watch it directly in your browser:
 
-| # | Video Title | Duration | Focus Area |
-| :---: | :--- | :---: | :--- |
-| **00** | `00_OFFICIAL_PRECISIONX_LAUNCH_PROMO_BRAG_1080p.mp4` | 20s | Executive high-energy launch trailer & problem statement overview. |
-| **01** | `01_PrecisionX_Sovereign_Executive_Pitch.mp4` | 20s | India's OIML-CS 13th nation status and RRSL laboratory sovereignty. |
-| **02** | `02_PrecisionX_Metrology_Engine_DeepDive.mp4` | 20s | Turning point math ($P = I + 0.5e - \Delta L$) and MPE corridor analytics. |
-| **03** | `03_PrecisionX_ISO_PDFA3_Security_Vault.mp4` | 20s | ISO 19005-3 PDF/A-3 container and PTB DCC v3.2.1 XML embedding. |
-| **04** | `04_PrecisionX_Field_Mobility_Heatmap.mp4` | 20s | Field mobility, GIS mandi heatmaps, and offline QR enforcement. |
-| **05** | `05_PrecisionX_Ultimate_Jury_Grand_Finale.mp4` | 20s | Grand finale pitch highlighting the full 4-form compliance lifecycle. |
-| **06** | `06_PrecisionX_Forms_Inspection_Lifecycle.mp4` | 20s | Detailed walkthrough of Form 1, Form 3, Form 5, and Form 15. |
-| **07** | `07_PrecisionX_Dynamic_Turning_Point_Math.mp4` | 20s | Step-by-step visual derivation of fractional addition vectors. |
-| **08** | `08_PrecisionX_Anti_Rollback_Audit_Supervision.mp4` | 20s | Tamper resistance, state revocation, and audit trail ledger immutability. |
-| **09** | `09_PrecisionX_Hardware_Kiosk_Telemetry.mp4` | 20s | Serial RS-232 / MT-SICS telemetry stream and headless kiosk operations. |
-| **10** | `10_PrecisionX_SIH2026_Champion_Walkthrough.mp4` | 20s | Comprehensive end-to-end champion summary for SIH 2026 evaluators. |
+| # | Video Title (Click to Watch) | Duration | Focus Area | Direct Link |
+| :---: | :--- | :---: | :--- | :---: |
+| **00** | [🎬 00_OFFICIAL_PRECISIONX_LAUNCH_PROMO_BRAG_1080p.mp4](docs/videos/00_OFFICIAL_PRECISIONX_LAUNCH_PROMO_BRAG_1080p.mp4) | 20s | Executive high-energy launch trailer & problem statement overview. | [▶️ Watch](docs/videos/00_OFFICIAL_PRECISIONX_LAUNCH_PROMO_BRAG_1080p.mp4) |
+| **01** | [🎬 01_PrecisionX_Sovereign_Executive_Pitch.mp4](docs/videos/01_PrecisionX_Sovereign_Executive_Pitch.mp4) | 20s | India's OIML-CS 13th nation status and RRSL laboratory sovereignty. | [▶️ Watch](docs/videos/01_PrecisionX_Sovereign_Executive_Pitch.mp4) |
+| **02** | [🎬 02_PrecisionX_Metrology_Engine_DeepDive.mp4](docs/videos/02_PrecisionX_Metrology_Engine_DeepDive.mp4) | 20s | Turning point math ($P = I + 0.5e - \Delta L$) and MPE corridor analytics. | [▶️ Watch](docs/videos/02_PrecisionX_Metrology_Engine_DeepDive.mp4) |
+| **03** | [🎬 03_PrecisionX_ISO_PDFA3_Security_Vault.mp4](docs/videos/03_PrecisionX_ISO_PDFA3_Security_Vault.mp4) | 20s | ISO 19005-3 PDF/A-3 container and PTB DCC v3.2.1 XML embedding. | [▶️ Watch](docs/videos/03_PrecisionX_ISO_PDFA3_Security_Vault.mp4) |
+| **04** | [🎬 04_PrecisionX_Field_Mobility_Heatmap.mp4](docs/videos/04_PrecisionX_Field_Mobility_Heatmap.mp4) | 20s | Field mobility, GIS mandi heatmaps, and offline QR enforcement. | [▶️ Watch](docs/videos/04_PrecisionX_Field_Mobility_Heatmap.mp4) |
+| **05** | [🎬 05_PrecisionX_Ultimate_Jury_Grand_Finale.mp4](docs/videos/05_PrecisionX_Ultimate_Jury_Grand_Finale.mp4) | 20s | Grand finale pitch highlighting the full 4-form compliance lifecycle. | [▶️ Watch](docs/videos/05_PrecisionX_Ultimate_Jury_Grand_Finale.mp4) |
+| **06** | [🎬 06_PrecisionX_Forms_Inspection_Lifecycle.mp4](docs/videos/06_PrecisionX_Forms_Inspection_Lifecycle.mp4) | 20s | Detailed walkthrough of Form 1, Form 3, Form 5, and Form 15. | [▶️ Watch](docs/videos/06_PrecisionX_Forms_Inspection_Lifecycle.mp4) |
+| **07** | [🎬 07_PrecisionX_Dynamic_Turning_Point_Math.mp4](docs/videos/07_PrecisionX_Dynamic_Turning_Point_Math.mp4) | 20s | Step-by-step visual derivation of fractional addition vectors. | [▶️ Watch](docs/videos/07_PrecisionX_Dynamic_Turning_Point_Math.mp4) |
+| **08** | [🎬 08_PrecisionX_Anti_Rollback_Audit_Supervision.mp4](docs/videos/08_PrecisionX_Anti_Rollback_Audit_Supervision.mp4) | 20s | Tamper resistance, state revocation, and audit trail ledger immutability. | [▶️ Watch](docs/videos/08_PrecisionX_Anti_Rollback_Audit_Supervision.mp4) |
+| **09** | [🎬 09_PrecisionX_Hardware_Kiosk_Telemetry.mp4](docs/videos/09_PrecisionX_Hardware_Kiosk_Telemetry.mp4) | 20s | Serial RS-232 / MT-SICS telemetry stream and headless kiosk operations. | [▶️ Watch](docs/videos/09_PrecisionX_Hardware_Kiosk_Telemetry.mp4) |
+| **10** | [🎬 10_PrecisionX_SIH2026_Champion_Walkthrough.mp4](docs/videos/10_PrecisionX_SIH2026_Champion_Walkthrough.mp4) | 20s | Comprehensive end-to-end champion summary for SIH 2026 evaluators. | [▶️ Watch](docs/videos/10_PrecisionX_SIH2026_Champion_Walkthrough.mp4) |
 
 ---
 
