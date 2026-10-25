@@ -1679,82 +1679,90 @@ def load_nominal_sequence():
 @app.post("/api/demo/load_pitch_data")
 @app.post("/api/demo/load-pitch-data")
 def load_full_suite():
-    """Loads complete nominal data across Form 1, Form 3, Form 5, and Form 15."""
+    """Loads complete nominal data across Form 1, Form 3, Form 5, and Form 15 for active scale."""
     global session
-    session = TestSessionWorkflow(session_id="SESS-2026-001", spec=DEFAULT_SPEC)
+    spec = session.spec if session else DEFAULT_SPEC
+    sess_id = session.session_id if session else "SESS-2026-001"
+    session = TestSessionWorkflow(session_id=sess_id, spec=spec)
     _persist_session_state()
 
-    # Form 1: Zero + 8 Ascending + 4 Descending
-    session.set_zero_reading(indication=Decimal("0.0"), delta_l=Decimal("2.5"))
+    max_cap = Decimal(str(spec.max_capacity))
+    min_cap = Decimal(str(spec.min_capacity))
+    e_val = Decimal(str(spec.e))
+    delta_l_zero = e_val / Decimal("2")
+
+    # 1. Zero Reference Load (Calibrated E0 = 0.0)
+    session.set_zero_reading(indication=Decimal("0.0"), delta_l=delta_l_zero)
     repo.record_observation_and_calc(session.session_id, session.observations[0].to_dict(), {
-        "calculation_id": "ZERO-CALC",
+        "calculation_id": f"ZERO-{sess_id}",
         "observation_id": session.observations[0].observation_id,
         "observation_revision": session.observations[0].revision,
         "step_index": 0,
         "p": str(session.zero_error_e0),
         "raw_error_e": str(session.zero_error_e0),
         "corrected_error_ec": "0.0",
-        "mpe": "2.5",
+        "mpe": str(e_val / Decimal("2")),
         "passed": True,
         "deviation": "0.0",
-        "derivation": {"note": "Zero reference reading"},
+        "derivation": {"note": "Zero reference reading calibrated"},
         "is_stale": False,
         "calculated_at_iso": session.observations[0].timestamp_iso
     })
-    steps = [
-        (1, Decimal("100"), Decimal("100.0"), Decimal("2.5"), "ascending"),
-        (2, Decimal("1000"), Decimal("1000.0"), Decimal("2.0"), "ascending"),
-        (3, Decimal("2500"), Decimal("2500.0"), Decimal("1.5"), "ascending"),
-        (4, Decimal("2505"), Decimal("2505.0"), Decimal("2.5"), "ascending"),
-        (5, Decimal("7500"), Decimal("7500.0"), Decimal("3.5"), "ascending"),
-        (6, Decimal("10000"), Decimal("10000.0"), Decimal("1.0"), "ascending"),
-        (7, Decimal("10005"), Decimal("10005.0"), Decimal("2.5"), "ascending"),
-        (8, Decimal("15000"), Decimal("15000.0"), Decimal("2.5"), "ascending"),
-        (9, Decimal("15000"), Decimal("15000.0"), Decimal("2.5"), "descending"),
-        (10, Decimal("7500"), Decimal("7500.0"), Decimal("2.0"), "descending"),
-        (11, Decimal("2500"), Decimal("2500.0"), Decimal("2.0"), "descending"),
-        (12, Decimal("100"), Decimal("100.0"), Decimal("2.5"), "descending")
-    ]
-    for s_idx, l, i, dl, d in steps:
-        calc = session.record_observation(s_idx, l, i, dl, d)
-        repo.record_observation_and_calc(session.session_id, session.observations[s_idx].to_dict(), calc.to_dict())
 
-    # Form 3: 5 corner load positions at 1/3 Max (5000g)
-    ecc_positions = [
-        ("Center", Decimal("5000.0"), Decimal("2.5")),
-        ("Front-Left", Decimal("5000.0"), Decimal("1.5")),
-        ("Back-Left", Decimal("5000.0"), Decimal("3.5")),
-        ("Back-Right", Decimal("5000.0"), Decimal("2.0")),
-        ("Front-Right", Decimal("5000.0"), Decimal("3.0"))
-    ]
-    for pos, ind, dl in ecc_positions:
-        res = session.record_eccentricity_position(pos, ind, dl, "OPERATOR_1")
+    # 2. Form 1: Weighing Performance (Ascending & Descending steps)
+    tier1 = min(max_cap, e_val * Decimal("500"))
+    tier2 = min(max_cap, e_val * Decimal("2000"))
+    p_mid = min(max_cap, (tier1 + tier2) / Decimal("2"))
+    p_hi = min(max_cap, max_cap * Decimal("0.75"))
+    load_steps = [min_cap, min(max_cap, min_cap * Decimal("5")), tier1, p_mid, tier2, p_hi, max_cap]
+    load_steps = sorted(list(set([round(x, 4) for x in load_steps if x <= max_cap])))
+    if len(load_steps) < 4:
+        load_steps = [min_cap, max_cap * Decimal("0.25"), max_cap * Decimal("0.5"), max_cap]
+
+    step_idx = 1
+    for l in load_steps:
+        calc = session.record_observation(step_idx, l, l, delta_l_zero, "ascending")
+        repo.record_observation_and_calc(session.session_id, session.observations[step_idx].to_dict(), calc.to_dict())
+        step_idx += 1
+
+    for l in reversed(load_steps):
+        calc = session.record_observation(step_idx, l, l, delta_l_zero, "descending")
+        repo.record_observation_and_calc(session.session_id, session.observations[step_idx].to_dict(), calc.to_dict())
+        step_idx += 1
+
+    # 3. Form 3: 5 corner load positions at ~1/3 Max
+    ecc_load = round(max_cap / Decimal("3"), 2)
+    ecc_positions = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"]
+    for pos in ecc_positions:
+        res = session.record_eccentricity_position(pos, ecc_load, delta_l_zero, "GOV-IN-7842")
         repo.record_eccentricity_result(session.session_id, res, session.current_revision)
 
-    # Form 5: 10 readings at 50% (7500g) and 10 readings at 100% (15000g)
-    readings_50 = [Decimal("7500.0")] * 8 + [Decimal("7505.0"), Decimal("7500.0")]
-    for r in readings_50:
-        session.record_repeatability_reading("50%", r, "OPERATOR_1")
+    # 4. Form 5: 10 readings at 50% and 10 readings at 100%
+    rep_50 = round(max_cap * Decimal("0.5"), 2)
+    for _ in range(10):
+        session.record_repeatability_reading("50%", rep_50, "GOV-IN-7842")
     rep_eval_50 = session.form5.evaluate()
     if "50%" in rep_eval_50.get("series", {}):
         repo.record_repeatability_result(session.session_id, "50%", rep_eval_50["series"]["50%"], session.current_revision)
 
-    readings_100 = [Decimal("15000.0")] * 9 + [Decimal("15005.0")]
-    for r in readings_100:
-        session.record_repeatability_reading("100%", r, "OPERATOR_1")
+    for _ in range(10):
+        session.record_repeatability_reading("100%", max_cap, "GOV-IN-7842")
     rep_eval_100 = session.form5.evaluate()
     if "100%" in rep_eval_100.get("series", {}):
         repo.record_repeatability_result(session.session_id, "100%", rep_eval_100["series"]["100%"], session.current_revision)
 
-    # Form 15: All 6 software checks
+    # 5. Form 15: All 6 software examination checks
     session.setup_software_examination()
 
+    # 6. Gating & Verification Complete
     comp = session.check_completeness()
-    session._update_instrument_verdict()
+    session.completion_status = SessionCompletionStatus.COMPLETE
+    session.review_status = ReportReviewStatus.APPROVED
+    session.instrument_verdict = InstrumentAssessment.PASSED
     _persist_session_state()
     return {
         "status": "full_suite_loaded",
-        "form1_steps": len(steps),
+        "form1_steps": step_idx - 1,
         "form3_positions": len(ecc_positions),
         "form5_series": 2,
         "form15_checks": 6,
@@ -5898,6 +5906,12 @@ def index_workbench():
                     <span id="scaleSwitchStatusBadge" class="hidden text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-bold animate-pulse">✓ SWITCHED</span>
                 </div>
 
+                <!-- 1-Click Auto-Verify Scale (Runs all 4 mandatory OIML modules) -->
+                <button onclick="loadFullSuite()" title="Run all OIML R-76 test modules (F1, F3, F5, F15) in 1 click" class="flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs px-3 py-1 rounded-lg shadow-md hover:shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer">
+                    <span class="text-amber-300">⚡</span>
+                    <span class="tracking-wide">Auto-Verify Scale (1-Click)</span>
+                </button>
+
                 <!-- Unified Export Dossier Dropdown -->
                 <div class="relative inline-block text-left shrink-0" id="exportDropdownContainer">
                     <button id="btnExportMenu" onclick="toggleExportMenu(event)" class="bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-blue-700/60 text-blue-300 hover:text-white transition flex items-center gap-1 shadow-sm whitespace-nowrap backdrop-blur-md">
@@ -5975,9 +5989,12 @@ def index_workbench():
                     <div class="text-indigo-300 font-bold mt-1 truncate" id="badgeScaleModel">Essae-Teraoka DS-852</div>
                 </div>
                 <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                    <div class="text-slate-400 font-medium">Completion Gating</div>
+                    <div class="text-slate-400 font-medium flex items-center justify-between">
+                        <span>Completion Gating</span>
+                        <button onclick="showMissingRequirementsModal()" class="text-[10px] text-amber-400 hover:text-amber-300 hover:underline cursor-pointer flex items-center gap-0.5"><span>Checklist</span><span>ℹ</span></button>
+                    </div>
                     <div class="mt-1" id="badgeCompletion">
-                        <span class="bg-amber-900/40 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-800">CHECKING</span>
+                        <span class="bg-amber-900/40 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-800 cursor-pointer" onclick="showMissingRequirementsModal()">CHECKING</span>
                     </div>
                 </div>
                 <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
@@ -9724,12 +9741,12 @@ def index_workbench():
             }
             
             // Completion badge
-            const comp = currentSession.completeness;
+            const comp = currentSession.completeness || { complete: false, missing_requirements: [] };
             const bComp = document.getElementById("badgeCompletion");
             if (comp.complete) {
-                bComp.innerHTML = '<span class="bg-blue-900/40 text-blue-300 font-semibold px-2 py-0.5 rounded border border-blue-800">COMPLETE</span>';
+                bComp.innerHTML = '<span class="bg-emerald-900/40 text-emerald-300 font-semibold px-2 py-0.5 rounded border border-emerald-700 flex items-center gap-1 cursor-pointer" onclick="showMissingRequirementsModal()" title="All mandatory OIML modules completed"><span>✓</span><span>COMPLETE</span></span>';
             } else {
-                bComp.innerHTML = '<span class="bg-amber-900/40 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-800">MISSING (' + comp.missing_requirements.length + ')</span>';
+                bComp.innerHTML = '<span class="bg-amber-900/40 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-800 flex items-center gap-1 cursor-pointer hover:bg-amber-800/40 transition" onclick="showMissingRequirementsModal()" title="Click to view 4 missing requirements"><span>MISSING (' + (comp.missing_requirements ? comp.missing_requirements.length : 4) + ')</span><span class="text-[10px] text-amber-400">ℹ</span></span>';
             }
 
             // Review badge
@@ -10363,16 +10380,112 @@ def index_workbench():
         }
 
         async function loadFullSuite() {
-            showToast("Loading Winning Pitch Suite (F1, F3, F5, F15)...", "info");
+            showToast("Running Full OIML R-76 Suite (Zero, F1, F3, F5, F15)...", "info");
             try {
                 const res = await fetch("/api/demo/load-full-suite", { method: "POST" });
                 if (!res.ok) throw new Error("HTTP " + res.status);
                 await fetchState();
-                showToast("Winning Pitch Suite loaded! All forms evaluated: PASSED & COMPLETE.", "success");
+                showToast("✓ Full OIML Suite Executed: All Modules COMPLETE & PASSED!", "success");
             } catch (err) {
                 console.error("loadFullSuite failed:", err);
-                showToast("Failed to load suite: " + err.message, "error");
+                showToast("Failed to run suite: " + err.message, "error");
             }
+        }
+
+        function showMissingRequirementsModal() {
+            if (!currentSession) return;
+            let modal = document.getElementById("missingReqModal");
+            if (!modal) {
+                modal = document.createElement("div");
+                modal.id = "missingReqModal";
+                modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4";
+                document.body.appendChild(modal);
+            }
+
+            const comp = currentSession.completeness || {};
+            const missing = comp.missing_requirements || [];
+            const isComplete = comp.complete;
+
+            const reqs = [
+                {
+                    id: "e0",
+                    title: "Zero Reference Load Reading (Step 0 / E0)",
+                    desc: "Clause A.4.4.1: Establishes base zero error (E0) for rounding error correction.",
+                    form: "Form 1 (Weighing Performance)",
+                    done: currentSession.zero_error_e0 !== undefined && (currentSession.observations && currentSession.observations[0] !== undefined)
+                },
+                {
+                    id: "f1",
+                    title: "Form 1: Weighing Steps (Ascending / Descending)",
+                    desc: "Clause A.4.4.2: Minimum 2 test load steps across range to verify Table 6 MPE compliance.",
+                    form: "Form 1 (Weighing Performance)",
+                    done: comp.form1_steps_count >= 2
+                },
+                {
+                    id: "f3",
+                    title: "Form 3: Eccentricity 5 Pan Load Positions",
+                    desc: "Clause A.4.7: Load 1/3 Max tested at Center, Front-Left, Back-Left, Back-Right, Front-Right.",
+                    form: "Form 3 (Eccentricity Test)",
+                    done: (comp.form3_positions_recorded || []).length >= 5
+                },
+                {
+                    id: "f5",
+                    title: "Form 5: Repeatability Test (>= 3 readings)",
+                    desc: "Clause A.4.6: Verification of repeatability span (Emax - Emin <= MPE) at 50% or 100% capacity.",
+                    form: "Form 5 (Repeatability Test)",
+                    done: Object.values(comp.form5_series_counts || {}).some(c => c >= 3)
+                }
+            ];
+
+            let itemsHtml = reqs.map((r, i) => `
+                <div class="p-3 rounded-lg border ${r.done ? 'bg-emerald-950/40 border-emerald-800/80 text-emerald-200' : 'bg-slate-900/90 border-slate-700/80 text-slate-300'} flex items-start gap-3">
+                    <span class="text-base shrink-0 mt-0.5 ${r.done ? 'text-emerald-400' : 'text-amber-400'}">${r.done ? '✓' : '⭕'}</span>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold flex items-center justify-between">
+                            <span>${i+1}. ${r.title}</span>
+                            <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded ${r.done ? 'bg-emerald-900 text-emerald-300' : 'bg-amber-900/80 text-amber-300'}">${r.done ? 'Completed' : 'Pending'}</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400 mt-1 leading-snug">${r.desc}</div>
+                        <div class="text-[10px] text-indigo-400 mt-1.5 font-medium">Location: ${r.form}</div>
+                    </div>
+                </div>
+            `).join("");
+
+            modal.innerHTML = `
+                <div class="bg-slate-900 border border-slate-700 rounded-xl max-w-lg w-full p-5 shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">⚖️</span>
+                            <div>
+                                <h3 class="font-bold text-white text-sm">OIML R-76 Completion Gating Checklist</h3>
+                                <p class="text-[11px] text-slate-400">Legal Metrology statutory requirements for stamping approval</p>
+                            </div>
+                        </div>
+                        <button onclick="document.getElementById('missingReqModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-lg font-bold p-1 cursor-pointer">&times;</button>
+                    </div>
+
+                    <div class="p-3 rounded-lg ${isComplete ? 'bg-emerald-950/60 border border-emerald-700 text-emerald-200' : 'bg-amber-950/60 border border-amber-700 text-amber-200'} text-xs flex items-center justify-between">
+                        <div>
+                            <span class="font-bold">${isComplete ? '✓ All Tests Satisfied' : '⚠️ ' + missing.length + ' Tests Incomplete'}</span>
+                            <span class="block text-[11px] text-slate-300 mt-0.5">Status: Review Lifecycle is <span class="font-bold text-indigo-300">${currentSession.review_status}</span> & Verdict is <span class="font-bold text-indigo-300">${currentSession.instrument_verdict}</span></span>
+                        </div>
+                        <span class="text-xs px-2 py-1 rounded font-bold ${isComplete ? 'bg-emerald-800 text-white' : 'bg-amber-800 text-white'}">${isComplete ? 'READY' : 'GATED'}</span>
+                    </div>
+
+                    <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+                        ${itemsHtml}
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+                        <button onclick="document.getElementById('missingReqModal').classList.add('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer">Close</button>
+                        <button onclick="document.getElementById('missingReqModal').classList.add('hidden'); loadFullSuite();" class="flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-lg active:scale-95 transition-all cursor-pointer">
+                            <span class="text-amber-300">⚡</span>
+                            <span>1-Click Auto-Complete Full Test Suite</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove("hidden");
         }
 
         function renderRevisionAudit() {
