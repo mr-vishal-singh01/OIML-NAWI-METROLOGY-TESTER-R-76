@@ -315,6 +315,41 @@ class DatabaseRepository:
             ))
         conn.close()
 
+    def _ensure_session_exists(self, conn, session_id: str, instrument_id: Optional[str] = None):
+        """Ensures that the referenced session exists before inserting child records to avoid FK constraint failures."""
+        cur = conn.execute("SELECT 1 FROM sessions WHERE session_id = ?", (session_id,))
+        if not cur.fetchone():
+            now = datetime.now(timezone.utc).isoformat() + "Z"
+            inst_id = instrument_id
+            if inst_id:
+                inst_cur = conn.execute("SELECT 1 FROM instruments WHERE instrument_id = ?", (inst_id,))
+                if not inst_cur.fetchone():
+                    conn.execute("""
+                        INSERT OR IGNORE INTO instruments (
+                            instrument_id, manufacturer, model, serial_number, accuracy_class,
+                            max_capacity, min_capacity, e, d, unit, created_at
+                        ) VALUES (?, 'Generic', 'Bench Scale', 'SN-001', 'Class III', '15000', '100', '5', '5', 'g', ?)
+                    """, (inst_id, now))
+            else:
+                inst_cur = conn.execute("SELECT instrument_id FROM instruments LIMIT 1")
+                inst_row = inst_cur.fetchone()
+                if inst_row:
+                    inst_id = inst_row[0]
+                else:
+                    inst_id = "DEFAULT_INST"
+                    conn.execute("""
+                        INSERT OR IGNORE INTO instruments (
+                            instrument_id, manufacturer, model, serial_number, accuracy_class,
+                            max_capacity, min_capacity, e, d, unit, created_at
+                        ) VALUES ('DEFAULT_INST', 'Generic', 'Bench Scale', 'SN-001', 'Class III', '15000', '100', '5', '5', 'g', ?)
+                    """, (now,))
+            conn.execute("""
+                INSERT OR IGNORE INTO sessions (
+                    session_id, instrument_id, current_revision, completion_status,
+                    review_status, instrument_verdict, zero_error_e0, created_at, updated_at
+                ) VALUES (?, ?, 1, 'IN_PROGRESS', 'DRAFT', 'UNTESTED', '0.0', ?, ?)
+            """, (session_id, inst_id, now, now))
+
     def save_session_state(
         self,
         session_id: str,
@@ -329,6 +364,7 @@ class DatabaseRepository:
         now = datetime.now(timezone.utc).isoformat() + "Z"
         conn = get_connection(self.db_path)
         with conn:
+            self._ensure_session_exists(conn, session_id, instrument_id)
             conn.execute("""
                 INSERT INTO sessions (
                     session_id, instrument_id, current_revision, completion_status,
@@ -355,6 +391,7 @@ class DatabaseRepository:
     ):
         conn = get_connection(self.db_path)
         with conn:
+            self._ensure_session_exists(conn, session_id)
             conn.execute("""
                 INSERT OR REPLACE INTO observations (
                     observation_id, session_id, step_index, load, indication, delta_l,
@@ -387,6 +424,7 @@ class DatabaseRepository:
     def save_archived_report(self, session_id: str, snapshot_dict: Dict[str, Any], html_content: str):
         conn = get_connection(self.db_path)
         with conn:
+            self._ensure_session_exists(conn, session_id)
             conn.execute("""
                 INSERT OR REPLACE INTO archived_reports (
                     snapshot_id, session_id, revision_number, reviewer_id, review_status,
@@ -411,6 +449,7 @@ class DatabaseRepository:
         now = datetime.now(timezone.utc).isoformat() + "Z"
         rec_id = f"ECC-{session_id}-{record['position']}-R{revision}"
         with conn:
+            self._ensure_session_exists(conn, session_id)
             conn.execute("""
                 INSERT OR REPLACE INTO eccentricity_records (
                     record_id, session_id, position, applied_load, indication, delta_l,
@@ -431,6 +470,7 @@ class DatabaseRepository:
         now = datetime.now(timezone.utc).isoformat() + "Z"
         rec_id = f"REP-{session_id}-{bracket}-R{revision}"
         with conn:
+            self._ensure_session_exists(conn, session_id)
             conn.execute("""
                 INSERT OR REPLACE INTO repeatability_records (
                     record_id, session_id, load_bracket, readings_json, applied_load,
@@ -458,6 +498,9 @@ class DatabaseRepository:
     ) -> Dict[str, Any]:
         """Saves a photo/document attachment record with SHA-256 integrity hash."""
         conn = get_connection(self.db_path)
+        now = datetime.now(timezone.utc).isoformat() + "Z"
+        with conn:
+            self._ensure_session_exists(conn, session_id)
         now = datetime.now(timezone.utc).isoformat() + "Z"
         with conn:
             conn.execute("""

@@ -132,6 +132,33 @@ class TestDefensiveRedTeamSecurity(unittest.TestCase):
         self.assertIn("calculation", data)
         self.assertEqual(data["calculation"]["step_index"], 1)
 
+    def test_06_form3_scale_pan_resilience_and_all_positions(self):
+        """Form 3 eccentricity positions must record without foreign key failure and support all 5 target positions."""
+        sess_res = self.client.get("/api/session")
+        self.assertEqual(sess_res.status_code, 200)
+        sess_data = sess_res.json()
+        self.assertIn("form3_test_load", sess_data)
+        self.assertIn("form3_mpe", sess_data)
+        test_load = sess_data["form3_test_load"]
+
+        positions = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"]
+        for pos in positions:
+            res = self.client.post("/api/form3/position", json={
+                "position_name": pos,
+                "indication": f"{test_load}.0",
+                "delta_l": "2.5",
+                "operator_id": "TEST_INSPECTOR"
+            })
+            self.assertEqual(res.status_code, 200, f"Position {pos} failed with: {res.text}")
+            rdata = res.json()
+            self.assertEqual(rdata["status"], "ok")
+            self.assertEqual(rdata["result"]["position"], pos)
+            self.assertTrue(rdata["result"]["passed"])
+
+        # Check session reflects all 5 positions recorded
+        updated = self.client.get("/api/session").json()
+        self.assertEqual(len(updated["form3_positions"]), 5)
+
 
 if __name__ == "__main__":
     unittest.main()

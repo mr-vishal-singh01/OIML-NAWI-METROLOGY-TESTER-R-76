@@ -643,6 +643,8 @@ def get_session_state():
         "observation_history": obs_history,
         "calculation_history": calc_history,
         "form3_positions": f3_positions,
+        "form3_test_load": str(session.form3.test_load),
+        "form3_mpe": str(session.form3.mpe),
         "form5_evaluation": f5_eval,
         "form15_evaluation": f15_eval,
         "completeness": completeness,
@@ -662,6 +664,7 @@ def get_session_completeness():
 @app.post("/api/zero")
 def set_zero_reading(req: ZeroReadingRequest):
     try:
+        _persist_session_state()
         session.set_zero_reading(
             indication=Decimal(req.indication),
             delta_l=Decimal(req.delta_l),
@@ -698,6 +701,7 @@ def set_zero_reading(req: ZeroReadingRequest):
 @app.post("/api/observation")
 def record_observation(req: ObservationRequest):
     try:
+        _persist_session_state()
         calc = session.record_observation(
             step_index=req.step_index,
             load=Decimal(req.load),
@@ -824,6 +828,7 @@ def get_form3_results():
 @app.post("/api/form3/position")
 def record_form3_position(req: Form3ReadingRequest):
     try:
+        _persist_session_state()
         res = session.record_eccentricity_position(
             position_name=req.position_name,
             indication=Decimal(req.indication),
@@ -847,6 +852,7 @@ def record_form3_position(req: Form3ReadingRequest):
 @app.post("/api/form3/amend")
 def amend_form3_position(req: Form3AmendRequest):
     try:
+        _persist_session_state()
         res = session.amend_eccentricity_position(
             position_name=req.position_name,
             new_indication=Decimal(req.new_indication),
@@ -879,6 +885,7 @@ def get_form5_results():
 @app.post("/api/form5/reading")
 def record_form5_reading(req: Form5ReadingRequest):
     try:
+        _persist_session_state()
         res = session.record_repeatability_reading(
             load_bracket=req.load_bracket,
             indication=Decimal(req.indication),
@@ -1755,6 +1762,7 @@ def load_full_suite():
 
 
 def _persist_session_state():
+    repo.save_instrument_snapshot(session.instrument_snapshot)
     repo.save_session_state(
         session_id=session.session_id,
         instrument_id=session.instrument_snapshot_id,
@@ -2967,6 +2975,7 @@ def start_verification_task(task_id: str):
     global session
     session = TestSessionWorkflow(session_id=f"SESS-{task['task_id']}", spec=new_spec)
     repo.save_instrument_snapshot(session.instrument_snapshot)
+    _persist_session_state()
     repo.update_task_status(task_id, "IN_PROGRESS")
 
     session.audit_trail.log_action(task.get("assigned_officer_id", "OFFICER"), "TASK_INSPECTION_STARTED", {
@@ -7164,40 +7173,51 @@ def index_workbench():
             <div class="bg-slate-900 p-4 rounded-lg border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h3 class="text-sm font-semibold text-slate-200">Form 3: Corner Eccentricity Test (OIML R 76-1 Clause 3.6.2 & A.4.7)</h3>
-                    <p class="text-xs text-slate-400">Test Load = 1/3 Max = 5000 g on 4-point platform. Permissible tolerance = &plusmn;5.0 g.</p>
+                    <p id="f3Subtitle" class="text-xs text-slate-400">Test Load = 1/3 Max on 4-point platform.</p>
                 </div>
-                <div class="text-xs text-indigo-400 font-mono">Governing MPE: &plusmn;5.0 g</div>
+                <div id="f3MpeBadge" class="text-xs text-indigo-400 font-mono">Governing MPE: &plusmn;5.0 g</div>
             </div>
 
             <!-- Visual Plate Layout Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="md:col-span-2 bg-slate-900 p-6 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
-                    <div class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-wider">Scale Pan Top View (5 Target Positions)</div>
+                    <div class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-wider flex items-center justify-between w-full max-w-sm">
+                        <span>Scale Pan Top View (5 Target Positions)</span>
+                        <span id="currentEccPosBadge" class="text-[11px] text-indigo-400 font-mono font-bold bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-800">Target: Center</span>
+                    </div>
                     <div class="w-80 h-80 bg-slate-950 border-2 border-slate-700 rounded-xl relative p-4 flex items-center justify-center shadow-inner">
                         <!-- Front Left -->
-                        <button onclick="selectEccPos('Front-Left')" id="btnPosFL" class="absolute bottom-6 left-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition">
+                        <button onclick="selectEccPos('Front-Left')" id="btnPosFL" class="absolute bottom-6 left-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition cursor-pointer">
                             <span>Front-Left</span>
                             <span id="labelPosFL" class="text-[9px] text-slate-500 font-normal">Pending</span>
                         </button>
                         <!-- Front Right -->
-                        <button onclick="selectEccPos('Front-Right')" id="btnPosFR" class="absolute bottom-6 right-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition">
+                        <button onclick="selectEccPos('Front-Right')" id="btnPosFR" class="absolute bottom-6 right-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition cursor-pointer">
                             <span>Front-Right</span>
                             <span id="labelPosFR" class="text-[9px] text-slate-500 font-normal">Pending</span>
                         </button>
                         <!-- Back Left -->
-                        <button onclick="selectEccPos('Back-Left')" id="btnPosBL" class="absolute top-6 left-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition">
+                        <button onclick="selectEccPos('Back-Left')" id="btnPosBL" class="absolute top-6 left-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition cursor-pointer">
                             <span>Back-Left</span>
                             <span id="labelPosBL" class="text-[9px] text-slate-500 font-normal">Pending</span>
                         </button>
                         <!-- Back Right -->
-                        <button onclick="selectEccPos('Back-Right')" id="btnPosBR" class="absolute top-6 right-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition">
+                        <button onclick="selectEccPos('Back-Right')" id="btnPosBR" class="absolute top-6 right-6 w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition cursor-pointer">
                             <span>Back-Right</span>
                             <span id="labelPosBR" class="text-[9px] text-slate-500 font-normal">Pending</span>
                         </button>
                         <!-- Center -->
-                        <button onclick="selectEccPos('Center')" id="btnPosCenter" class="w-24 h-12 rounded border-2 border-indigo-600 bg-indigo-950/50 hover:bg-indigo-900/50 text-[11px] font-bold flex flex-col items-center justify-center transition">
+                        <button onclick="selectEccPos('Center')" id="btnPosCenter" class="w-24 h-12 rounded border border-slate-700 bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold flex flex-col items-center justify-center transition cursor-pointer">
                             <span>Center</span>
                             <span id="labelPosCenter" class="text-[9px] text-slate-400 font-normal">Pending</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-2 mt-4">
+                        <button onclick="recordEccentricityPosition()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-3 py-1.5 rounded transition flex items-center gap-1.5 shadow">
+                            <span>Record Selected &amp; Next</span> &rarr;
+                        </button>
+                        <button onclick="quickFillAllEccentricity()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-3 py-1.5 rounded transition border border-slate-700">
+                            Auto-Fill 5 Nominal Positions
                         </button>
                     </div>
                 </div>
@@ -9724,19 +9744,64 @@ def index_workbench():
 
         function selectEccPos(pos) {
             selectedEccPos = pos;
-            document.getElementById("currentEccPosLabel").textContent = "Selected: " + pos;
-            if (currentSession.form3_positions && currentSession.form3_positions[pos]) {
+            const badge = document.getElementById("currentEccPosBadge");
+            if (badge) badge.textContent = "Target: " + pos;
+            const lbl = document.getElementById("currentEccPosLabel");
+            if (lbl) lbl.textContent = "Selected: " + pos;
+
+            const testLoad = (currentSession && currentSession.form3_test_load) ? currentSession.form3_test_load : "5000";
+            const eccLoadInput = document.getElementById("eccLoad");
+            if (eccLoadInput) eccLoadInput.value = testLoad + " g";
+
+            if (currentSession && currentSession.form3_positions && currentSession.form3_positions[pos]) {
                 const p = currentSession.form3_positions[pos];
                 document.getElementById("eccInd").value = p.indication;
                 document.getElementById("eccDeltaL").value = p.delta_l;
             } else {
-                document.getElementById("eccInd").value = "5000.0";
+                document.getElementById("eccInd").value = parseFloat(testLoad).toFixed(1);
                 document.getElementById("eccDeltaL").value = "2.5";
             }
+            updateScalePanButtonHighlight();
+        }
+
+        function updateScalePanButtonHighlight() {
+            const posKeys = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"];
+            posKeys.forEach(k => {
+                const shortId = k === "Front-Left" ? "FL" : k === "Front-Right" ? "FR" : k === "Back-Left" ? "BL" : k === "Back-Right" ? "BR" : "Center";
+                const btn = document.getElementById("btnPos" + shortId);
+                if (!btn) return;
+
+                const isSelected = (selectedEccPos === k);
+                const hasData = currentSession && currentSession.form3_positions && currentSession.form3_positions[k];
+
+                btn.classList.remove("ring-2", "ring-indigo-400", "ring-offset-2", "ring-offset-slate-950", "scale-105", "z-10");
+
+                if (isSelected) {
+                    btn.classList.add("ring-2", "ring-indigo-400", "ring-offset-2", "ring-offset-slate-950", "scale-105", "z-10");
+                    if (!hasData) {
+                        btn.classList.remove("border-slate-700", "bg-slate-900");
+                        btn.classList.add("border-indigo-500", "bg-indigo-950/70");
+                    }
+                } else if (!hasData) {
+                    btn.classList.remove("border-indigo-500", "bg-indigo-950/70");
+                    btn.classList.add("border-slate-700", "bg-slate-900");
+                }
+            });
         }
 
         function renderForm3() {
             const positions = currentSession.form3_positions || {};
+            const testLoad = currentSession.form3_test_load || "5000";
+            const mpe = currentSession.form3_mpe || "5.0";
+
+            const sub = document.getElementById("f3Subtitle");
+            if (sub) sub.innerHTML = `Test Load = 1/3 Max = <b>${testLoad} g</b> on 4-point platform. Permissible tolerance = &plusmn;${parseFloat(mpe).toFixed(1)} g.`;
+            const mpeBadge = document.getElementById("f3MpeBadge");
+            if (mpeBadge) mpeBadge.textContent = `Governing MPE: \u00b1${parseFloat(mpe).toFixed(1)} g`;
+
+            const eccLoadInput = document.getElementById("eccLoad");
+            if (eccLoadInput) eccLoadInput.value = testLoad + " g";
+
             const posKeys = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"];
             
             posKeys.forEach(k => {
@@ -9746,17 +9811,22 @@ def index_workbench():
                 if (positions[k]) {
                     const p = positions[k];
                     if (p.passed) {
-                        label.innerHTML = '<span class="text-blue-400 font-bold">PASS (' + p.corrected_error_ec + 'g)</span>';
-                        btn.classList.add("border-blue-700");
+                        label.innerHTML = '<span class="text-blue-400 font-bold">\u2713 PASS (' + p.corrected_error_ec + 'g)</span>';
+                        btn.classList.remove("border-slate-700", "border-rose-700", "border-indigo-500", "bg-rose-950/30", "bg-slate-900");
+                        btn.classList.add("border-blue-700", "bg-blue-950/30");
                     } else {
-                        label.innerHTML = '<span class="text-rose-400 font-bold">FAIL (' + p.corrected_error_ec + 'g)</span>';
-                        btn.classList.add("border-rose-700");
+                        label.innerHTML = '<span class="text-rose-400 font-bold">\u2717 FAIL (' + p.corrected_error_ec + 'g)</span>';
+                        btn.classList.remove("border-slate-700", "border-blue-700", "border-indigo-500", "bg-blue-950/30", "bg-slate-900");
+                        btn.classList.add("border-rose-700", "bg-rose-950/30");
                     }
                 } else {
                     label.textContent = "Pending";
-                    btn.classList.remove("border-blue-700", "border-rose-700");
+                    btn.classList.remove("border-blue-700", "border-rose-700", "bg-blue-950/30", "bg-rose-950/30");
+                    btn.classList.add("border-slate-700", "bg-slate-900");
                 }
             });
+
+            updateScalePanButtonHighlight();
 
             const tbody = document.getElementById("f3TableBody");
             let rows = "";
@@ -9764,26 +9834,26 @@ def index_workbench():
                 if (positions[k]) {
                     const p = positions[k];
                     const passBadge = p.passed 
-                        ? '<span class="text-blue-400 font-semibold">PASS</span>'
-                        : '<span class="text-rose-400 font-semibold">FAIL</span>';
+                        ? '<span class="text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-950/40 border border-blue-800">\u2713 PASS</span>'
+                        : '<span class="text-rose-400 font-semibold px-2 py-0.5 rounded bg-rose-950/40 border border-rose-800">\u2717 FAIL</span>';
                     rows += `
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="p-3 font-semibold">${k}</td>
+                    <tr class="hover:bg-slate-800/40 cursor-pointer" onclick="selectEccPos('${k}')">
+                        <td class="p-3 font-semibold text-white">${k}</td>
                         <td class="p-3">${p.applied_load} g</td>
                         <td class="p-3">${p.indication} g</td>
                         <td class="p-3">${p.delta_l} g</td>
                         <td class="p-3 font-mono">${p.p} g</td>
-                        <td class="p-3 font-mono font-bold">${p.corrected_error_ec} g</td>
-                        <td class="p-3 text-slate-400">&plusmn;${p.mpe} g</td>
+                        <td class="p-3 font-mono font-bold ${p.passed ? 'text-blue-400' : 'text-rose-400'}">${p.corrected_error_ec} g</td>
+                        <td class="p-3 text-slate-400">&plusmn;${parseFloat(p.mpe).toFixed(1)} g</td>
                         <td class="p-3">${passBadge}</td>
                     </tr>
                     `;
                 } else {
                     rows += `
-                    <tr class="text-slate-500">
+                    <tr class="text-slate-500 hover:bg-slate-800/20 cursor-pointer" onclick="selectEccPos('${k}')">
                         <td class="p-3 font-semibold">${k}</td>
-                        <td class="p-3">5000 g</td>
-                        <td colspan="6" class="p-3 italic">Pending observation</td>
+                        <td class="p-3">${testLoad} g</td>
+                        <td colspan="6" class="p-3 italic text-slate-500">Pending observation (click to record)</td>
                     </tr>
                     `;
                 }
@@ -10043,13 +10113,52 @@ def index_workbench():
         async function recordEccentricityPosition() {
             const indication = document.getElementById("eccInd").value;
             const delta_l = document.getElementById("eccDeltaL").value;
-            const res = await fetch("/api/form3/position", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ position_name: selectedEccPos, indication, delta_l, operator_id: "OPERATOR_1" })
-            });
-            if (!res.ok) alert("Error recording corner load");
-            fetchState();
+            try {
+                const res = await fetch("/api/form3/position", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ position_name: selectedEccPos, indication, delta_l, operator_id: "OPERATOR_1" })
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    alert("Error recording corner load: " + (err.detail || res.statusText));
+                    return;
+                }
+                await fetchState();
+
+                // Auto-advance to next pending position
+                const posKeys = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"];
+                const currentIdx = posKeys.indexOf(selectedEccPos);
+                for (let i = 1; i <= posKeys.length; i++) {
+                    const nextKey = posKeys[(currentIdx + i) % posKeys.length];
+                    if (!currentSession.form3_positions || !currentSession.form3_positions[nextKey]) {
+                        selectEccPos(nextKey);
+                        break;
+                    }
+                }
+            } catch (e) {
+                alert("Network error: " + e.message);
+            }
+        }
+
+        async function quickFillAllEccentricity() {
+            const testLoad = (currentSession && currentSession.form3_test_load) ? currentSession.form3_test_load : "5000";
+            const posKeys = ["Center", "Front-Left", "Back-Left", "Back-Right", "Front-Right"];
+            for (const pos of posKeys) {
+                try {
+                    await fetch("/api/form3/position", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            position_name: pos,
+                            indication: parseFloat(testLoad).toFixed(1),
+                            delta_l: "2.5",
+                            operator_id: "OPERATOR_1"
+                        })
+                    });
+                } catch(e) {}
+            }
+            await fetchState();
         }
 
         async function addRepeatabilityReading(bracket) {

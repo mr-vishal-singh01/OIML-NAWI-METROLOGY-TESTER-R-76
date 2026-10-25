@@ -10,7 +10,10 @@ from fastapi.testclient import TestClient
 try:
     from api.main import app
 except ImportError:
-    from backend.api.main import app
+    try:
+        from src.api.main import app
+    except ImportError:
+        from backend.api.main import app
 
 class TestCitizenAuthAndVerification(unittest.TestCase):
     def setUp(self):
