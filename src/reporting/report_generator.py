@@ -10,6 +10,7 @@ Produces compliant multi-form legal metrology test reports covering:
 """
 
 import os
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -532,32 +533,212 @@ class OIMLReportGenerator:
 """
         return html
 
-    @staticmethod
-    def generate_pdf_report(html_content: str, output_path: Path) -> Path:
-        """Converts HTML report to a true PDF using headless Google Chrome."""
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.NamedTemporaryFile(suffix=".html", mode="w", encoding="utf-8", delete=False) as f:
-            f.write(html_content)
-            temp_html = f.name
+    @classmethod
+    def _render_pdf_reportlab(cls, html_content: str, output_path: Path) -> Path:
+        """
+        Pure-Python statutory vector PDF generator using ReportLab.
+        Guarantees 100% offline, zero-browser PDF generation across any serverless,
+        minimal Linux/Docker container, or cloud host without requiring Google Chrome.
+        """
+        import io
+        import re
+        import qrcode
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib import colors
+        from reportlab.platypus import (
+            SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, Image as RLImage
+        )
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import mm
 
-        try:
-            cmd = [
-                "/usr/bin/google-chrome",
-                "--headless=new",
-                "--disable-gpu",
-                "--no-sandbox",
-                f"--print-to-pdf={str(output_path)}",
-                temp_html
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-            if res.returncode != 0:
-                raise RuntimeError(f"Chrome PDF rendering failed: {res.stderr}")
-            if not output_path.exists() or output_path.stat().st_size == 0:
-                raise RuntimeError("PDF file was not created or is empty.")
-            return output_path
-        finally:
-            if os.path.exists(temp_html):
-                os.remove(temp_html)
+        def clean_html(text: str) -> str:
+            if not text:
+                return ""
+            text = re.sub(r'<br\s*/?>', ' ', text)
+            text = re.sub(r'<.*?>', '', text)
+            text = text.replace('&le;', '<=').replace('&ge;', '>=').replace('&amp;', '&').replace('&nbsp;', ' ').replace('&bull;', '•').replace('&mdash;', '—')
+            return text.strip()
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        doc = SimpleDocTemplate(
+            str(output_path),
+            pagesize=A4,
+            leftMargin=12*mm,
+            rightMargin=12*mm,
+            topMargin=12*mm,
+            bottomMargin=12*mm
+        )
+
+        styles = getSampleStyleSheet()
+        title_style = ParagraphStyle('TitleStyle', parent=styles['Heading1'], fontSize=11, leading=14, textColor=colors.HexColor('#0f2b5c'), alignment=1, fontName='Helvetica-Bold')
+        sub_style = ParagraphStyle('SubStyle', parent=styles['Normal'], fontSize=7.5, leading=10, textColor=colors.HexColor('#334155'), alignment=1)
+        h3_style = ParagraphStyle('H3Style', parent=styles['Heading3'], fontSize=8.5, leading=11, textColor=colors.HexColor('#0f2b5c'), spaceBefore=5, spaceAfter=2, fontName='Helvetica-Bold')
+        cell_style = ParagraphStyle('CellStyle', parent=styles['Normal'], fontSize=6.5, leading=8)
+        hdr_cell_style = ParagraphStyle('HdrCellStyle', parent=styles['Normal'], fontSize=6.5, leading=8, textColor=colors.white, fontName='Helvetica-Bold')
+
+        story = []
+
+        # Header
+        story.append(Paragraph('GOVERNMENT OF INDIA &bull; MINISTRY OF CONSUMER AFFAIRS', sub_style))
+        story.append(Paragraph('DEPARTMENT OF CONSUMER AFFAIRS &mdash; LEGAL METROLOGY DIVISION', sub_style))
+        story.append(Paragraph('OIML R 76-2:2007 Pattern Evaluation Test Report', title_style))
+        story.append(Paragraph('Non-Automatic Weighing Instrument (NAWI) Metrological Verification', sub_style))
+        story.append(Spacer(1, 2.5*mm))
+
+        # Metadata Table
+        meta_items = re.findall(r'<div class="meta-item"><span class="meta-label">(.*?)</span><span class="meta-val".*?>(.*?)</span></div>', html_content)
+        if meta_items:
+            meta_data = []
+            for i in range(0, len(meta_items), 2):
+                row = []
+                k1, v1 = meta_items[i]
+                row.extend([Paragraph(f'<b>{clean_html(k1)}:</b>', cell_style), Paragraph(clean_html(v1), cell_style)])
+                if i + 1 < len(meta_items):
+                    k2, v2 = meta_items[i+1]
+                    row.extend([Paragraph(f'<b>{clean_html(k2)}:</b>', cell_style), Paragraph(clean_html(v2), cell_style)])
+                else:
+                    row.extend(['', ''])
+                meta_data.append(row)
+            t_meta = Table(meta_data, colWidths=[38*mm, 52*mm, 42*mm, 54*mm])
+            t_meta.setStyle(TableStyle([
+                ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#f8fafc')),
+                ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor('#cbd5e1')),
+                ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
+                ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+                ('TOPPADDING', (0,0), (-1,-1), 1.5),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 1.5),
+            ]))
+            story.append(t_meta)
+            story.append(Spacer(1, 2.5*mm))
+
+        # Verdict Banner
+        verdict_m = re.search(r'<div class="verdict-banner">(.*?)</div>', html_content, re.DOTALL)
+        if verdict_m:
+            verdict_text = clean_html(verdict_m.group(1))
+            v_color = colors.HexColor('#15803d') if 'PASSED' in verdict_text else (colors.HexColor('#b91c1c') if 'FAILED' in verdict_text else colors.HexColor('#475569'))
+            t_v = Table([[Paragraph(f'<b>{verdict_text}</b>', ParagraphStyle('V', parent=sub_style, fontSize=8.5, textColor=colors.white, fontName='Helvetica-Bold'))]], colWidths=[186*mm])
+            t_v.setStyle(TableStyle([
+                ('BACKGROUND', (0,0), (-1,-1), v_color),
+                ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+                ('TOPPADDING', (0,0), (-1,-1), 2.5),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+            ]))
+            story.append(t_v)
+            story.append(Spacer(1, 2.5*mm))
+
+        # Tables
+        headings = re.findall(r'<h[34].*?>(.*?)</h[34]>', html_content)
+        raw_tables = re.findall(r'<table.*?>(.*?)</table>', html_content, re.DOTALL)
+
+        for i, raw_tbl in enumerate(raw_tables):
+            h_title = clean_html(headings[i]) if i < len(headings) else f'Test Table {i+1}'
+            story.append(Paragraph(h_title, h3_style))
+            rows = re.findall(r'<tr.*?>(.*?)</tr>', raw_tbl, re.DOTALL)
+            table_data = []
+            for r_idx, r in enumerate(rows):
+                cells = re.findall(r'<t[hd].*?>(.*?)</t[hd]>', r, re.DOTALL)
+                if r_idx == 0:
+                    table_data.append([Paragraph(clean_html(c), hdr_cell_style) for c in cells])
+                else:
+                    table_data.append([Paragraph(clean_html(c), cell_style) for c in cells])
+            if table_data:
+                num_cols = len(table_data[0])
+                col_w = 186.0 * mm / max(1, num_cols)
+                t = Table(table_data, colWidths=[col_w]*num_cols, repeatRows=1)
+                t.setStyle(TableStyle([
+                    ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#0f2b5c')),
+                    ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor('#cbd5e1')),
+                    ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
+                    ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f8fafc')]),
+                    ('TOPPADDING', (0,0), (-1,-1), 1.5),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 1.5),
+                ]))
+                story.append(t)
+                story.append(Spacer(1, 2*mm))
+
+        # Integrity Box & QR Code
+        cert_id_m = re.search(r'Certificate ID:</b>.*?<span.*?>(.*?)</span>', html_content)
+        cert_id = clean_html(cert_id_m.group(1)) if cert_id_m else 'OIML-R76-CERT'
+        pubkey_m = re.search(r'Ed25519 Public Key Fingerprint:</b>.*?<span.*?>(.*?)</span>', html_content)
+        pubkey_fp = clean_html(pubkey_m.group(1)) if pubkey_m else 'N/A'
+        sig_m = re.search(r'Ed25519 Digital Signature:</b>.*?<span.*?>(.*?)</span>', html_content)
+        sig_val = clean_html(sig_m.group(1)) if sig_m else 'N/A'
+
+        qr_img = qrcode.make(f'OIML_R76_REPORT:{cert_id}:{pubkey_fp[:16]}')
+        qr_buf = io.BytesIO()
+        qr_img.save(qr_buf, format='PNG')
+        qr_buf.seek(0)
+        rl_qr = RLImage(qr_buf, width=22*mm, height=22*mm)
+
+        sig_info = Paragraph(
+            '<b>OIML R 76-2 Cryptographic Traceability & Ed25519 Digital Seal</b><br/>'
+            f'<b>Certificate ID:</b> {cert_id} &nbsp;|&nbsp; <b>Key FP:</b> <font color="#0369a1">{pubkey_fp}</font><br/>'
+            f'<b>Ed25519 Signature:</b> <font color="#334155">{sig_val}</font><br/>'
+            '<b>Standard:</b> OIML R 76-1:2006 (E) & Legal Metrology Act, 2009<br/>'
+            '<b>Offline Verification:</b> Cryptographically verifiable 100% offline via Ed25519 (RFC 8032).',
+            cell_style
+        )
+        t_sig = Table([[sig_info, rl_qr]], colWidths=[160*mm, 26*mm])
+        t_sig.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#f1f5f9')),
+            ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor('#94a3b8')),
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ('TOPPADDING', (0,0), (-1,-1), 2.5),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+        ]))
+        story.append(KeepTogether([t_sig]))
+
+        doc.build(story)
+        return output_path
+
+    @classmethod
+    def generate_pdf_report(cls, html_content: str, output_path: Path) -> Path:
+        """
+        Converts HTML report to a true vector PDF.
+        Attempts headless Google Chrome/Chromium if available;
+        automatically falls back to ReportLab pure-Python vector PDF engine
+        to eliminate external system binary requirements and prevent cloud deployment failures.
+        """
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Check for Chrome/Chromium candidates
+        chrome_candidates = [
+            "/usr/bin/google-chrome",
+            "/usr/bin/google-chrome-stable",
+            "/usr/bin/chromium",
+            "/usr/bin/chromium-browser",
+            shutil.which("google-chrome"),
+            shutil.which("chromium"),
+            shutil.which("chromium-browser"),
+        ]
+        chrome_bin = next((c for c in chrome_candidates if c and os.path.exists(c) and os.access(c, os.X_OK)), None)
+
+        if chrome_bin:
+            temp_html = None
+            try:
+                with tempfile.NamedTemporaryFile(suffix=".html", mode="w", encoding="utf-8", delete=False) as f:
+                    f.write(html_content)
+                    temp_html = f.name
+
+                cmd = [
+                    chrome_bin,
+                    "--headless=new",
+                    "--disable-gpu",
+                    "--no-sandbox",
+                    f"--print-to-pdf={str(output_path)}",
+                    temp_html
+                ]
+                res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                if res.returncode == 0 and output_path.exists() and output_path.stat().st_size > 0:
+                    return output_path
+            except Exception:
+                pass  # Fall back to ReportLab
+            finally:
+                if temp_html and os.path.exists(temp_html):
+                    os.remove(temp_html)
+
+        # Chrome not available or failed: execute pure-Python ReportLab vector PDF generator
+        return cls._render_pdf_reportlab(html_content, output_path)
 
     @staticmethod
     def generate_pdfa3_report(

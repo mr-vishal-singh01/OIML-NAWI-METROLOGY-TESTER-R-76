@@ -12,6 +12,7 @@ cryptography>=42.0.0
 
 # Digital Calibration Certificate & PDF/A-3 Engine
 pypdf>=4.0.0
+reportlab>=4.0.0
 
 # Offline QR Code Generation & Optical Decoding
 qrcode[pil]>=7.4.2
