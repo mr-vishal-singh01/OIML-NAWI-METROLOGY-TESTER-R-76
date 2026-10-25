@@ -25,13 +25,12 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-glx libglib2.0-0 qrencode zbar-tools
+          sudo apt-get install -y --no-install-recommends libgl1 libglib2.0-0 libzbar0 qrencode zbar-tools
 
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest fastapi httpx
 
       - name: Run Full 142-Test Metrology Suite
         env:
