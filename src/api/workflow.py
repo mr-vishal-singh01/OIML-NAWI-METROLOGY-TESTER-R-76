@@ -135,6 +135,11 @@ class CalculationSnapshot:
         self.is_stale = is_stale
         self.calculated_at_iso = datetime.now(timezone.utc).isoformat() + "Z"
 
+    @property
+    def corrected_error(self) -> Decimal:
+        """Alias for corrected_error_ec ensuring backward and logging compatibility."""
+        return self.corrected_error_ec
+
     def to_dict(self) -> Dict[str, Any]:
         return {
             "calculation_id": self.calculation_id,

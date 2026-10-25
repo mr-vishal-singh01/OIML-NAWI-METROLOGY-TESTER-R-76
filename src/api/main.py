@@ -13,6 +13,7 @@ Includes:
 import os
 import sys
 import io
+import re
 import csv
 import json
 import hashlib
@@ -714,7 +715,7 @@ def record_observation(req: ObservationRequest):
                 "step_index": req.step_index,
                 "load": req.load,
                 "indication": req.indication,
-                "error_ec": str(calc.corrected_error),
+                "error_ec": str(calc.corrected_error_ec),
                 "mpe": str(calc.mpe),
                 "passed": calc.passed
             }
@@ -1073,11 +1074,20 @@ async def upload_session_attachment(
     Computes a cryptographic SHA-256 integrity hash to prevent evidence tampering.
     """
     try:
+        # Enforce upload boundary (DoS Protection)
+        MAX_UPLOAD_SIZE = 15 * 1024 * 1024
         content = await file.read()
+        if len(content) > MAX_UPLOAD_SIZE:
+            raise HTTPException(status_code=413, detail=f"File exceeds maximum allowed upload size ({MAX_UPLOAD_SIZE // (1024*1024)} MB)")
+        
+        # Whitelist safe extensions
+        raw_ext = Path(file.filename or "evidence.jpg").suffix.lower()
+        if raw_ext not in [".jpg", ".jpeg", ".png", ".pdf"]:
+            raise HTTPException(status_code=400, detail="Invalid file type. Allowed formats: .jpg, .jpeg, .png, .pdf")
+
         sha256_hash = hashlib.sha256(content).hexdigest()
         attach_id = f"ATT-{uuid.uuid4().hex[:8].upper()}"
-        ext = Path(file.filename or "evidence.jpg").suffix or ".jpg"
-        safe_filename = f"{attach_id}_{document_type}{ext}"
+        safe_filename = f"{attach_id}_{document_type}{raw_ext}"
         saved_path = ATTACHMENTS_DIR / safe_filename
         with open(saved_path, "wb") as f:
             f.write(content)
@@ -1092,12 +1102,16 @@ async def upload_session_attachment(
             file_size=len(content)
         )
         return {"status": "uploaded", "attachment": record}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Attachment upload failed: {str(e)}")
 
 @app.get("/api/attachments/{attachment_id}/file")
 def get_attachment_file(attachment_id: str):
-    """Serve the raw attachment image or document."""
+    """Serve the raw attachment image or document with IDOR/traversal defense."""
+    if not re.match(r"^[A-Za-z0-9_-]+$", attachment_id):
+        raise HTTPException(status_code=400, detail="Invalid attachment identifier")
     for p in ATTACHMENTS_DIR.glob(f"{attachment_id}_*"):
         if p.is_file():
             media = "image/jpeg"
@@ -1108,7 +1122,9 @@ def get_attachment_file(attachment_id: str):
 
 @app.delete("/api/attachments/{attachment_id}")
 def delete_attachment_endpoint(attachment_id: str):
-    """Delete an attachment from the session."""
+    """Delete an attachment from the session with input validation."""
+    if not re.match(r"^[A-Za-z0-9_-]+$", attachment_id):
+        raise HTTPException(status_code=400, detail="Invalid attachment identifier")
     deleted = repo.delete_attachment(attachment_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Attachment not found.")
@@ -1266,6 +1282,7 @@ def get_report_pdf():
 
 
 @app.get("/api/report/dcc")
+@app.get("/api/report/dcc-xml")
 def get_report_dcc_xml():
     try:
         calcs = [c.to_dict() for c in session.calculations.values()]

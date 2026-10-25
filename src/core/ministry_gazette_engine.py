@@ -289,12 +289,22 @@ def list_ministry_gazettes(
 
 
 def get_gazette_file_path(filename: str) -> Optional[Path]:
-    """Resolves a physical PDF file from the SIH Ministry Dataset."""
+    """Resolves a physical PDF file from the SIH Ministry Dataset with Path Traversal Defense (CWE-22)."""
     if not MINISTRY_DATASET_DIR or not MINISTRY_DATASET_DIR.exists():
         return None
-    target = MINISTRY_DATASET_DIR / filename
-    if target.exists() and target.is_file():
-        return target
+    # Sanitize filename and prevent directory traversal
+    safe_name = Path(filename).name
+    if not safe_name or safe_name in (".", "..") or "/" in filename or "\\" in filename:
+        return None
+    try:
+        base_dir = MINISTRY_DATASET_DIR.resolve()
+        target = (base_dir / safe_name).resolve()
+        if not str(target).startswith(str(base_dir)):
+            return None
+        if target.exists() and target.is_file():
+            return target
+    except Exception:
+        return None
     return None
 
 
