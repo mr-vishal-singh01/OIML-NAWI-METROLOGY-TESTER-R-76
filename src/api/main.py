@@ -4877,8 +4877,14 @@ def index_workbench():
             </section>
 
             <!-- ================= 2. INSPECTOR SOVEREIGN SIGN-IN (ORDER: DIRECTLY BELOW TELEMETRY) ================= -->
-            <div id="inspectorAuthContainer" class="w-full border-b px-5 sm:px-8 lg:px-12 py-8 flex flex-col items-center justify-center relative" style="background: var(--bg-primary); border-bottom: 1px solid var(--border-color);">
-                <div id="inspectorAuthCard" class="w-full max-w-2xl shadow-2xl relative" style="background: var(--surface-card); backdrop-filter: blur(16px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div id="inspectorAuthContainer" class="w-full border-b px-5 sm:px-8 lg:px-12 py-12 flex flex-col items-center justify-center relative overflow-hidden" style="border-bottom: 1px solid var(--border-color);">
+                <!-- Ambient NAWI Laptop Connected Hardware Background -->
+                <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+                    <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="Connected NAWI Scale Hardware" class="w-full h-full object-cover object-center opacity-30 transform scale-105 filter contrast-125">
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/65 to-slate-950/90 backdrop-blur-[2px]"></div>
+                </div>
+
+                <div id="inspectorAuthCard" class="w-full max-w-2xl shadow-2xl relative z-10" style="background: var(--surface-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
 <!-- Accessible Distinct Gateways Definition (Screen Readers & Compliance Testing) -->
                     <div class="sr-only hidden" aria-hidden="true">
                         <h4>Select Verification Gateway</h4>
@@ -5393,7 +5399,13 @@ def index_workbench():
 
     <!-- ================= MULTI-FACTOR AUTHENTICATION (MFA) CHALLENGE MODAL ================= -->
         <div id="mfaModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-[20px] transition-all duration-200">
-            <div class="bg-slate-900/95 border border-white/[0.12] rounded-2xl max-w-md w-full p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] space-y-5 relative backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">
+            <!-- Modal Background: NAWI Laptop Hardware Intercept Backdrop -->
+            <div class="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden opacity-25">
+                <img src="/icons/SIH_NAWI_Laptop_Connected.png" alt="NAWI Connected Hardware" class="w-full h-full object-cover object-center filter blur-[2px] contrast-125">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/80"></div>
+            </div>
+
+            <div class="bg-slate-900/95 border border-white/[0.12] rounded-2xl max-w-md w-full p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] space-y-5 relative z-10 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200">
                 <!-- Close Button -->
                 <button type="button" onclick="closeMfaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
 
