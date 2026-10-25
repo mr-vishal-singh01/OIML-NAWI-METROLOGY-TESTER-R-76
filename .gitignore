@@ -24,6 +24,12 @@ electron
 # Temporary & Scratch
 .scratch/
 tmp/
+
+# Secrets & Private Keys
+*.pem
+*.key
+data/keys/
+
 # Databases & Local state
 *.db
 *.db-shm
