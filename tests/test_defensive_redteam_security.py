@@ -159,6 +159,28 @@ class TestDefensiveRedTeamSecurity(unittest.TestCase):
         updated = self.client.get("/api/session").json()
         self.assertEqual(len(updated["form3_positions"]), 5)
 
+    def test_07_scale_preset_switching_and_specs_sync(self):
+        """All 4 scale presets must switch cleanly, return full metadata, and update active instrument."""
+        presets = ["CLASS_I", "CLASS_II", "CLASS_III", "CLASS_IIII"]
+        for p_id in presets:
+            res = self.client.post(f"/api/session/select-preset/{p_id}")
+            self.assertEqual(res.status_code, 200, f"Preset {p_id} switch failed: {res.text}")
+            data = res.json()
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(data["preset_id"], p_id)
+            self.assertIn("accuracy_class", data)
+            self.assertIn("max", data)
+            self.assertIn("e", data)
+            self.assertIn("manufacturer", data)
+            self.assertIn("model", data)
+
+            # Verify session state reflects new instrument
+            sess = self.client.get("/api/session").json()
+            self.assertEqual(sess["instrument"]["accuracy_class"], data["accuracy_class"])
+            self.assertEqual(sess["instrument"]["manufacturer"], data["manufacturer"])
+            self.assertEqual(sess["instrument"]["model"], data["model"])
+            self.assertEqual(sess["session_id"], f"SESS-2026-{p_id}")
+
 
 if __name__ == "__main__":
     unittest.main()

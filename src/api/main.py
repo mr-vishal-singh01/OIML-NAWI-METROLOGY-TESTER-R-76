@@ -5881,6 +5881,17 @@ def index_workbench():
                     </select>
                 </div>
 
+                <!-- Active Scale Specs Live Chip -->
+                <div id="activeScaleDetailsCard" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-indigo-950/90 via-slate-900 to-slate-900 border border-indigo-700/70 rounded-lg px-3 py-1 text-xs shadow-sm backdrop-blur-md">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="activeScaleName" class="font-bold text-white tracking-wide">Essae-Teraoka DS-852</span>
+                    </span>
+                    <span class="text-slate-600">|</span>
+                    <span class="text-slate-300 font-mono text-[11px]" id="activeScaleSpecs">Class III &bull; Max: 15,000 g &bull; e=5 g</span>
+                    <span id="scaleSwitchStatusBadge" class="hidden text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-bold animate-pulse">✓ SWITCHED</span>
+                </div>
+
                 <!-- Unified Export Dossier Dropdown -->
                 <div class="relative inline-block text-left shrink-0" id="exportDropdownContainer">
                     <button id="btnExportMenu" onclick="toggleExportMenu(event)" class="bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-blue-700/60 text-blue-300 hover:text-white transition flex items-center gap-1 shadow-sm whitespace-nowrap backdrop-blur-md">
@@ -5951,6 +5962,13 @@ def index_workbench():
                     <div class="text-slate-100 font-bold mt-1" id="badgeSessionRev">SESS-2026-001 #1</div>
                 </div>
                 <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <div class="text-slate-400 font-medium flex items-center justify-between">
+                        <span>Active Scale Machine</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    </div>
+                    <div class="text-indigo-300 font-bold mt-1 truncate" id="badgeScaleModel">Essae-Teraoka DS-852</div>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
                     <div class="text-slate-400 font-medium">Completion Gating</div>
                     <div class="mt-1" id="badgeCompletion">
                         <span class="bg-amber-900/40 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-800">CHECKING</span>
@@ -5971,10 +5989,6 @@ def index_workbench():
                 <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
                     <div class="text-slate-400 font-medium">Zero-Error (E0)</div>
                     <div class="text-slate-100 font-bold mt-1" id="badgeE0">0.0 g</div>
-                </div>
-                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-                    <div class="text-slate-400 font-medium">WELMEC 7.2 LRS Seal</div>
-                    <div class="text-blue-400 font-mono font-bold mt-1" id="badgeSeal">SHA-256 VALID</div>
                 </div>
             </div>
 
@@ -9528,23 +9542,47 @@ def index_workbench():
         }
         
         async function switchScalePreset(presetId) {
+            const sel = document.getElementById("scalePresetSelect");
+            const badge = document.getElementById("scaleSwitchStatusBadge");
+            if (sel) {
+                sel.classList.add("border-amber-500", "animate-pulse");
+                sel.disabled = true;
+            }
+
             try {
                 const res = await fetch(`/api/session/select-preset/${presetId}`, { method: "POST" });
                 if (!res.ok) {
-                    const err = await res.json();
+                    const err = await res.json().catch(() => ({}));
                     alert("Preset switch failed: " + (err.detail || res.statusText));
+                    if (sel) {
+                        sel.classList.remove("border-amber-500", "animate-pulse");
+                        sel.disabled = false;
+                    }
                     return;
                 }
                 const data = await res.json();
                 await fetchState();
-                
+
+                if (sel) {
+                    sel.disabled = false;
+                    sel.classList.remove("border-amber-500", "animate-pulse");
+                    sel.classList.add("border-emerald-500", "ring-2", "ring-emerald-500/50");
+                    setTimeout(() => sel.classList.remove("border-emerald-500", "ring-2", "ring-emerald-500/50"), 2500);
+                }
+
+                if (badge) {
+                    badge.textContent = `✓ ACTIVE: ${data.preset_id}`;
+                    badge.classList.remove("hidden");
+                    setTimeout(() => badge.classList.add("hidden"), 3500);
+                }
+
                 // Adapt default observation inputs
                 const obsLoadEl = document.getElementById("obsLoad");
                 const obsIndEl = document.getElementById("obsInd");
                 const obsDeltaLEl = document.getElementById("obsDeltaL");
                 const zeroIndEl = document.getElementById("zeroInd");
                 const zeroDeltaLEl = document.getElementById("zeroDeltaL");
-                
+
                 if (presetId === "CLASS_I") {
                     if (zeroIndEl) zeroIndEl.value = "0.0000";
                     if (zeroDeltaLEl) zeroDeltaLEl.value = "0.0005";
@@ -9570,7 +9608,31 @@ def index_workbench():
                     if (obsIndEl) obsIndEl.value = "2500.0";
                     if (obsDeltaLEl) obsDeltaLEl.value = "1.5";
                 }
+
+                // Update Form 3 inputs
+                const testLoad = currentSession.form3_test_load || (parseFloat(data.max) / 3).toFixed(1);
+                const eccLoadEl = document.getElementById("eccLoad");
+                const eccIndEl = document.getElementById("eccInd");
+                if (eccLoadEl) eccLoadEl.value = testLoad + " " + data.unit;
+                if (eccIndEl) eccIndEl.value = parseFloat(testLoad).toFixed(1);
+
+                // Update Form 5 inputs
+                const maxVal = parseFloat(data.max);
+                const f5Input50El = document.getElementById("f5Input50");
+                const f5Input100El = document.getElementById("f5Input100");
+                if (f5Input50El) f5Input50El.value = (maxVal * 0.5).toFixed(1);
+                if (f5Input100El) f5Input100El.value = maxVal.toFixed(1);
+
+                // Prominent Toast Notification
+                const msg = (window.currentAppLanguage === 'hi')
+                    ? `✓ सक्रिय पैमाना बदला गया: ${data.accuracy_class} (${data.manufacturer} ${data.model}, Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`
+                    : `✓ Switched to ${data.accuracy_class}: ${data.manufacturer} ${data.model} (Max: ${parseFloat(data.max).toLocaleString()} ${data.unit}, e: ${data.e} ${data.unit})`;
+                showToast(msg, "success");
             } catch (err) {
+                if (sel) {
+                    sel.classList.remove("border-amber-500", "animate-pulse");
+                    sel.disabled = false;
+                }
                 alert("Scale preset switch error: " + err.message);
             }
         }
@@ -9632,9 +9694,10 @@ def index_workbench():
         function renderBadges() {
             document.getElementById("badgeSessionRev").textContent = currentSession.session_id + " #" + currentSession.current_revision;
             
-            // Scale preset dropdown sync
+            // Scale preset dropdown sync & active scale chips
             if (currentSession.instrument) {
-                const acc = currentSession.instrument.accuracy_class || "";
+                const inst = currentSession.instrument;
+                const acc = inst.accuracy_class || "";
                 const sel = document.getElementById("scalePresetSelect");
                 if (sel) {
                     if (acc === "Class I") sel.value = "CLASS_I";
@@ -9642,6 +9705,13 @@ def index_workbench():
                     else if (acc === "Class IIII") sel.value = "CLASS_IIII";
                     else if (acc === "Class III") sel.value = "CLASS_III";
                 }
+                const nameEl = document.getElementById("activeScaleName");
+                const specsEl = document.getElementById("activeScaleSpecs");
+                const modelBadge = document.getElementById("badgeScaleModel");
+                const fullName = `${inst.manufacturer || ""} ${inst.model || ""}`.trim() || "NAWI Digital Scale";
+                if (nameEl) nameEl.textContent = fullName;
+                if (specsEl) specsEl.innerHTML = `<span class="text-indigo-300 font-bold">${inst.accuracy_class || ""}</span> &bull; Max: ${parseFloat(inst.max_capacity).toLocaleString()} ${inst.unit} &bull; e=${inst.e} ${inst.unit}`;
+                if (modelBadge) modelBadge.textContent = fullName + (acc ? ` (${acc})` : "");
             }
             
             // Completion badge
