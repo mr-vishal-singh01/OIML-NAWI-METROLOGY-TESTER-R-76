@@ -38,11 +38,14 @@ jobs:
         run: |
           python -m unittest discover tests
 
-      - name: Verify Statutory XML & PDF/A-3 Schemas
+      - name: Verify Statutory OIML R-76 Pattern Evaluation Schema
         run: |
           python3 -c "
-          import os
-          assert os.path.exists('schemas/dcc.xsd'), 'PTB DCC schema missing'
-          assert os.path.exists('schemas/nawi_session.json'), 'Session schema missing'
-          print('✅ All Statutory Metrology Schemas Verified.')
+          import os, json
+          schema_path = 'schemas/oiml_r76_form_schema.json'
+          assert os.path.exists(schema_path), 'OIML R-76 Schema missing'
+          with open(schema_path) as f:
+              data = json.load(f)
+              assert data.get('title') == 'OIML_R76_2_Pattern_Evaluation_Schema'
+          print('✅ Statutory OIML R-76 Pattern Evaluation Schema Verified.')
           "
