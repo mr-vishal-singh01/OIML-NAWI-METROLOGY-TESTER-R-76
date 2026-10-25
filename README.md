@@ -28,6 +28,7 @@
 <p align="center">
   <a href="HOW_TO_USE.md"><b>📖 Full User Manual (38 Screenshots) ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-first-page--sovereign-portal-interface"><b>🖥️ First Page Interface ➔</b></a> &nbsp;&bull;&nbsp;
+  <a href="#-login--authentication-interface-multi-role-sign-in--2fa"><b>🔐 Login Page ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-important-inspection-modules--visual-walkthrough"><b>📸 Core Visual Modules ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-quickstart-guide"><b>🚀 Quickstart Guide ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-video-demonstration-catalog"><b>🎥 11 Video Demonstrations ➔</b></a>
@@ -37,18 +38,19 @@
 
 ## 📑 Table of Contents
 1. [🏛️ First Page: Sovereign Portal Interface](#-first-page--sovereign-portal-interface)
-2. [📸 Important Inspection Modules & Visual Walkthrough](#-important-inspection-modules--visual-walkthrough)
-3. [📌 Executive Summary & Problem Context](#-executive-summary--problem-context)
-4. [🌍 India's Sovereign OIML-CS 13th Nation Milestone](#-indias-sovereign-oiml-cs-13th-nation-milestone)
-5. [📐 Mathematical Metrology & Turning Point Calculations](#-mathematical-metrology--turning-point-calculations)
-6. [🏗️ Core Engineering Architecture](#️-core-engineering-architecture)
-7. [🎥 Video Demonstration Catalog (11 HyperFrames Renders)](#-video-demonstration-catalog-11-hyperframes-renders)
-8. [🚀 Quickstart Guide (Desktop / Web / Pi Kiosk)](#-quickstart-guide)
-9. [📡 REST API Endpoints Matrix](#-rest-api-endpoints-matrix)
-10. [🧪 Verification & Test Suite (142 Tests Passed)](#-verification--test-suite)
-11. [🏛️ Regulatory Compliance Matrix](#️-regulatory-compliance-matrix)
-12. [🔒 Zero-Trust Security & Confidentiality](#-zero-trust-security--confidentiality)
-13. [👥 Team PrecisionX — SIH 2026](#-team-precisionx--smart-india-hackathon-2026)
+2. [🔐 Login & Authentication Interface (Multi-Role Sign-In & 2FA)](#-login--authentication-interface-multi-role-sign-in--2fa)
+3. [📸 Important Inspection Modules & Visual Walkthrough](#-important-inspection-modules--visual-walkthrough)
+4. [📌 Executive Summary & Problem Context](#-executive-summary--problem-context)
+5. [🌍 India's Sovereign OIML-CS 13th Nation Milestone](#-indias-sovereign-oiml-cs-13th-nation-milestone)
+6. [📐 Mathematical Metrology & Turning Point Calculations](#-mathematical-metrology--turning-point-calculations)
+7. [🏗️ Core Engineering Architecture](#️-core-engineering-architecture)
+8. [🎥 Video Demonstration Catalog (11 HyperFrames Renders)](#-video-demonstration-catalog-11-hyperframes-renders)
+9. [🚀 Quickstart Guide (Desktop / Web / Pi Kiosk)](#-quickstart-guide)
+10. [📡 REST API Endpoints Matrix](#-rest-api-endpoints-matrix)
+11. [🧪 Verification & Test Suite (142 Tests Passed)](#-verification--test-suite)
+12. [🏛️ Regulatory Compliance Matrix](#️-regulatory-compliance-matrix)
+13. [🔒 Zero-Trust Security & Confidentiality](#-zero-trust-security--confidentiality)
+14. [👥 Team PrecisionX — SIH 2026](#-team-precisionx--smart-india-hackathon-2026)
 
 ---
 
@@ -69,6 +71,40 @@ The entry point of **PrecisionX** is the official **National Legal Metrology Por
 - **Role-Gated Officer Authentication**: Multi-credential sign-in with 2FA OTP for Legal Metrology Officers, RRSL Directors, and Authorized Verifiers.
 - **Citizen Metrology Redressal**: Direct verification of scale certification stickers and grievance filing under Section 15 of Legal Metrology Act, 2009.
 - **National Advisory Ticker**: Real-time ticker streaming statutory gazette updates, model approval notices, and calibration deadlines.
+
+---
+
+## 🔐 Login & Authentication Interface (Multi-Role Sign-In & 2FA)
+
+To ensure strict compliance with **ISO/IEC 17025:2017 Clause 7.8** (authorized personnel identification) and **WELMEC 7.2 software separation rules**, PrecisionX implements a cryptographic, role-segregated access gate:
+
+### 2.1 Multi-Role Inspector & Officer Sign-In Card
+<p align="center">
+  <a href="HOW_TO_USE.md#2-multi-role-authentication--access-gate">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2018-46-49.png" width="94%" alt="Multi-Role Inspector & Officer Sign-In Card" style="border: 1px solid #334155; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 1.2: Multi-Role Sign-In Interface — Segregated roles for Legal Metrology Officers (Form Testing), Citizens (Sticker Verification), and Mandi Traders.</i>
+</p>
+
+* **Role Segregation**:
+  1. **Inspector / Officer**: Complete guided OIML R-76 testing workbench, MPE calculations, and digital sealing.
+  2. **Verified Citizen**: Instant public verification of scale QR seals and consumer dispute registration without requiring credentials.
+  3. **Trader / Mandi Merchant**: Inspection history tracking, re-verification reminders, and calibration status lookup.
+* **Credentials & Jurisdiction**: Requires official government email, Officer ID (`GOV-IN-7842`), passphrase, and laboratory jurisdiction selection (RRSL Faridabad, RRSL Bengaluru, RRSL Ahmedabad, RRSL Bhubaneswar, RRSL Varanasi, or State Headquarters).
+
+### 2.2 Two-Factor Authentication (2FA / TOTP Security Gate)
+<p align="center">
+  <a href="HOW_TO_USE.md#22-दो-चरणीय-प्रमाणीकरण-two-factor-authentication---2fa--totp">
+    <img src="docs/screenshots/Screenshot%20from%202026-10-22%2018-49-39.png" width="60%" alt="2FA Passcode Verification Modal" style="border: 1px solid #334155; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);">
+  </a>
+</p>
+<p align="center">
+  <i>Fig 1.3: Two-Factor Authentication (2FA) Gate — 6-digit TOTP / SMS passcode verification preventing unauthorized workbench access.</i>
+</p>
+
+* **Jury Evaluation Fast-Pass**: During live Smart India Hackathon demonstrations, evaluators can use the **Auto-Fill Code** feature with demo passcode `784206` for instant sandbox access.
 
 ---
 
