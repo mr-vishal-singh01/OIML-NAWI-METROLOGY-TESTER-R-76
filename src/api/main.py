@@ -333,6 +333,42 @@ class Table6PreSubmitRoutingMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(Table6PreSubmitRoutingMiddleware)
 
+from fastapi.middleware.cors import CORSMiddleware
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """
+    Statutory Zero-Trust Security Middleware
+    Injects enterprise security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options)
+    to protect the Legal Metrology Workbench against clickjacking, XSS, MIME sniffing, and MITM.
+    """
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "SAMEORIGIN"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Permissions-Policy"] = "camera=(self), microphone=(), geolocation=(self)"
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; "
+            "frame-ancestors 'self';"
+        )
+        return response
+
+app.add_middleware(SecurityHeadersMiddleware)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://precisionx-metrology.onrender.com",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
+    allow_headers=["*"],
+)
+
 
 # ==========================================
 # Pydantic Request Models
@@ -3483,7 +3519,7 @@ def get_supervisor_portal():
 # ==========================================
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
 def index_workbench():
     html = """<!DOCTYPE html>
 <html lang="en">
