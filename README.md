@@ -12,6 +12,15 @@
 </p>
 
 <p align="center">
+  <a href="https://precisionx-metrology.onrender.com" target="_blank">
+    <img src="https://img.shields.io/badge/🌐%20LIVE%20PRODUCTION%20PORTAL-Click%20To%20Launch%20Workbench-00C781?style=for-the-badge&logo=render&logoColor=white" alt="Live Production Portal">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://precisionx-metrology.onrender.com"><img src="https://img.shields.io/badge/Production-Live%20Online-success.svg?style=for-the-badge&logo=cloudflare" alt="Production Live"></a>
+
+<p align="center">
   <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/releases/tag/v2026.1.0-sih"><img src="https://img.shields.io/badge/Release-v2026.1.0--sih-ff003f.svg?style=for-the-badge&logo=github" alt="Release v2026.1.0-sih"></a>
   <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml"><img src="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml/badge.svg?branch=main" alt="PrecisionX CI Status"></a>
   <img src="https://img.shields.io/badge/OIML%20Standard-R%2076--1%3A2006%20(E)-00529B.svg?style=for-the-badge&logo=shield" alt="OIML R-76">
@@ -27,6 +36,7 @@
 </p>
 
 <p align="center">
+  <a href="https://precisionx-metrology.onrender.com"><b>🌐 Live Production Portal ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="HOW_TO_USE.md"><b>📖 Full User Manual (38 Screenshots) ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-first-page--sovereign-portal-interface"><b>🖥️ First Page Interface ➔</b></a> &nbsp;&bull;&nbsp;
   <a href="#-login--authentication-interface-multi-role-sign-in--2fa"><b>🔐 Login Page ➔</b></a> &nbsp;&bull;&nbsp;
