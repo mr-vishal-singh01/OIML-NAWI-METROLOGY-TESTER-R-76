@@ -19,8 +19,6 @@
 
 <p align="center">
   <a href="https://precisionx-metrology.onrender.com"><img src="https://img.shields.io/badge/Production-Live%20Online-success.svg?style=for-the-badge&logo=cloudflare" alt="Production Live"></a>
-
-<p align="center">
   <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/releases/tag/v2026.1.0-sih"><img src="https://img.shields.io/badge/Release-v2026.1.0--sih-ff003f.svg?style=for-the-badge&logo=github" alt="Release v2026.1.0-sih"></a>
   <a href="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml"><img src="https://github.com/mr-vishal-singh01/OIML-NAWI-METROLOGY-TESTER-R-76/actions/workflows/ci.yml/badge.svg?branch=main" alt="PrecisionX CI Status"></a>
   <img src="https://img.shields.io/badge/OIML%20Standard-R%2076--1%3A2006%20(E)-00529B.svg?style=for-the-badge&logo=shield" alt="OIML R-76">
@@ -34,6 +32,10 @@
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Architecture-Zero--Trust%20%7C%20Local--First-102048.svg?style=for-the-badge" alt="Zero Trust">
 </p>
+
+> [!TIP]
+> ### 🌐 Official 24/7 Cloud Production URL: [https://precisionx-metrology.onrender.com](https://precisionx-metrology.onrender.com)
+> **Direct Live Access**: Evaluators, statutory officers, and jury members can access and interact with the complete PrecisionX Legal Metrology Suite directly in the browser with real-time PTB DCC XML, ISO 19005-3 PDF/A-3, and OIML R-76 statutory calculations without local setup! Click the link above to test live.
 
 <p align="center">
   <a href="https://precisionx-metrology.onrender.com"><b>🌐 Live Production Portal ➔</b></a> &nbsp;&bull;&nbsp;
@@ -343,6 +345,11 @@ The repository includes 11 cinematic, high-definition (1080p @ 30fps) technical 
 ---
 
 ## 🚀 Quickstart Guide
+
+### Option 0: Instant Cloud Access (Zero Installation)
+
+Access the live statutory workbench directly in your browser without installing anything locally:
+👉 **[https://precisionx-metrology.onrender.com](https://precisionx-metrology.onrender.com)**
 
 ### Option 1: Native Local Installation (Recommended)
 
